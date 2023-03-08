@@ -25,7 +25,7 @@ const Layout = ({ children }: Props) => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900">
         <TopNav />
         {children}
-        <Image
+        <img
           src="/images/background.svg"
           alt="fondo"
           className="fixed bottom-0 w-1/2 self-end bg-fixed align-bottom"

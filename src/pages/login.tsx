@@ -8,7 +8,7 @@ const Login: NextPage = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center ">
-        <Image src="/images/logos_login.jpg" alt="logo" className="w-1/2" />
+        <img src="/images/logos_login.jpg" alt="logo" className="w-1/2" />
         <h2 className="text-3xl font-thin">Login</h2>
         <AuthShowcase />
       </div>
