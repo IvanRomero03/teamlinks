@@ -36,4 +36,28 @@ npx prisma generate
 npm run dev
 ```
 
+## Proyect structure
 
+```bash
+├─ prisma
+│   └─ schema.prisma
+│   
+├─ public
+│   ├── favicon.ico
+│   └── images
+│
+└─ src
+    ├─ components
+    ├─ pages
+    │   └─ api
+    │       ├─ auth
+    │       └─ trpc
+    │   
+    ├─ server
+    │   └─ api
+    │       └─ routers
+    │
+    ├─ styles
+    │   
+    └─ utils
+```
