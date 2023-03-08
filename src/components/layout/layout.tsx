@@ -1,19 +1,18 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import TopNav from "./TopNavBar";
+import Image from "next/image";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: Props) => {
-  const router = useRouter();
-  const { data: sessionData, status } = useSession();
+  const { status } = useSession();
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login");
+      window.location.href = "/login";
     }
   }, [status]);
   return (
@@ -26,7 +25,7 @@ const Layout = ({ children }: Props) => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900">
         <TopNav />
         {children}
-        <img
+        <Image
           src="/images/background.svg"
           alt="fondo"
           className="fixed bottom-0 w-1/2 self-end bg-fixed align-bottom"

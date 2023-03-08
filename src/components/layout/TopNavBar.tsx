@@ -15,7 +15,7 @@ const TopNav = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [prevScrollPos, visible]);
+  }, [prevScrollPos, visible, handleScroll]);
   return (
     <div
       className={

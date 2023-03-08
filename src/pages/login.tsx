@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
+import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "y/utils/api";
@@ -9,7 +8,7 @@ const Login: NextPage = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center ">
-        <img src="/images/logos_login.jpg" alt="logo" className="w-1/2" />
+        <Image src="/images/logos_login.jpg" alt="logo" className="w-1/2" />
         <h2 className="text-3xl font-thin">Login</h2>
         <AuthShowcase />
       </div>
@@ -22,10 +21,10 @@ export default Login;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  // const { data: secretMessage } = api.example.getSecretMessage.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
   return (
     <div className="m-6 flex flex-col items-center justify-center gap-4">

@@ -1,4 +1,4 @@
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import Layout from "y/components/layout/layout";
 
 const Home: NextPage = () => {
