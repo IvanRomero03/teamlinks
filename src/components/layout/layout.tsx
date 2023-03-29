@@ -16,7 +16,7 @@ const Layout = ({ children }: Props) => {
     }
   }, [status]);
   return (
-    <html className="bg-slate-900">
+    <>
       <Head>
         <title>teamlinks</title>
         <meta name="description" content="teamlinks" />
@@ -24,14 +24,14 @@ const Layout = ({ children }: Props) => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900">
         <TopNav />
-        {children}
+        <div>{children}</div>
         <img
           src="/images/background.svg"
           alt="fondo"
           className="fixed bottom-0 w-1/2 self-end bg-fixed align-bottom"
         />
       </main>
-    </html>
+    </>
   );
 };
 
