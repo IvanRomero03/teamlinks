@@ -1,15 +1,11 @@
 import { type NextPage } from "next";
 import Layout from "y/components/layout/layout";
+import Recultador from "./reclutador";
 
 const Home: NextPage = () => {
   return (
     <Layout>
-      <div className="flex min-h-screen flex-col items-center justify-center ">
-        hola
-      </div>
-      <div className="flex min-h-screen flex-col items-center justify-center ">
-        hola
-      </div>
+      <Recultador></Recultador>
     </Layout>
   );
 };
