@@ -5,8 +5,10 @@ const Home: NextPage = () => {
   return (
     <Layout
       Items={[
-        { title: "hola", section: "hola" },
-        { title: "hola", section: "hola" },
+        { title: "Home", section: "home" },
+        { title: "About", section: "about" },
+        { title: "My Info", section: "info" },
+        { title: "Settings", section: "settings" },
       ]}
     >
       <div className="flex min-h-screen flex-col items-center justify-center ">
