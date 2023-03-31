@@ -4,11 +4,16 @@ import { useEffect } from "react";
 import TopNav from "./TopNavBar";
 import Image from "next/image";
 
+interface Item {
+  section: string;
+  title: string;
+}
 interface Props {
   children: React.ReactNode;
+  Items: Item[];
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, Items }: Props) => {
   const { status } = useSession();
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -23,7 +28,7 @@ const Layout = ({ children }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900">
-        <TopNav />
+        <TopNav Items={Items} />
         <div>{children}</div>
         <img
           src="/images/background.svg"

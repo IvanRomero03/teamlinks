@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const TopNav = () => {
+interface Item {
+  section: string;
+  title: string;
+}
+interface Props {
+  Items: Item[];
+}
+
+const TopNav = ({ Items }: Props) => {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const handleScroll = () => {
@@ -24,10 +32,15 @@ const TopNav = () => {
       onScroll={handleScroll}
     >
       <div className="flex items-center p-4 align-middle text-white">
-        <Item section="home" title="Home" />
-        <Item section="about" title="About" />
-        <Item section="info" title="My Info" />
-        <Item section="settings" title="Settings" />
+        {Items.map((item) => {
+          return (
+            <Item
+              key={item.section}
+              section={item.section}
+              title={item.title}
+            />
+          );
+        })}
       </div>
     </div>
   );
