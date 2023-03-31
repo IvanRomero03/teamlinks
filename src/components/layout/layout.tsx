@@ -27,7 +27,7 @@ const Layout = ({ children, Items }: Props) => {
         <meta name="description" content="teamlinks" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900">
+      <main className="flex min-h-screen flex-col bg-slate-900">
         <TopNav Items={Items} />
         <div>{children}</div>
         <img
