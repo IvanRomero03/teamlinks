@@ -14,12 +14,12 @@ interface Props {
 }
 
 const Layout = ({ children, Items }: Props) => {
-  const { status } = useSession();
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      window.location.href = "/login";
-    }
-  }, [status]);
+  // const { status } = useSession();
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     window.location.href = "/login";
+  //   }
+  // }, [status]);
   return (
     <>
       <Head>
