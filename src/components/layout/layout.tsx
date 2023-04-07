@@ -27,13 +27,13 @@ const Layout = ({ children, Items }: Props) => {
         <meta name="description" content="teamlinks" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col bg-slate-900">
+      <main className="z-10 flex min-h-screen flex-col bg-slate-900">
         <TopNav Items={Items} />
-        <div>{children}</div>
+        <div className="z-30">{children}</div>
         <img
           src="/images/background.svg"
           alt="fondo"
-          className="fixed bottom-0 w-1/2 self-end bg-fixed align-bottom"
+          className="fixed bottom-0 z-20 w-1/2 self-end bg-fixed align-bottom"
         />
       </main>
     </>

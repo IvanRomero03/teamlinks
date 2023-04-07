@@ -55,7 +55,7 @@ const Item = ({ section, title }: { section: string; title: string }) => {
         pathname: "/" + section,
       }}
     >
-      <p className="p-4 text-white hover:bg-blue-200 hover:bg-opacity-10 hover:text-blue-400">
+      <p className="rounded-md p-4 text-white hover:bg-blue-200 hover:bg-opacity-10 hover:text-blue-400">
         {title}
       </p>
     </Link>
