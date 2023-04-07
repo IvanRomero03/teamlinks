@@ -21,7 +21,7 @@ const Category = ({ name, items }: Props) => {
       {open && (
         <ul>
           {items.map((item) => (
-            <li className="ml-4 hover:underline">{item}</li>
+            <li className="ml-4 hover:underline" key={item}>{item}</li>
           ))}
         </ul>
       )}
