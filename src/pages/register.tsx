@@ -2,31 +2,41 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-
 import { api } from "y/utils/api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { z } from "zod";
+import { useEffect } from "react";
 
 const Login: NextPage = () => {
   const router = useRouter();
   const { data: sessionData } = useSession();
   const query = router.query;
-  if (!query.registerId) {
-    // redirect to home page
-    router.push("/");
-    console.log("redirecting to home not registerId");
-  }
-  // Lo sig se puede hacer ssr
-  if (sessionData) {
-    if (sessionData.user?.email !== query.registerId) {
+
+  const checkPermitions = async () => {
+    if (!query.registerId) {
       // redirect to home page
-      console.log("redirecting to home not same email");
-      router.push("/");
+
+      await router.push("/");
+      console.log("redirecting to home not registerId");
     }
-    // redirect to home page
-    console.log("redirecting to home from session");
-    //router.push("/");
-  }
+    // Lo sig se puede hacer ssr
+    if (sessionData) {
+      if (sessionData.user?.email !== query.registerId) {
+        // redirect to home page
+        console.log("redirecting to home not same email");
+        await router.push("/");
+      }
+      // redirect to home page
+      console.log("redirecting to home from session");
+      //router.push("/");
+    }
+  };
+
+  useEffect(() => {
+    async () => {
+      await checkPermitions();
+    };
+  }, [sessionData, query.registerId]);
 
   const invite = api.getInvite.getInvite.useQuery({
     id: query.registerId as string,
@@ -51,7 +61,7 @@ const Login: NextPage = () => {
     });
     // if success redirect to home
     console.log("registering success");
-    router.push("/");
+    await router.push("/");
     console.log(result);
   };
 
