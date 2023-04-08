@@ -1,5 +1,9 @@
 import { createTRPCRouter } from "y/server/api/trpc";
 import { exampleRouter } from "y/server/api/routers/example";
+import { permisionRouter } from "y/server/api/routers/permisions";
+import { adminRouter } from "./routers/admin/root";
+import { getInviteRouter } from "./routers/recruiter/getInvite";
+import { createAccountRouter } from "./routers/recruiter/createAccount";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +12,10 @@ import { exampleRouter } from "y/server/api/routers/example";
  */
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
+  permision: permisionRouter,
+  admin: adminRouter,
+  getInvite: getInviteRouter,
+  createRecruiter: createAccountRouter,
 });
 
 // export type definition of API

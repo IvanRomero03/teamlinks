@@ -1,10 +1,26 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Layout from "y/components/layout/layout";
-import { getServerAuthSession } from "y/server/auth";
+import {
+  getServerAuthSession,
+  getServerIsAdmin,
+  getServerIsRole,
+} from "y/server/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
+  const isRole = await getServerIsRole(ctx);
   if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  console.log(isRole);
+  if (isRole == null) {
+    // bad user type
+    console.log("bad user type");
     return {
       redirect: {
         destination: "/login",

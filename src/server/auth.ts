@@ -75,3 +75,70 @@ export const getServerAuthSession = (ctx: {
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
+
+export const getServerIsAdmin = async (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  const session = await getServerAuthSession(ctx);
+  const user = session?.user.id;
+  const isAdmin = await prisma.admin.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  return isAdmin;
+};
+
+export const getServerIsRecruiter = async (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  const session = await getServerAuthSession(ctx);
+  const user = session?.user.id;
+  const isRecruiter = await prisma.reclutador.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  return isRecruiter;
+};
+
+export const getServerIsCandidate = async (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  const session = await getServerAuthSession(ctx);
+  const user = session?.user.id;
+  const isCandidate = await prisma.candidato.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  return isCandidate;
+};
+
+export const getServerIsRole = async (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  const session = await getServerAuthSession(ctx);
+  const user = session?.user.id;
+  const isAdmin = await prisma.admin.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  const isRecruiter = await prisma.reclutador.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  const isCandidate = await prisma.candidato.findUnique({
+    where: {
+      id: user,
+    },
+  });
+  const isRole = isAdmin || isRecruiter || isCandidate;
+  return isRole;
+};

@@ -50,13 +50,16 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String      @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?     @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    candidato     Candidato?
+    reclutador    Reclutador?
+    admin         Admin?
 }
 
 model VerificationToken {
@@ -65,4 +68,112 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Candidato {
+    id            String       @id
+    user          User         @relation(fields: [id], references: [id])
+    tecPrincipal  String
+    tecSecundaria String
+    pais          String
+    estado        String
+    ciudad        String
+    experiencia   Int
+    Ranking       Int
+    aplicacion    Aplicacion[]
+}
+
+model Reclutador {
+    id             String        @id
+    user           User          @relation(fields: [id], references: [id])
+    country        String
+    tecPrincipal   String
+    tecSecundaria  String
+    aplicacion     Aplicacion[]
+    proyecto       Proyecto[]
+    Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId String?
+}
+
+model Departamento {
+    id         String       @id @default(cuid())
+    nombre     String
+    proyecto   Proyecto[]
+    Admin      Admin[]
+    Reclutador Reclutador[]
+}
+
+model Admin {
+    id             String        @id
+    user           User          @relation(fields: [id], references: [id])
+    proyecto       Proyecto[]
+    Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId String?
+}
+
+model Aplicacion {
+    id            String     @id @default(cuid())
+    nombre        String
+    fechaCreacion DateTime   @default(now())
+    candidatoId   String
+    candidato     Candidato  @relation(fields: [candidatoId], references: [id])
+    reclutadorId  String
+    reclutador    Reclutador @relation(fields: [reclutadorId], references: [id])
+}
+
+model MustHaves {
+    id        String   @id @default(cuid())
+    name      String
+    Puestos   Puestos? @relation(fields: [puestosId], references: [id])
+    puestosId String?
+}
+
+model Puestos {
+    id                       String      @id
+    jobTitle                 String
+    descripcion              String
+    tipo                     String
+    employee                 Boolean
+    contractor               Boolean
+    deptOrgFieldValue        String
+    Genus                    String
+    hireCategory             String
+    mustHaves                MustHaves[]
+    estatus                  String?
+    fechaCreacion            DateTime    @default(now())
+    fechaEstatusChange       DateTime    @updatedAt
+    numPosiciones            Int
+    numPosicionesDisponibles Int
+    proyectoId               String
+    proyecto                 Proyecto    @relation(fields: [proyectoId], references: [id])
+}
+
+model Proyecto {
+    id                 String        @id @default(cuid())
+    nombre             String
+    descripcion        String
+    cliente            String
+    clienteEntrevista  Boolean
+    pais               String
+    ciudad             String
+    remoto             Boolean
+    serviceRegion      String
+    estatus            String?
+    fechaCreacion      DateTime      @default(now())
+    fechaEstatusChange DateTime      @updatedAt
+    adminId            String
+    admin              Admin         @relation(fields: [adminId], references: [id])
+    reclutadorId       String
+    reclutador         Reclutador    @relation(fields: [reclutadorId], references: [id])
+    numPosicionesTot   Int
+    numPosicionesDis   Int
+    puesto             Puestos[]
+    Departamento       Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId     String?
+}
+
+model Invitation {
+    id        String   @id @default(cuid())
+    email     String
+    createdAt DateTime @default(now())
 }

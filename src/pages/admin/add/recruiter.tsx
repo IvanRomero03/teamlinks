@@ -1,12 +1,24 @@
 import Layout from "y/components/layout/layout";
-import { getServerAuthSession } from "y/server/auth";
+import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
 import { NextPage, type GetServerSideProps } from "next";
 import MemberItem from "y/components/admin/MemberItem";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { api } from "y/utils/api";
+import { useSession } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const isAdmin = await getServerIsAdmin(ctx);
   const session = await getServerAuthSession(ctx);
   if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  if (!isAdmin) {
+    // bad user type
     return {
       redirect: {
         destination: "/login",
@@ -47,6 +59,8 @@ const RecruiterForm: NextPage = () => {
 export default RecruiterForm;
 
 const FormikForm = () => {
+  const session = useSession();
+  const mutate = api.admin.inviteRecruiter.inviteRecruiter.useMutation();
   return (
     <Formik
       initialValues={{ email: "" }}
@@ -56,6 +70,16 @@ const FormikForm = () => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
+          if (session.status === "authenticated") {
+            // call the protected procedure inviteRecruiter
+            console.log("aqui");
+            mutate.mutate({
+              email: values.email,
+            });
+            const mutateInfo = mutate.data;
+            console.log(mutateInfo);
+            console.log("mutate");
+          }
           alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
         }, 400);
