@@ -1,10 +1,6 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Layout from "y/components/layout/layout";
-import {
-  getServerAuthSession,
-  getServerIsAdmin,
-  getServerIsRole,
-} from "y/server/auth";
+import { getServerAuthSession, getServerIsRole } from "y/server/auth";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
