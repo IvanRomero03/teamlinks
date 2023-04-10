@@ -36,7 +36,7 @@ export const inviteRecruiterRouter = createTRPCRouter({
         from: process.env.MAILER_EMAIL,
         to: email,
         subject: "Wellcome to the Nagarro Teamlinks Recruitment Portal",
-        html: `<div> <p> You have been invited to join the Nagarro Teamlinks Recruitment Portal. Please click on the link below to register and start your journey with us.</p> <a href="http://localhost:3000/register?registerId=${invitationId}">Register</a> </div>`,
+        html: `<div> <p> You have been invited to join the Nagarro Teamlinks Recruitment Portal. Please click on the link below to register and start your journey with us.</p> <a href="http://teamlinks-delta.vercel.app/register?registerId=${invitationId}">Register</a> </div>`,
       };
       console.log("Sending email");
       const res = await transporter.sendMail(mailOptions);
