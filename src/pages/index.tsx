@@ -24,6 +24,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  if (isRole == "admin") {
+    return {
+      redirect: {
+        destination: "/admin",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       session,
