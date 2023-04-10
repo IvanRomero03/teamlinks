@@ -1,13 +1,5 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Layout from "y/components/layout/layout";
-<<<<<<< HEAD
-import Recultador from "./reclutador";
-
-const Home: NextPage = () => {
-  return (
-    <Layout>
-      <Recultador></Recultador>
-=======
 import {
   getServerAuthSession,
   getServerIsAdmin,
@@ -59,7 +51,6 @@ const Home: NextPage = () => {
       <div className="flex min-h-screen flex-col items-center justify-center ">
         hola
       </div>
->>>>>>> main
     </Layout>
   );
 };
