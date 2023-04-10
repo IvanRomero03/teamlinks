@@ -17,7 +17,6 @@ const MemberItem = ({ name, category, proyects, progress }: Props) => {
           <p className="text-sm">{category}</p>
         </div>
         <div className="flex flex-col">
-          {/** litte progress from 0 to 100% with colors depending on the % */}
           <div className="h-2 w-20 rounded-full bg-gray-200">
             <div
               className="h-full rounded-full"

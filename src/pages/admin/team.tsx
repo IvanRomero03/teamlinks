@@ -2,6 +2,7 @@ import Layout from "y/components/layout/layout";
 import { getServerAuthSession } from "y/server/auth";
 import { NextPage, type GetServerSideProps } from "next";
 import MemberItem from "y/components/admin/MemberItem";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -22,13 +23,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
+  const router = useRouter();
   return (
     <Layout
       Items={[
-        { title: "Home", section: "home" },
-        { title: "About", section: "about" },
-        { title: "My Info", section: "info" },
-        { title: "Settings", section: "settings" },
+        { title: "Home", section: "admin" },
+        { title: "Projects", section: "admin/projects" },
+        { title: "My Team", section: "admin/team" },
       ]}
     >
       {/** Team sercher and add new member on top, and members after */}
@@ -45,7 +46,12 @@ const Admin: NextPage = () => {
               <button className="rounded-md bg-emerald-400 p-2">Search</button>
             </div>
             {/** Add new member button */}
-            <button className="rounded-md bg-emerald-400 p-2">
+            <button
+              className="rounded-md bg-emerald-400 p-2"
+              onClick={async () => {
+                await router.push("/admin/add/recruiter", "/add/recruiter");
+              }}
+            >
               Add new member
             </button>
           </div>
