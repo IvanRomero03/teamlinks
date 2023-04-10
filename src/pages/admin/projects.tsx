@@ -6,7 +6,6 @@ import ProjectItem from "y/components/admin/ProjectItem";
 import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const isAdmin = await getServerIsAdmin(ctx);
   const session = await getServerAuthSession(ctx);
   if (!session) {
     return {
@@ -16,6 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  const isAdmin = await getServerIsAdmin(ctx);
   if (!isAdmin) {
     // bad user type
     return {

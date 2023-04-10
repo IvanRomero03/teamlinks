@@ -8,7 +8,6 @@ import {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
-  const isRole = await getServerIsRole(ctx);
   if (!session) {
     return {
       redirect: {
@@ -17,6 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  const isRole = await getServerIsRole(ctx);
   console.log(isRole);
   if (isRole == null) {
     // bad user type
