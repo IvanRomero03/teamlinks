@@ -84,8 +84,8 @@ const ProjectPage: NextPage = () => {
 
             <button
               className="rounded-md bg-emerald-400 p-2"
-              onClick={async () => {
-                await router.push("/admin/edit/project", "/edit/project");
+              onClick={() => {
+                void router.push("/admin/edit/project", "/edit/project");
               }}
             >
               Edit
@@ -101,7 +101,7 @@ const ProjectPage: NextPage = () => {
           <div className="flex flex-col">
             <h1 className="mb-6 text-3xl font-bold text-white">Recruiters</h1>
             {data.recruiters.map((recruiter) => (
-              <div className="flex flex-row">
+              <div className="flex flex-row" key={recruiter.id}>
                 <p className="text-white">ID: {recruiter.id}</p>
                 <p className="text-white">Name: {recruiter.name}</p>
               </div>
@@ -110,7 +110,7 @@ const ProjectPage: NextPage = () => {
           <div className="flex flex-col">
             <h1 className="mb-6 text-3xl font-bold text-white">Positions</h1>
             {data.positions.map((position) => (
-              <div className="flex flex-col">
+              <div className="flex flex-col" key={position.id}>
                 <p className="text-white">ID: {position.id}</p>
                 <p className="text-white">Name: {position.name}</p>
                 {/** Progress bar with percentage*/}

@@ -35,6 +35,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 // Page for the admin to visualize all the projects
 const Projects: NextPage = () => {
   const router = useRouter();
+  const handleNewMember = () => {
+    void router.push("/admin/add/project", "/add/project");
+  };
   return (
     <Layout
       Items={[
@@ -50,9 +53,7 @@ const Projects: NextPage = () => {
             <h1 className="mb-6 text-3xl font-bold text-white">Projects</h1>
             <button
               className="rounded-md bg-emerald-400 p-2"
-              onClick={async () => {
-                await router.push("/admin/add/project", "/add/project");
-              }}
+              onClick={handleNewMember}
             >
               Add new member
             </button>

@@ -24,6 +24,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
   const router = useRouter();
+  const handleNewMember = () => {
+    void router.push("/admin/add/recruiter");
+  };
   return (
     <Layout
       Items={[
@@ -48,9 +51,7 @@ const Admin: NextPage = () => {
             {/** Add new member button */}
             <button
               className="rounded-md bg-emerald-400 p-2"
-              onClick={async () => {
-                await router.push("/admin/add/recruiter", "/add/recruiter");
-              }}
+              onClick={handleNewMember}
             >
               Add new member
             </button>
