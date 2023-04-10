@@ -1,4 +1,6 @@
-print("hello")
+
+
+import csv
 
 class Proyecto():
     def _init_(self,id,nombre,descripcion,pais,remoto,serviceRegion,estatus,fechaCreacion,fechaEstatusChange,adminId,admin,reclutadorId
