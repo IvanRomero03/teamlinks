@@ -1,9 +1,22 @@
 
 
 import csv
+import asyncio
+from prisma import Prisma
+
+
+
+
+
+
+
+
+
 
 class Proyecto():
-    def _init_(self,id,nombre,descripcion,pais,remoto,serviceRegion,estatus,fechaCreacion,fechaEstatusChange,adminId,admin,reclutadorId
+    def __init__(self,id):
+        self.id=id
+    """def _init2_(self,id,nombre,descripcion,pais,remoto,serviceRegion,estatus,fechaCreacion,fechaEstatusChange,adminId,admin,reclutadorId
             ,reclutador,numPosicionesTot,numPosicionesDis, puesto,Departamento, departamentoId,Requirement  ):
         self.id=id 
         self.nombre=nombre
@@ -23,8 +36,40 @@ class Proyecto():
         self.puesto=puesto
         self.Departamento=Departamento
         self.departamentoId=departamentoId
-        self.Requirement=Requirement
+        self.Requirement=Requirement """
         
+
+with open('formas_normal.csv', 'r') as file:
+    cs=csv.reader(file)
+    
+    next(file)
+
+    
+    proyectos_lista=[]
+    for line in cs:
+        
+        proyectos_lista.append(Proyecto(line[10]))
+        
+
+
+async def main() -> None:
+        db = Prisma()
+        await db.connect()
+        #queries
+        await db.disconnect()
+        if __name__ == '__main__':
+            asyncio.run(main())
+
+
+        
+
+    
+
+
+
+
+
+
 
 
 
