@@ -152,10 +152,7 @@ model Proyecto {
     id                 String        @id @default(cuid())
     nombre             String
     descripcion        String
-    cliente            String
-    clienteEntrevista  Boolean
     pais               String
-    ciudad             String
     remoto             Boolean
     serviceRegion      String
     estatus            String?
@@ -170,6 +167,14 @@ model Proyecto {
     puesto             Puestos[]
     Departamento       Departamento? @relation(fields: [departamentoId], references: [id])
     departamentoId     String?
+    Requirement        Requirement[]
+}
+
+model Requirement {
+    id         String    @id @default(cuid())
+    name       String
+    Proyecto   Proyecto? @relation(fields: [proyectoId], references: [id])
+    proyectoId String?
 }
 
 model Invitation {
