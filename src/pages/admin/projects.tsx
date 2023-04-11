@@ -66,6 +66,7 @@ const Projects: NextPage = () => {
           {isFetched &&
             data?.map((project) => (
               <ProjectItem
+                key={project.id}
                 name={project.nombre}
                 department={project.Departamento?.nombre ?? "No department"}
                 progress={Math.round(

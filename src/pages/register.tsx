@@ -71,7 +71,7 @@ const Login: NextPage = () => {
     () => {
       console.log("useEffect");
       if (invite.isSuccess && invite.data == null) {
-        router.push("/");
+        void router.push("/");
         console.log("redirecting to home from invite");
         // not valid invite
       }

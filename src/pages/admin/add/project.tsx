@@ -78,7 +78,7 @@ const FormikForm = () => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(async () => {
+        async () => {
           if (session.status === "authenticated") {
             // call the protected procedure inviteRecruiter
             console.log(values);
@@ -95,14 +95,14 @@ const FormikForm = () => {
             });
             if (res) {
               console.log("success");
-              alert("Project created successfully");
+              //alert("Project created successfully");
             }
             resetForm();
             console.log("mutate");
           }
-          alert(JSON.stringify(values, null, 2));
+          //alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
-        }, 400);
+        };
       }}
     >
       {({ isSubmitting, values, setFieldValue }) => (
