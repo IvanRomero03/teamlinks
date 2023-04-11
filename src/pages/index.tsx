@@ -1,6 +1,7 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { getServerAuthSession, getServerIsRole } from "y/server/auth";
+import { signOut } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -17,6 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (isRole == null) {
     // bad user type
     console.log("bad user type");
+    void signOut({ redirect: false, callbackUrl: "/login" });
     return {
       redirect: {
         destination: "/login",
