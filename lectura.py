@@ -57,6 +57,8 @@ async def main() -> None:
         db = Prisma()
         await db.connect()
         #queries
+
+    
         
 
         await db.disconnect()
