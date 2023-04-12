@@ -41,7 +41,7 @@ npm run dev
 ```bash
 ├─ prisma
 │   └─ schema.prisma
-│   
+│
 ├─ public
 │   ├── favicon.ico
 │   └── images
@@ -52,12 +52,12 @@ npm run dev
     │   └─ api
     │       ├─ auth
     │       └─ trpc
-    │   
+    │
     ├─ server
     │   └─ api
     │       └─ routers
     │
     ├─ styles
-    │   
+    │
     └─ utils
 ```

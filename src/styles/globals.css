@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.active-tabs {
+  background-color: rgba(122, 255, 143, 1);
+}
+
+.tab-content {
+  display: none;
+}
+
+.active-content {
+  display: block;
+}
