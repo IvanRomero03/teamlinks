@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider     = "mysql"
+    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    // Further reading:
+    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model Example {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Necessary for Next auth
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    ext_expires_in    Int?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String      @id @default(cuid())
+    name          String?
+    email         String?     @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    candidato     Candidato?
+    reclutador    Reclutador?
+    admin         Admin?
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Candidato {
+    id            String       @id
+    user          User         @relation(fields: [id], references: [id])
+    tecPrincipal  String
+    tecSecundaria String
+    pais          String
+    estado        String
+    ciudad        String
+    experiencia   Int
+    Ranking       Int
+    aplicacion    Aplicacion[]
+}
+
+model Reclutador {
+    id             String        @id
+    user           User          @relation(fields: [id], references: [id])
+    country        String
+    tecPrincipal   String
+    tecSecundaria  String
+    aplicacion     Aplicacion[]
+    proyecto       Proyecto[]
+    Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId String?
+}
+
+model Departamento {
+    id         String       @id @default(cuid())
+    nombre     String
+    proyecto   Proyecto[]
+    Admin      Admin[]
+    Reclutador Reclutador[]
+}
+
+model Admin {
+    id             String        @id
+    user           User          @relation(fields: [id], references: [id])
+    proyecto       Proyecto[]
+    Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId String?
+}
+
+model Aplicacion {
+    id            String     @id @default(cuid())
+    nombre        String
+    fechaCreacion DateTime   @default(now())
+    candidatoId   String
+    candidato     Candidato  @relation(fields: [candidatoId], references: [id])
+    reclutadorId  String
+    reclutador    Reclutador @relation(fields: [reclutadorId], references: [id])
+}
+
+model MustHaves {
+    id        String   @id @default(cuid())
+    name      String
+    Puestos   Puestos? @relation(fields: [puestosId], references: [id])
+    puestosId String?
+}
+
+model Puestos {
+    id                       String      @id
+    jobTitle                 String
+    descripcion              String
+    tipo                     String
+    employee                 Boolean
+    contractor               Boolean
+    deptOrgFieldValue        String
+    Genus                    String
+    hireCategory             String
+    mustHaves                MustHaves[]
+    estatus                  String?
+    fechaCreacion            DateTime    @default(now())
+    fechaEstatusChange       DateTime    @updatedAt
+    numPosiciones            Int
+    numPosicionesDisponibles Int
+    proyectoId               String
+    proyecto                 Proyecto    @relation(fields: [proyectoId], references: [id])
+}
+
+model Proyecto {
+    id                 String        @id @default(cuid())
+    nombre             String
+    descripcion        String
+    cliente            String
+    clienteEntrevista  Boolean
+    pais               String
+    ciudad             String
+    remoto             Boolean
+    serviceRegion      String
+    estatus            String?
+    fechaCreacion      DateTime      @default(now())
+    fechaEstatusChange DateTime      @updatedAt
+    adminId            String
+    admin              Admin         @relation(fields: [adminId], references: [id])
+    reclutadorId       String
+    reclutador         Reclutador    @relation(fields: [reclutadorId], references: [id])
+    numPosicionesTot   Int
+    numPosicionesDis   Int
+    puesto             Puestos[]
+    Departamento       Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId     String?
+}
+
+model Invitation {
+    id        String   @id @default(cuid())
+    email     String
+    createdAt DateTime @default(now())
+}

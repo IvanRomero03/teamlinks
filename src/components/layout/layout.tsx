@@ -28,7 +28,10 @@ const Layout = ({ children, Items }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="z-10 flex min-h-screen flex-col bg-slate-900">
-        <TopNav Items={Items} />
+        <div className="flex-nowrap">
+          <TopNav Items={Items} />
+        </div>
+        
         <div className="z-30">{children}</div>
         <img
           src="/images/background.svg"
