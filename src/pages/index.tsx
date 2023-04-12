@@ -1,14 +1,21 @@
-import { type GetServerSideProps, type NextPage } from "next";
-import Layout from "y/components/layout/layout";
 import {
-  getServerAuthSession,
-  getServerIsAdmin,
-  getServerIsRole,
-} from "y/server/auth";
+  InferGetServerSidePropsType,
+  type GetServerSideProps,
+  type NextPage,
+} from "next";
+import Layout from "y/components/layout/layout";
+import { getServerAuthSession, getServerIsRole } from "y/server/auth";
+import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
+import { useEffect } from "react";
+
+interface Props {
+  session: Session | null;
+  signOut?: boolean;
+}
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
-  const isRole = await getServerIsRole(ctx);
   if (!session) {
     return {
       redirect: {
@@ -17,13 +24,34 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  const isRole = await getServerIsRole(ctx);
   console.log(isRole);
   if (isRole == null) {
     // bad user type
     console.log("bad user type");
+    // TOAST
+    const signOutF = true;
+
+    return {
+      props: {
+        session,
+        signOutF,
+      },
+    };
+    // await signOut({
+    //   callbackUrl: "/login",
+    // });
+    // return {
+    //   redirect: {
+    //     destination: "/login",
+    //     permanent: false,
+    //   },
+    // };
+  }
+  if (isRole == "admin") {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/admin",
         permanent: false,
       },
     };
@@ -31,11 +59,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       session,
+      signOutF: false,
     },
   };
 };
 
-const Home: NextPage = () => {
+const Home: NextPage = ({
+  session,
+  signOutF,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  useEffect(() => {
+    if (signOutF) {
+      void signOut({
+        callbackUrl: "/login",
+      });
+    }
+  }, []);
   return (
     <Layout
       Items={[

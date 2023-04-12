@@ -4,9 +4,9 @@ import { type GetServerSideProps } from "next";
 import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
 import ProjectItem from "y/components/admin/ProjectItem";
 import { useRouter } from "next/router";
+import { api } from "y/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const isAdmin = await getServerIsAdmin(ctx);
   const session = await getServerAuthSession(ctx);
   if (!session) {
     return {
@@ -16,6 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  const isAdmin = await getServerIsAdmin(ctx);
   if (!isAdmin) {
     // bad user type
     return {
@@ -38,6 +39,10 @@ const Projects: NextPage = () => {
   const handleNewMember = () => {
     void router.push("/admin/add/project", "/add/project");
   };
+
+  const { data, isError, isLoading, isFetched } =
+    api.admin.projectRouter.getProyects.useQuery();
+
   return (
     <Layout
       Items={[
@@ -55,25 +60,20 @@ const Projects: NextPage = () => {
               className="rounded-md bg-emerald-400 p-2"
               onClick={handleNewMember}
             >
-              Add new member
+              Add new project
             </button>
           </div>
-
-          <ProjectItem
-            name="Project 1"
-            department="Department 1"
-            progress={50}
-          />
-          <ProjectItem
-            name="Project 2"
-            department="Department 2"
-            progress={100}
-          />
-          <ProjectItem
-            name="Project 3"
-            department="Department 3"
-            progress={25}
-          />
+          {isFetched &&
+            data?.map((project) => (
+              <ProjectItem
+                key={project.id}
+                name={project.nombre}
+                department={project.Departamento?.nombre ?? "No department"}
+                progress={Math.round(
+                  (project.numPosicionesDis * 100) / project.numPosicionesTot
+                )}
+              />
+            ))}
         </div>
       </div>
     </Layout>

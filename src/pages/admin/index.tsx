@@ -7,8 +7,18 @@ import MemberSmall from "y/components/admin/MemberSmall";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerAuthSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   const isAdmin = await getServerIsAdmin(context);
-  if (!session || !isAdmin) {
+  if (!isAdmin) {
     return {
       redirect: {
         destination: "/",

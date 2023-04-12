@@ -3,6 +3,7 @@ import { getServerAuthSession } from "y/server/auth";
 import { NextPage, type GetServerSideProps } from "next";
 import MemberItem from "y/components/admin/MemberItem";
 import { useRouter } from "next/router";
+import { api } from "y/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -24,6 +25,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
   const router = useRouter();
+  const recruiters = api.admin.recruiters.getTeam.useQuery();
+  console.log(recruiters);
   const handleNewMember = () => {
     void router.push("/admin/add/recruiter");
   };
