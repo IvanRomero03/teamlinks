@@ -35,7 +35,7 @@ const Login: NextPage = () => {
         }
       }
     }
-  }, [sessionData, query.registerId, invite]);
+  }, [sessionData, query, invite]);
 
   const checkPermitions = () => {
     if (!query.registerId) {
@@ -157,7 +157,7 @@ const Login: NextPage = () => {
                     <p>Country</p>
                     <Field
                       name="country"
-                      type="select"
+                      as="select"
                       className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
                       required
                     >
