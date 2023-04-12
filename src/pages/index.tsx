@@ -1,7 +1,18 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import {
+  InferGetServerSidePropsType,
+  type GetServerSideProps,
+  type NextPage,
+} from "next";
 import Layout from "y/components/layout/layout";
 import { getServerAuthSession, getServerIsRole } from "y/server/auth";
 import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
+import { useEffect } from "react";
+
+interface Props {
+  session: Session | null;
+  signOut?: boolean;
+}
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -19,15 +30,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     // bad user type
     console.log("bad user type");
     // TOAST
-    await signOut({
-      callbackUrl: "/login",
-    });
+    const signOut = true;
+
     return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
+      props: {
+        session,
+        signOut,
       },
     };
+    // await signOut({
+    //   callbackUrl: "/login",
+    // });
+    // return {
+    //   redirect: {
+    //     destination: "/login",
+    //     permanent: false,
+    //   },
+    // };
   }
   if (isRole == "admin") {
     return {
@@ -40,11 +59,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       session,
+      signOut: false,
     },
   };
 };
 
-const Home: NextPage = () => {
+const Home: NextPage = ({
+  session,
+  signOut,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  useEffect(() => {
+    if (signOut) {
+      void signOut({
+        callbackUrl: "/login",
+      });
+    }
+  }, []);
   return (
     <Layout
       Items={[
