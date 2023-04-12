@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import Aplicaciones from "y/components/candidate/aplicaciones";
 import Usuario from "y/components/candidate/usuario";
+import Opportunidades from "y/components/candidate/opportunities";
 
 
 const Candidate: NextPage = () => {
@@ -12,6 +13,7 @@ const Candidate: NextPage = () => {
                 { title: "Home", section: "candidate" },
                 { title: "My User", section: "candidate/user" },
                 { title: "Applications", section: "candidate/applications" },
+                { title: "Opportunities", section: "candidate/opportunities" },
             ]}
         >
             <div className="pt-20">
@@ -22,7 +24,7 @@ const Candidate: NextPage = () => {
                 <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
                     <Usuario />
                     <Aplicaciones />
-                    <Aplicaciones />
+                    <Opportunidades />
                 </div>
             </div>
         </Layout>

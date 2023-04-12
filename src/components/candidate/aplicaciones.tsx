@@ -22,7 +22,7 @@ const Aplicaciones = () => {
                                 <p className="text-gray-800 font-bold">{application.name}</p>
                                 <div className={(application.status === 'Not Selected' ? 'p-1 rounded-lg bg-red-400 w-fit' : 
                                 application.status === 'Selected' ? 'p-1 rounded-lg bg-green-400 w-fit' :
-                                application.status === 'Under Consideration' ? 'p-1 rounded-lg bg-yellow-400 w-fit' : 'p-1 rounded-lg bg-gray-300 w-fit')}>
+                                application.status === 'Under Consideration' ? 'p-1 rounded-lg bg-yellow-400 w-fit' : 'invisible h-0')}>
                                     <p className="text-gray-800 text-sm">Status: {application.status}</p>
                                 </div>
                             </div>
