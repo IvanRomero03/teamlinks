@@ -30,12 +30,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     // bad user type
     console.log("bad user type");
     // TOAST
-    const signOut = true;
+    const signOutF = true;
 
     return {
       props: {
         session,
-        signOut,
+        signOutF,
       },
     };
     // await signOut({
@@ -59,17 +59,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       session,
-      signOut: false,
+      signOutF: false,
     },
   };
 };
 
 const Home: NextPage = ({
   session,
-  signOut,
+  signOutF,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useEffect(() => {
-    if (signOut) {
+    if (signOutF) {
       void signOut({
         callbackUrl: "/login",
       });
