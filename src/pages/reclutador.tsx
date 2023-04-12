@@ -26,7 +26,7 @@ interface Project {
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const chartData: unknown[] = [
+const chartData = [
   { x: "Approved", y: 5 },
   { x: "Rejected", y: 5 },
   { x: "Pending", y: 5 },
@@ -39,7 +39,7 @@ const mockTeamData: Project[] = [
   { id: "004", name: "proyecto 4", description: "mock equipo 4" },
 ];
 
-const projectData: any[] = [
+const projectData = [
   { id: "001", name: "perfil 1", description: "mock perfil 1" },
   { id: "002", name: "perfil 2", description: "mock perfil 2" },
   { id: "003", name: "perfil 3", description: "mock perfil 3" },
@@ -249,6 +249,7 @@ const Home: NextPage = () => {
               <div className="flex h-[32rem] flex-col gap-2 overflow-hidden overflow-y-scroll p-5">
                 {mockTeamData.map((data) => (
                   <MemberInfo
+                    key={data.id}
                     id={data.id}
                     name={data.name}
                     description={data.description}

@@ -22,7 +22,7 @@ interface Project {
   description: string;
 }
 
-const projectData: any[] = [
+const projectData = [
   { id: "001", name: "perfil 1", description: "mock perfil 1" },
   { id: "002", name: "perfil 2", description: "mock perfil 2" },
   { id: "003", name: "perfil 3", description: "mock perfil 3" },
