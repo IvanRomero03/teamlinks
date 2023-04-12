@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     // bad user type
     console.log("bad user type");
     // TOAST
-    await signOut();
+    void signOut();
     return {
       redirect: {
         destination: "/login",
