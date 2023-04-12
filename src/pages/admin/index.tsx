@@ -20,8 +20,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-  const role = await getServerIsRole(context);
-  if (!role) {
+
+  const isAdmin = await getServerIsAdmin(context);
+  if (!isAdmin) {
     return {
       redirect: {
         destination: "/",
@@ -29,40 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-  if (role == "admin") {
-    return {
-      redirect: {
-        destination: "/admin",
-        permanent: false,
-      },
-    };
-  }
-  if (role == "recruiter") {
-    return {
-      redirect: {
-        destination: "/recruiter",
-        permanent: false,
-      },
-    };
-  }
-  if (role == "candidate") {
-    return {
-      redirect: {
-        destination: "/candidate",
-        permanent: false,
-      },
-    };
-  }
-
-  // const isAdmin = await getServerIsAdmin(context);
-  // if (!isAdmin) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: {},

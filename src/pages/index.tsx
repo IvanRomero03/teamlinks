@@ -56,6 +56,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+  if (isRole == "recruiter") {
+    return {
+      redirect: {
+        destination: "/recruiter",
+        permanent: false,
+      },
+    };
+  }
+  if (isRole == "candidate") {
+    return {
+      redirect: {
+        destination: "/candidate",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       session,
