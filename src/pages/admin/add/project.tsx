@@ -58,37 +58,51 @@ export default RecruiterForm;
 
 const FormikForm = () => {
   const session = useSession();
+  const mutation = api.admin.projectRouter.createProject.useMutation();
   //const mutate = api.admin.inviteRecruiter.inviteRecruiter.useMutation();
   return (
     <Formik
       initialValues={{
         name: "",
         description: "",
-        country: "",
-        type: "",
-        status: "",
+        country: "Mexico",
+        type: "Onsite",
+        status: "Open",
         requirements: [],
+        pos_dis: 0,
+        pos_tot: 0,
         _req: "",
       }}
       validate={(values) => {
         const errors = {};
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        async () => {
           if (session.status === "authenticated") {
             // call the protected procedure inviteRecruiter
+            console.log(values);
             console.log("aqui");
-            // mutate.mutate({
-            //   email: values.email,
-            // });
-            // const mutateInfo = mutate.data;
-            // console.log(mutateInfo);
+            const res = await mutation.mutateAsync({
+              name: values.name,
+              description: values.description,
+              country: values.country,
+              pos_dis: values.pos_dis,
+              pos_tot: values.pos_tot,
+              type: values.type,
+              status: values.status,
+              requirements: values.requirements,
+            });
+            if (res) {
+              console.log("success");
+              //alert("Project created successfully");
+            }
+            resetForm();
             console.log("mutate");
           }
-          alert(JSON.stringify(values, null, 2));
+          //alert(JSON.stringify(values, null, 2));
           setSubmitting(false);
-        }, 400);
+        };
       }}
     >
       {({ isSubmitting, values, setFieldValue }) => (
@@ -149,10 +163,31 @@ const FormikForm = () => {
               name="status"
               required
               className="min-w-full rounded-lg border-2 border-blue-300"
+              defaultValue="Open"
             >
               <option value="Open">Open</option>
               <option value="Closed">Closed</option>
             </Field>
+          </div>
+          {/** Positions available and total positions with ints */}
+          <p className="text-lg font-bold">Positions</p>
+          <div className="flex flex-row justify-between">
+            <p className="text-lg font-bold">Available</p>
+            <p className="text-lg font-bold">Total</p>
+          </div>
+          <div className="flex flex-row space-x-2">
+            <Field
+              type="number"
+              name="pos_dis"
+              required
+              className="w-1/2 rounded-lg border-2 border-blue-300"
+            />
+            <Field
+              type="number"
+              name="pos_tot"
+              required
+              className="w-1/2 rounded-lg border-2 border-blue-300"
+            />
           </div>
           <ErrorMessage name="status" component="div" />
           {/** Let the admin create a list of requirements */}
@@ -204,7 +239,7 @@ const FormikForm = () => {
             disabled={isSubmitting}
             className=" rounded-lg bg-blue-500 p-1"
           >
-            Submit
+            {isSubmitting ? "Loading..." : "Submit"}
           </button>
         </Form>
       )}

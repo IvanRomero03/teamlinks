@@ -3,6 +3,26 @@ import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "y/utils/api";
+import { useRouter } from "next/router";
+import { type GetServerSideProps } from "next";
+import { getServerAuthSession } from "y/server/auth";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerAuthSession(ctx);
+  if (!session) {
+    return {
+      props: {
+        session,
+      },
+    };
+  }
+  return {
+    redirect: {
+      destination: "/",
+      permanent: false,
+    },
+  };
+};
 
 const Login: NextPage = () => {
   return (

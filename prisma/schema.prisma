@@ -84,15 +84,17 @@ model Candidato {
 }
 
 model Reclutador {
-    id             String        @id
-    user           User          @relation(fields: [id], references: [id])
-    country        String
-    tecPrincipal   String
-    tecSecundaria  String
-    aplicacion     Aplicacion[]
-    proyecto       Proyecto[]
-    Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
-    departamentoId String?
+    id                  String                @id
+    user                User                  @relation(fields: [id], references: [id])
+    country             String
+    tecPrincipal        String
+    tecSecundaria       String
+    aplicacion          Aplicacion[]
+    Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
+    departamentoId      String?
+    ReclutadorProyectos ReclutadorProyectos[]
+    Admin               Admin                 @relation(fields: [adminId], references: [id])
+    adminId             String
 }
 
 model Departamento {
@@ -109,6 +111,8 @@ model Admin {
     proyecto       Proyecto[]
     Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
     departamentoId String?
+    Reclutador     Reclutador[]
+    Invitation     Invitation[]
 }
 
 model Aplicacion {
@@ -148,26 +152,32 @@ model Puestos {
     proyecto                 Proyecto    @relation(fields: [proyectoId], references: [id])
 }
 
+model ReclutadorProyectos {
+    id           String     @id @default(cuid())
+    reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
+    proyecto     Proyecto   @relation(fields: [proyectoId], references: [id])
+    reclutadorId String
+    proyectoId   String
+}
+
 model Proyecto {
-    id                 String        @id @default(cuid())
-    nombre             String
-    descripcion        String
-    pais               String
-    remoto             Boolean
-    serviceRegion      String
-    estatus            String?
-    fechaCreacion      DateTime      @default(now())
-    fechaEstatusChange DateTime      @updatedAt
-    adminId            String
-    admin              Admin         @relation(fields: [adminId], references: [id])
-    reclutadorId       String
-    reclutador         Reclutador    @relation(fields: [reclutadorId], references: [id])
-    numPosicionesTot   Int
-    numPosicionesDis   Int
-    puesto             Puestos[]
-    Departamento       Departamento? @relation(fields: [departamentoId], references: [id])
-    departamentoId     String?
-    Requirement        Requirement[]
+    id                  String                @id @default(cuid())
+    nombre              String
+    descripcion         String
+    pais                String
+    type                String
+    estatus             String?
+    fechaCreacion       DateTime              @default(now())
+    fechaEstatusChange  DateTime              @updatedAt
+    adminId             String
+    admin               Admin                 @relation(fields: [adminId], references: [id])
+    numPosicionesTot    Int
+    numPosicionesDis    Int
+    puesto              Puestos[]
+    Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
+    departamentoId      String?
+    Requirement         Requirement[]
+    ReclutadorProyectos ReclutadorProyectos[]
 }
 
 model Requirement {
@@ -179,6 +189,8 @@ model Requirement {
 
 model Invitation {
     id        String   @id @default(cuid())
+    Admin     Admin    @relation(fields: [adminId], references: [id])
     email     String
     createdAt DateTime @default(now())
+    adminId   String
 }
