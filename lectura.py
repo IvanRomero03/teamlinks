@@ -144,14 +144,31 @@ class Invitation():
           self.createdAt=createdAt          
             
 
-proyectos_lista=[]
+proyecto_lista=[]
+account_lista=[]
+departamento_lista=[]
+admin_lista=[]
+reclutador_lista=[]
+candidato_lista=[]
+aplicacion_lista=[]
+mustHaves_lista=[]
+puestos_lista=[]
+user_lista=[]
+session_lista=[]
+verificationToken_lista=[]
+requirement_lista=[]
+invitation_lista=[]
+
+
+
 
 with open('formas_normal.csv', 'r') as file:
     cs=csv.reader(file)
     next(file)
     for line in cs:
 
-        proyectos_lista.append(Proyecto(line[10]))
+        proyecto_lista.append(Proyecto(line[10]))
+
         
 async def main() -> None:
         db = Prisma()
@@ -166,9 +183,5 @@ async def main() -> None:
             asyncio.run(main())
 
     
-#for celda in .csv :
-    #p1=Proyecto(celda k2, #celda...)
-    
-    #mandar p1 a base de datos
 
 
