@@ -25,8 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
   const router = useRouter();
-  const recruiters = api.admin.recruiters.getTeam.useQuery();
-  console.log(recruiters);
+  const { data, isError, isLoading } = api.admin.recruiters.getTeam.useQuery();
   const handleNewMember = () => {
     void router.push("/admin/add/recruiter");
   };
@@ -62,6 +61,23 @@ const Admin: NextPage = () => {
           {/** Members */}
           <div className="mt-10 flex w-3/4 flex-col justify-center">
             <div className="flex flex-col ">
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : isError ? (
+                <div>Error</div>
+              ) : (
+                data?.map((member) => (
+                  <MemberItem
+                    name={member.user.name ?? "No name"}
+                    category={member.tecPrincipal}
+                    progress={Math.floor(Math.random() * 100)}
+                    proyects={member.ReclutadorProyectos.map(
+                      (proyect) => proyect.proyecto.nombre
+                    )}
+                    key={member.id}
+                  />
+                ))
+              )}
               <MemberItem
                 name="John Doe"
                 category="Techologies of Information"

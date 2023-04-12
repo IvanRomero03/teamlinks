@@ -128,7 +128,7 @@ const Login: NextPage = () => {
                 initialValues={{
                   name: sessionData?.user?.name ?? "",
                   email: invite.data?.email ?? "",
-                  country: "",
+                  country: "Mexico",
                   mainTech: "",
                   secondaryTech: "",
                 }}
@@ -157,10 +157,15 @@ const Login: NextPage = () => {
                     <p>Country</p>
                     <Field
                       name="country"
-                      type="text"
+                      type="select"
                       className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
                       required
-                    />
+                    >
+                      <option value="Mexico">Mexico</option>
+                      <option value="USA">USA</option>
+                      <option value="Canada">Canada</option>
+                    </Field>
+
                     <ErrorMessage name="country" component="div" />
                     <p>Main Tech</p>
                     <Field

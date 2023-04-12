@@ -7,6 +7,22 @@ export const recruitersRouter = createTRPCRouter({
       where: {
         adminId: id,
       },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        ReclutadorProyectos: {
+          select: {
+            proyecto: {
+              select: {
+                nombre: true,
+              },
+            },
+          },
+        },
+      },
     });
     return recruitersTeam;
   }),
