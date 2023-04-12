@@ -102,8 +102,9 @@ const Home: NextPage = () => {
   //         <div className="h-[2rem]"></div>
   //       </button>
   //     </div>
-  //   ));
+  //   )); lmaoooooooooo
 
+  // agarra la lista de project data y crea el UI dinamico
   const projectdata = projectData.map((data) => (
     <div
       className="flex h-[10rem] w-full shrink-0 flex-row gap-1 bg-gray-300 transition-all hover:scale-[1.02]"
