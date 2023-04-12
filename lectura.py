@@ -44,12 +44,12 @@ class Account():
           self.ext_expires_in=ext_expires_in
           self.user=user
 class Departamento():
-     def __init__(self,id,nombre,proyecto,Admin,Reclutador):
+     def __init__(self,id,nombre,proyectoid,adminid,reclutadorid):
           self.id=id
-          self.nombre=nombre
-          self.proyecto=proyecto
-          self.Admin=Admin
-          self.Reclutador=Reclutador
+          self.nombre=nombre #
+          self.proyectoid=proyectoid
+          self.adminid=adminid
+          self.reclutadorid=reclutadorid
 class Admin():
      def __init__(self,id,User,proyectoId,departamentoId):
           self.id=id
