@@ -110,7 +110,7 @@ const Login: NextPage = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center ">
-        <img src="/images/logos_login.jpg" alt="logo" className="w-1/4" />
+        <img src="/images/logo_login.svg" alt="logo" className="w-1/6" />
         <h2 className="text-3xl font-thin">Register</h2>
         {invite.isFetching && <p>Loading...</p>}
         {invite.isError && <p>Error</p>}

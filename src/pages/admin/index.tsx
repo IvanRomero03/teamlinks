@@ -1,7 +1,11 @@
 import { NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { type GetServerSideProps } from "next";
-import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
+import {
+  getServerAuthSession,
+  getServerIsAdmin,
+  getServerIsRole,
+} from "y/server/auth";
 import ProyectSmall from "y/components/admin/ProyectSmall";
 import MemberSmall from "y/components/admin/MemberSmall";
 
@@ -16,9 +20,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-
-  const isAdmin = await getServerIsAdmin(context);
-  if (!isAdmin) {
+  const role = await getServerIsRole(context);
+  if (!role) {
     return {
       redirect: {
         destination: "/",
@@ -26,6 +29,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+  if (role == "admin") {
+    return {
+      redirect: {
+        destination: "/admin",
+        permanent: false,
+      },
+    };
+  }
+  if (role == "recruiter") {
+    return {
+      redirect: {
+        destination: "/recruiter",
+        permanent: false,
+      },
+    };
+  }
+  if (role == "candidate") {
+    return {
+      redirect: {
+        destination: "/candidate",
+        permanent: false,
+      },
+    };
+  }
+
+  // const isAdmin = await getServerIsAdmin(context);
+  // if (!isAdmin) {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+
   return {
     props: {},
   };
