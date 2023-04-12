@@ -86,7 +86,7 @@ const Home: NextPage = ({
   signOutF,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useEffect(() => {
-    if (signOutF) {
+    if (signOutF == true) {
       void signOut({
         callbackUrl: "/login",
       });
