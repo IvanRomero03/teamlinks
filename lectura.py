@@ -169,6 +169,7 @@ with open('formas_normal.csv', 'r') as file:
 
         proyecto_lista.append(Proyecto(line[10]))
 
+
         
 async def main() -> None:
         db = Prisma()
