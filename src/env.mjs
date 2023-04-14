@@ -22,6 +22,11 @@ const server = z.object({
   AZURE_AD_CLIENT_ID: z.string(),
   AZURE_AD_CLIENT_SECRET: z.string(),
   AZURE_AD_TENANT_ID: z.string(),
+  MAILER_EMAIL: z.string().email(),
+  MAILER_EMAIL_PASSWORD: z.string(),
+  OPENAI_API_KEY: z.string(),
+  SUPABASE_URL: z.string(),
+  SUPABASE_KEY: z.string(),
 });
 
 /**
@@ -46,6 +51,11 @@ const processEnv = {
   AZURE_AD_CLIENT_ID: process.env.AZURE_AD_CLIENT_ID,
   AZURE_AD_CLIENT_SECRET: process.env.AZURE_AD_CLIENT_SECRET,
   AZURE_AD_TENANT_ID: process.env.AZURE_AD_TENANT_ID,
+  MAILER_EMAIL: process.env.MAILER_EMAIL,
+  MAILER_EMAIL_PASSWORD: process.env.MAILER_EMAIL_PASSWORD,
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  SUPABASE_URL: process.env.SUPABASE_URL,
+  SUPABASE_KEY: process.env.SUPABASE_KEY,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 
