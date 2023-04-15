@@ -24,7 +24,7 @@ function Modal({
           className="fixed inset-0 bg-gray-500 opacity-75"
           onClick={handleClose}
         ></div>
-        <div className="relative overflow-hidden rounded-lg bg-white">
+        <div className="relative w-3/4 overflow-hidden rounded-lg bg-white">
           <div className="absolute top-0 right-0 pt-2 pr-2">
             <button
               onClick={handleClose}
@@ -43,7 +43,7 @@ function Modal({
               </svg>
             </button>
           </div>
-          <div className="p-6">{children}</div>
+          <div className=" p-6">{children}</div>
         </div>
       </div>
     </div>
