@@ -6,7 +6,7 @@ import { Database } from "../../../../../types/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
 const addToContext = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.body;
+  const { id } = req.body as { id: string };
   const proyect = await prisma.proyecto.findUniqueOrThrow({
     where: {
       id,
@@ -61,20 +61,6 @@ const addToContext = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ error: errorNewProyect });
   }
   return res.status(200).json({ data: dataNewProyect });
-
-  interface res {
-    error: PostgrestError | null;
-    data: Database["public"]["Tables"]["test_embeddings"]["Row"][] | null;
-  }
-  const { data, error }: res = await supabase.rpc("test_match_vector", {
-    embedding: embeddingValue,
-    match_count: 5,
-    val: contexto,
-  });
-  if (error) {
-    return res.status(500).json({ error });
-  }
-  return res.status(200).json({ data });
 };
 
 export default addToContext;

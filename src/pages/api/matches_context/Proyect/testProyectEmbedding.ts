@@ -9,7 +9,7 @@ const testProyectEmbedding = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { id } = req.body;
+  const { id } = req.body as { id: string };
   const proyect = await prisma.proyecto.findUniqueOrThrow({
     where: {
       id,
@@ -40,15 +40,15 @@ const testProyectEmbedding = async (
     error: PostgrestError | null;
     data: Database["public"]["Tables"]["test_embeddings"]["Row"][] | null;
   }
-  const { data, error }: res = await supabase.rpc("test_match_vector", {
+  const Res = await supabase.rpc("test_match_vector", {
     embedding: embeddingValue,
     match_count: 5,
     val: contexto,
   });
-  if (error) {
-    return res.status(500).json({ error });
+  if (Res.error) {
+    return res.status(500).json({ error: Res.error });
   }
-  return res.status(200).json({ data });
+  return res.status(200).json({ data: Res?.data as res["data"] });
 };
 
 export default testProyectEmbedding;
