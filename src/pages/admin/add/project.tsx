@@ -73,10 +73,6 @@ const FormikForm = () => {
         pos_tot: 0,
         _req: "",
       }}
-      validate={(values) => {
-        const errors = {};
-        return errors;
-      }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         if (session.status === "authenticated") {
