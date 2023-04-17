@@ -1,6 +1,7 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { getServerAuthSession, getServerIsRole } from "y/server/auth";
+import { api } from "y/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -40,6 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Home: NextPage = () => {
+  api.admin.inviteRecruiter
   return (
     <Layout
       Items={[
