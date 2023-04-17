@@ -6,7 +6,8 @@ export const data = [
       date: '15 Minutes ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/css.png'
+      icon: 'images/icons/css.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.", 
     },
     {
       id: 2,
@@ -15,7 +16,8 @@ export const data = [
       date: '23 Minutes ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: 'images/icons/pc.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 3,
@@ -24,7 +26,8 @@ export const data = [
       date: '1 Hour ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/cpp.png'
+      icon: 'images/icons/cpp.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 4,
@@ -33,7 +36,8 @@ export const data = [
       date: '1 Hour ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: 'images/icons/pc.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 5,
@@ -42,7 +46,8 @@ export const data = [
       date: '2 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: 'images/icons/pc.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 6,
@@ -51,7 +56,8 @@ export const data = [
       date: '3 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/js.png'
+      icon: 'images/icons/js.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 7,
@@ -60,7 +66,8 @@ export const data = [
       date: '3 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/js.png'
+      icon: 'images/icons/js.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 8,
@@ -69,7 +76,8 @@ export const data = [
       date: '7 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/cpp.png'
+      icon: 'images/icons/cpp.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 9,
@@ -78,7 +86,8 @@ export const data = [
       date: '1 Day ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: 'images/icons/pc.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
     {
       id: 10,
@@ -87,6 +96,7 @@ export const data = [
       date: '2 Days ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/mop.png'
+      icon: 'images/icons/mop.png',
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae tempus ipsum. Cras id tristique nunc. Cras rhoncus dolor quis finibus tincidunt. Nam nec neque felis. Duis pulvinar sem non neque elementum, eget eleifend dolor efficitur. In eget mollis ante, vitae rutrum tellus. Sed porta, neque a vulputate dapibus, nulla ante consectetur erat, sed mattis massa nulla vel massa. Nulla enim ante, varius eget fermentum ac, hendrerit eget mi. Etiam in tristique purus.",
     },
   ];
