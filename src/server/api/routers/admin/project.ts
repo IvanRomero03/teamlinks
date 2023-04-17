@@ -68,4 +68,32 @@ export const projectRouter = createTRPCRouter({
     });
     return projects;
   }),
+  getProyect: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { id } = input;
+      const project = await ctx.prisma.proyecto.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          Departamento: true,
+          ReclutadorProyectos: {
+            select: {
+              reclutador: {
+                include: {
+                  user: {
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          Requirement: true,
+        },
+      });
+      return project;
+    }),
 });

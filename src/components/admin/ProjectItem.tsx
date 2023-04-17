@@ -1,15 +1,23 @@
+import Link from "next/link";
+
 interface Props {
   name: string;
   department: string;
   progress: number;
+  id: string;
 }
 
-const ProjectItem = ({ name, department, progress }: Props) => {
+const ProjectItem = ({ id, name, department, progress }: Props) => {
   return (
     <div className="m-4 flex min-w-full flex-col rounded-lg bg-white p-4 shadow-lg">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <p className="text-xl font-bold hover:underline">{name}</p>
+          <Link
+            className="text-xl font-bold hover:underline"
+            href={`/admin/project/${id}`}
+          >
+            {name}
+          </Link>
           <p className="text-sm">{department}</p>
         </div>
         <div className="flex flex-col">
