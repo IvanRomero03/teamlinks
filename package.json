@@ -25,20 +25,15 @@
     "next": "^13.2.1",
     "next-auth": "^4.19.0",
     "nodemailer": "^6.9.1",
-<<<<<<< HEAD
-    "react": "^18.2.0",
     "react-collapsed": "^4.0.2",
-    "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "reactstrap": "^9.1.9",
-=======
     "openai": "^3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-unity-webgl": "^8.8.0",
     "recharts": "^2.5.0",
->>>>>>> b2d0a970c10361a1d5cbc5ab18364fb1eddfc2fd
     "superjson": "1.9.1",
     "victory": "^36.6.8",
     "zod": "^3.20.6"
