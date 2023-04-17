@@ -34,25 +34,37 @@ const TopNav = ({ Items }: Props) => {
       }
       onScroll={handleScroll}
     >
-      <div className="flex items-center space-x-2 p-4 align-middle text-white">
-        {Items.map((item) => {
-          return (
-            <Item
-              key={item.section}
-              section={item.section}
-              title={item.title}
-            />
-          );
-        })}
-        <button
-          className="rounded-sm p-3 font-semibold text-white no-underline transition hover:bg-blue-200 hover:text-black"
-          onClick={() => {
-            void signOut();
-            void router.push("/login");
+      <div className="flex w-full flex-row justify-between">
+        <Link
+          href={{
+            pathname: "/",
           }}
         >
-          Sign out
-        </button>
+          <img src="/images/logo.svg" alt="logo" className="w-20" />
+        </Link>
+
+        <div>
+          <div className="flex items-center space-x-2 p-4 align-middle text-white">
+            {Items.map((item) => {
+              return (
+                <Item
+                  key={item.section}
+                  section={item.section}
+                  title={item.title}
+                />
+              );
+            })}
+            <button
+              className="rounded-sm p-3 font-semibold text-white no-underline transition hover:bg-blue-200 hover:text-black"
+              onClick={() => {
+                void signOut();
+                void router.push("/login");
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

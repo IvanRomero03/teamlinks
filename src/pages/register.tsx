@@ -35,7 +35,7 @@ const Login: NextPage = () => {
         }
       }
     }
-  }, [sessionData, query.registerId, invite]);
+  }, [sessionData, query, invite]);
 
   const checkPermitions = () => {
     if (!query.registerId) {
@@ -110,7 +110,7 @@ const Login: NextPage = () => {
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center ">
-        <img src="/images/logos_login.jpg" alt="logo" className="w-1/4" />
+        <img src="/images/logo_login.svg" alt="logo" className="w-1/6" />
         <h2 className="text-3xl font-thin">Register</h2>
         {invite.isFetching && <p>Loading...</p>}
         {invite.isError && <p>Error</p>}
@@ -128,7 +128,7 @@ const Login: NextPage = () => {
                 initialValues={{
                   name: sessionData?.user?.name ?? "",
                   email: invite.data?.email ?? "",
-                  country: "",
+                  country: "Mexico",
                   mainTech: "",
                   secondaryTech: "",
                 }}
@@ -157,10 +157,15 @@ const Login: NextPage = () => {
                     <p>Country</p>
                     <Field
                       name="country"
-                      type="text"
+                      as="select"
                       className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
                       required
-                    />
+                    >
+                      <option value="Mexico">Mexico</option>
+                      <option value="USA">USA</option>
+                      <option value="Canada">Canada</option>
+                    </Field>
+
                     <ErrorMessage name="country" component="div" />
                     <p>Main Tech</p>
                     <Field

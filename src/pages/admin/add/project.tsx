@@ -73,36 +73,31 @@ const FormikForm = () => {
         pos_tot: 0,
         _req: "",
       }}
-      validate={(values) => {
-        const errors = {};
-        return errors;
-      }}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        async () => {
-          if (session.status === "authenticated") {
-            // call the protected procedure inviteRecruiter
-            console.log(values);
-            console.log("aqui");
-            const res = await mutation.mutateAsync({
-              name: values.name,
-              description: values.description,
-              country: values.country,
-              pos_dis: values.pos_dis,
-              pos_tot: values.pos_tot,
-              type: values.type,
-              status: values.status,
-              requirements: values.requirements,
-            });
-            if (res) {
-              console.log("success");
-              //alert("Project created successfully");
-            }
-            resetForm();
-            console.log("mutate");
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        setSubmitting(true);
+        if (session.status === "authenticated") {
+          // call the protected procedure inviteRecruiter
+          console.log(values);
+          console.log("aqui");
+          const res = await mutation.mutateAsync({
+            name: values.name,
+            description: values.description,
+            country: values.country,
+            pos_dis: values.pos_dis,
+            pos_tot: values.pos_tot,
+            type: values.type,
+            status: values.status,
+            requirements: values.requirements,
+          });
+          if (res) {
+            console.log("success");
+            //alert("Project created successfully");
           }
-          //alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        };
+          resetForm();
+          console.log("mutate");
+        }
+        //alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
       }}
     >
       {({ isSubmitting, values, setFieldValue }) => (
@@ -244,13 +239,5 @@ const FormikForm = () => {
         </Form>
       )}
     </Formik>
-  );
-};
-
-const AddRequirement = () => {
-  return (
-    <div className="flex flex-col">
-      <input type="text" />
-    </div>
   );
 };

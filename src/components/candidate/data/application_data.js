@@ -6,7 +6,7 @@ export const data = [
       date: '15 Minutes ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/css.png'
+      icon: '/images/icons/css.png'
     },
     {
       id: 2,
@@ -15,7 +15,7 @@ export const data = [
       date: '23 Minutes ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: '/images/icons/pc.png'
     },
     {
       id: 3,
@@ -24,7 +24,7 @@ export const data = [
       date: '1 Hour ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/cpp.png'
+      icon: '/images/icons/cpp.png'
     },
     {
       id: 4,
@@ -33,7 +33,7 @@ export const data = [
       date: '1 Hour ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: '/images/icons/pc.png'
     },
     {
       id: 5,
@@ -42,7 +42,7 @@ export const data = [
       date: '2 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: '/images/icons/pc.png'
     },
     {
       id: 6,
@@ -51,7 +51,7 @@ export const data = [
       date: '3 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/js.png'
+      icon: '/images/icons/js.png'
     },
     {
       id: 7,
@@ -60,7 +60,7 @@ export const data = [
       date: '3 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/js.png'
+      icon: '/images/icons/js.png'
     },
     {
       id: 8,
@@ -69,7 +69,7 @@ export const data = [
       date: '7 Hours ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/cpp.png'
+      icon: '/images/icons/cpp.png'
     },
     {
       id: 9,
@@ -78,7 +78,7 @@ export const data = [
       date: '1 Day ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/pc.png'
+      icon: '/images/icons/pc.png'
     },
     {
       id: 10,
@@ -87,6 +87,6 @@ export const data = [
       date: '2 Days ago',
       primTech: 'Programming',
       secTech: 'Coding',
-      icon: 'images/icons/mop.png'
+      icon: '/images/icons/mop.png'
     },
   ];

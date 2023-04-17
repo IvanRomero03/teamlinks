@@ -1,7 +1,11 @@
 import { NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { type GetServerSideProps } from "next";
-import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
+import {
+  getServerAuthSession,
+  getServerIsAdmin,
+  getServerIsRole,
+} from "y/server/auth";
 import ProyectSmall from "y/components/admin/ProyectSmall";
 import MemberSmall from "y/components/admin/MemberSmall";
 
@@ -26,6 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
   return {
     props: {},
   };
