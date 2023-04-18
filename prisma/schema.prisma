@@ -39,6 +39,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -47,6 +48,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
@@ -70,17 +73,41 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model CandiadateTechStack {
+    id          String     @id @default(cuid())
+    name        String
+    Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+    candidatoId String?
+
+    @@index([candidatoId])
+}
+
+model CandidateExpirience {
+    id          String     @id @default(cuid())
+    name        String
+    date        DateTime
+    description String
+    position    String
+    employer    String
+    Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+    candidatoId String?
+
+    @@index([candidatoId])
+}
+
 model Candidato {
-    id            String       @id
-    user          User         @relation(fields: [id], references: [id])
-    tecPrincipal  String
-    tecSecundaria String
-    pais          String
-    estado        String
-    ciudad        String
-    experiencia   Int
-    Ranking       Int
-    aplicacion    Aplicacion[]
+    id                  String                @id
+    user                User                  @relation(fields: [id], references: [id])
+    tecPrincipal        String
+    tecSecundaria       String
+    pais                String
+    experiencia         Int
+    Ranking             Int
+    aplicacion          Aplicacion[]
+    CandiadateTechStack CandiadateTechStack[]
+    CandidateExpirience CandidateExpirience[]
+
+    @@index([id])
 }
 
 model Reclutador {
@@ -95,6 +122,10 @@ model Reclutador {
     ReclutadorProyectos ReclutadorProyectos[]
     Admin               Admin                 @relation(fields: [adminId], references: [id])
     adminId             String
+
+    @@index([id])
+    @@index([adminId])
+    @@index([departamentoId])
 }
 
 model Departamento {
@@ -103,6 +134,7 @@ model Departamento {
     proyecto   Proyecto[]
     Admin      Admin[]
     Reclutador Reclutador[]
+    Puestos    Puestos[]
 }
 
 model Admin {
@@ -113,16 +145,27 @@ model Admin {
     departamentoId String?
     Reclutador     Reclutador[]
     Invitation     Invitation[]
+
+    @@index([id])
+    @@index([departamentoId])
 }
 
 model Aplicacion {
-    id            String     @id @default(cuid())
+    id            String      @id @default(cuid())
     nombre        String
-    fechaCreacion DateTime   @default(now())
+    fechaCreacion DateTime    @default(now())
     candidatoId   String
-    candidato     Candidato  @relation(fields: [candidatoId], references: [id])
-    reclutadorId  String
-    reclutador    Reclutador @relation(fields: [reclutadorId], references: [id])
+    candidato     Candidato   @relation(fields: [candidatoId], references: [id])
+    reclutadorId  String?
+    reclutador    Reclutador? @relation(fields: [reclutadorId], references: [id])
+    estatus       String
+    fechaEstatus  DateTime    @updatedAt
+    Puestos       Puestos?    @relation(fields: [puestosId], references: [id])
+    puestosId     String?
+
+    @@index([candidatoId])
+    @@index([reclutadorId])
+    @@index([puestosId])
 }
 
 model MustHaves {
@@ -130,26 +173,33 @@ model MustHaves {
     name      String
     Puestos   Puestos? @relation(fields: [puestosId], references: [id])
     puestosId String?
+
+    @@index([puestosId])
 }
 
 model Puestos {
-    id                       String      @id
+    id                       String        @id @default(cuid())
     jobTitle                 String
-    descripcion              String
+    descripcion              String        @db.Text
     tipo                     String
     employee                 Boolean
     contractor               Boolean
-    deptOrgFieldValue        String
     Genus                    String
     hireCategory             String
     mustHaves                MustHaves[]
     estatus                  String?
-    fechaCreacion            DateTime    @default(now())
-    fechaEstatusChange       DateTime    @updatedAt
+    fechaCreacion            DateTime      @default(now())
+    fechaEstatusChange       DateTime      @updatedAt
     numPosiciones            Int
     numPosicionesDisponibles Int
     proyectoId               String
-    proyecto                 Proyecto    @relation(fields: [proyectoId], references: [id])
+    proyecto                 Proyecto      @relation(fields: [proyectoId], references: [id])
+    Aplicacion               Aplicacion[]
+    Departamento             Departamento? @relation(fields: [departamentoId], references: [id])
+    departamentoId           String?
+
+    @@index([proyectoId])
+    @@index([departamentoId])
 }
 
 model ReclutadorProyectos {
@@ -158,12 +208,15 @@ model ReclutadorProyectos {
     proyecto     Proyecto   @relation(fields: [proyectoId], references: [id])
     reclutadorId String
     proyectoId   String
+
+    @@index([reclutadorId])
+    @@index([proyectoId])
 }
 
 model Proyecto {
     id                  String                @id @default(cuid())
     nombre              String
-    descripcion         String
+    descripcion         String                @db.Text
     pais                String
     type                String
     estatus             String?
@@ -178,6 +231,9 @@ model Proyecto {
     departamentoId      String?
     Requirement         Requirement[]
     ReclutadorProyectos ReclutadorProyectos[]
+
+    @@index([adminId])
+    @@index([departamentoId])
 }
 
 model Requirement {
@@ -185,6 +241,8 @@ model Requirement {
     name       String
     Proyecto   Proyecto? @relation(fields: [proyectoId], references: [id])
     proyectoId String?
+
+    @@index([proyectoId])
 }
 
 model Invitation {
@@ -193,4 +251,6 @@ model Invitation {
     email     String
     createdAt DateTime @default(now())
     adminId   String
+
+    @@index([adminId])
 }
