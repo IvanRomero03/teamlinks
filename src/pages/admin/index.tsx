@@ -1,14 +1,18 @@
 import { NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { type GetServerSideProps } from "next";
-import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
+import {
+  getServerAuthSession,
+  getServerIsAdmin,
+  getServerIsRole,
+} from "y/server/auth";
 import ProyectSmall from "y/components/admin/ProyectSmall";
 import MemberSmall from "y/components/admin/MemberSmall";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerAuthSession(context);
-  const isAdmin = await getServerIsAdmin(context);
-  if (!session || !isAdmin) {
+
+  if (!session) {
     return {
       redirect: {
         destination: "/",
@@ -16,6 +20,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
+  const isAdmin = await getServerIsAdmin(context);
+  if (!isAdmin) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {},
   };

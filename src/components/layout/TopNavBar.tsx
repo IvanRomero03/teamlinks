@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface Item {
   section: string;
@@ -12,6 +14,7 @@ interface Props {
 const TopNav = ({ Items }: Props) => {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const router = useRouter();
   const handleScroll = () => {
     const currentScrollPos = window.pageYOffset;
     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
@@ -31,16 +34,37 @@ const TopNav = ({ Items }: Props) => {
       }
       onScroll={handleScroll}
     >
-      <div className="flex items-center p-4 align-middle text-white">
-        {Items.map((item) => {
-          return (
-            <Item
-              key={item.section}
-              section={item.section}
-              title={item.title}
-            />
-          );
-        })}
+      <div className="flex w-full flex-row justify-between">
+        <Link
+          href={{
+            pathname: "/",
+          }}
+        >
+          <img src="/images/logo.svg" alt="logo" className="w-20" />
+        </Link>
+
+        <div>
+          <div className="flex items-center space-x-2 p-4 align-middle text-white">
+            {Items.map((item) => {
+              return (
+                <Item
+                  key={item.section}
+                  section={item.section}
+                  title={item.title}
+                />
+              );
+            })}
+            <button
+              className="rounded-sm p-3 font-semibold text-white no-underline transition hover:bg-blue-200 hover:text-black"
+              onClick={() => {
+                void signOut();
+                void router.push("/login");
+              }}
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -55,7 +79,7 @@ const Item = ({ section, title }: { section: string; title: string }) => {
         pathname: "/" + section,
       }}
     >
-      <p className="rounded-md p-4 text-white hover:bg-blue-200 hover:bg-opacity-10 hover:text-blue-400">
+      <p className="rounded-md p-3 text-white hover:bg-blue-200 hover:bg-opacity-10 hover:text-blue-400">
         {title}
       </p>
     </Link>

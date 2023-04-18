@@ -12,6 +12,10 @@ export const getInviteRouter = createTRPCRouter({
       const { id } = input;
       const invitation = await ctx.prisma.invitation.findUnique({
         where: { id },
+        select: {
+          id: true,
+          email: true,
+        },
       });
       return invitation;
     }),

@@ -5,6 +5,8 @@ import { type GetServerSideProps } from "next";
 import { api } from "y/utils/api";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Reclutador, ReclutadorProyectos } from "@prisma/client";
+import { Field, Form, Formik } from "formik";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isAdmin = await getServerIsAdmin(ctx);
@@ -35,35 +37,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 // Page for the admin to view the specific project, edit it, and assign recruiters to it
 const ProjectPage: NextPage = () => {
-  const dataPlaceholder = {
-    id: 1,
-    name: "Project 1",
-    description: "This is a project",
-    country: "USA",
-    status: "Active",
-    type: "Onsite",
-    startDate: "2021-01-01",
-    endDate: "2021-01-01",
-    recruiters: [
-      {
-        id: 1,
-        name: "Recruiter 1",
-      },
-    ],
-    positions: [
-      {
-        id: 1,
-        name: "Position 1",
-        total_positions: 2,
-        opened_positions: 10,
-        percentage: 20,
-      },
-    ],
-  };
   const router = useRouter();
   const { id } = router.query;
 
-  const [data, setData] = useState(dataPlaceholder);
+  const { data, isError, isLoading } =
+    api.admin.projectRouter.getProyect.useQuery({
+      id: id as string,
+    });
 
   return (
     <Layout
@@ -74,67 +54,277 @@ const ProjectPage: NextPage = () => {
       ]}
     >
       <div className="mt-32 flex min-w-full justify-center">
-        {/** Show normal info first */}
-        <div className="w-2/4 rounded-lg p-10 shadow-lg">
-          <div className="flex items-center justify-between align-middle">
-            <h1 className="mb-6 text-3xl font-bold text-white">Project</h1>
-            <p className="text-white">ID: {data.id}</p>
-            <p className="text-white">Status: {data.status}</p>
-            <p className="text-white">Type: {data.type}</p>
-
-            <button
-              className="rounded-md bg-emerald-400 p-2"
-              onClick={() => {
-                void router.push("/admin/edit/project", "/edit/project");
-              }}
-            >
-              Edit
-            </button>
-          </div>
-          <div className="flex flex-col">
-            <p className="text-white">Name: {data.name}</p>
-            <p className="text-white">Description: {data.description}</p>
-            <p className="text-white">Country: {data.country}</p>
-            <p className="text-white">Start Date: {data.startDate}</p>
-            <p className="text-white">End Date: {data.endDate}</p>
-          </div>
-          <div className="flex flex-col">
-            <h1 className="mb-6 text-3xl font-bold text-white">Recruiters</h1>
-            {data.recruiters.map((recruiter) => (
-              <div className="flex flex-row" key={recruiter.id}>
-                <p className="text-white">ID: {recruiter.id}</p>
-                <p className="text-white">Name: {recruiter.name}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex flex-col">
-            <h1 className="mb-6 text-3xl font-bold text-white">Positions</h1>
-            {data.positions.map((position) => (
-              <div className="flex flex-col" key={position.id}>
-                <p className="text-white">ID: {position.id}</p>
-                <p className="text-white">Name: {position.name}</p>
-                {/** Progress bar with percentage*/}
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Error</div>
+        ) : (
+          data && (
+            <>
+              <div className="w-2/4 rounded-lg p-10 shadow-lg">
+                <div className="flex items-center justify-between align-middle">
+                  <h1 className="mb-6 text-3xl font-bold text-white">
+                    {data.nombre}
+                  </h1>
+                  <button
+                    className="rounded-md bg-emerald-400 p-2"
+                    onClick={() => {
+                      void router.push(`/admin/edit/project/${String(id)}`);
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
                 <div className="flex flex-col">
-                  <p className="text-white">
-                    Total Positions: {position.total_positions}
-                  </p>
-                  <p className="text-white">
-                    Opened Positions: {position.opened_positions}
-                  </p>
-                  <p className="text-white">
-                    Percentage: {position.percentage}%
-                  </p>
-                  <div className="h-2 w-32 rounded-full bg-white">
-                    <div className="h-full w-1/2 rounded-full bg-emerald-400"></div>
+                  <div className="flex flex-row">
+                    {/** Project Creation Date */}
+                    <p className="text-xl font-bold text-white">
+                      Creation Date: {String(data.fechaCreacion)}
+                    </p>
+                    {/** Project status and type as a badge */}
+                    {/** Status is Open or Closed */}
+                    <div
+                      className={`${
+                        data.estatus === "Abierto"
+                          ? "bg-emerald-400"
+                          : "bg-red-400"
+                      } m-4 rounded-md p-2`}
+                    >
+                      <p className="text-xl font-bold text-white">
+                        {data.estatus}
+                      </p>
+                    </div>
+                    {/** Type is either Onsite or Remote */}
+                    <div
+                      className={`${
+                        data.type === "Onsite" ? "bg-blue-400" : "bg-violet-400"
+                      } m-4 rounded-md p-2 `}
+                    >
+                      <p className="text-xl font-bold text-white">
+                        {data.type}
+                      </p>
+                    </div>
                   </div>
+                  {/** Project Description */}
+                  <div className="my-4">
+                    <h3 className="my-2 text-xl font-bold text-white">
+                      Descripcion:
+                    </h3>
+                    <p className="text-md font-bold text-white">
+                      {data.descripcion}
+                    </p>
+                  </div>
+                  {/** Project Requirements */}
+                  {data.Requirement.length > 0 && (
+                    <div className="my-4">
+                      <h3 className="my-2 text-xl font-bold text-white">
+                        Requerimientos:
+                      </h3>
+                      {/** Iterate random colors */}
+                      {data.Requirement.map((req, index) => (
+                        <div
+                          className={`${
+                            index % 2 === 0 ? "bg-blue-400" : "bg-violet-400"
+                          } m-4 rounded-md p-2`}
+                          key={req.id}
+                        >
+                          <p className="text-xl font-bold text-white">
+                            {req.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/** Project Recruiters */}
+                  <ReacruitersComponent recruiters={data.ReclutadorProyectos} />
+                  {/**
+                     * data.ReclutadorProyectos
+                     * (property) ReclutadorProyectos: {
+                            reclutador: Reclutador & {
+                                user: {
+                                    name: string | null;
+                                };
+                            };
+                        }[]
+
+                        equals to:
+
+                        interface ReclutadorProyectosProps {
+                          reclutador: Reclutador & {
+                            user: {
+                              name: string | null;
+                            };
+                          };
+                        }
+                     */}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+            </>
+          )
+        )}
       </div>
     </Layout>
   );
 };
 
 export default ProjectPage;
+
+const ReacruitersComponent = ({
+  recruiters,
+}: {
+  recruiters: {
+    reclutador: Reclutador & {
+      user: {
+        name: string | null;
+      };
+    };
+  }[];
+}) => {
+  const [isEditing, setEditing] = useState(false);
+  const [data, setData] = useState(recruiters);
+  const { data: allRecruiters } = api.admin.recruiters.getTeam.useQuery();
+  const handleSave = () => {
+    setEditing(false);
+    // new recruiters (the ones that where not on recruiters prop)
+    // const newRecruiters = data.filter(
+    //   (rec: any) => !recruiters.find((r: any) => r.id === rec.id)
+    // );
+    // // deleted recruiters (the ones that where on recruiters prop but are not on data)
+    // const deletedRecruiters = recruiters.filter(
+    //   (rec: any) => !data.find((r: any) => r.id === rec.id)
+    // );
+    // update recruiters
+  };
+  return (
+    <div className="flex flex-col">
+      <div className="flex flex-row justify-between">
+        <h3 className="my-2 text-xl font-bold text-white">Recruiters:</h3>
+        {
+          // If the user is editing, show the save button
+          isEditing ? (
+            <button
+              className="rounded-md bg-emerald-400 p-2"
+              onClick={handleSave}
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              className="rounded-md bg-emerald-400 p-2"
+              onClick={() => setEditing(true)}
+            >
+              Edit
+            </button>
+          )
+        }
+      </div>
+      {!isEditing ? (
+        <div className="my-4">
+          {data.map((rec, index) => (
+            <div
+              className={`${
+                index % 2 === 0 ? "bg-blue-400" : "bg-violet-400"
+              } m-4 rounded-md p-2`}
+              key={rec.reclutador.id}
+            >
+              <p className="text-xl font-bold text-white">
+                {rec.reclutador.user.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="my-4">
+          {data.map((rec, index: number) => (
+            <div
+              className={`${
+                index % 2 === 0 ? "bg-blue-400" : "bg-violet-400"
+              } items-centers m-4 flex flex-row justify-between rounded-md p-2 text-center align-middle`}
+              key={rec.reclutador.id}
+            >
+              <p className="text-xl font-bold text-white">
+                {rec.reclutador.user.name}
+              </p>
+
+              {/* Delete From list */}
+              <button
+                className="rounded-md bg-red-500 p-2"
+                onClick={() => {
+                  setData(
+                    data.filter((r) => r.reclutador.id !== rec.reclutador.id)
+                  );
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+
+          {/* Add to list */}
+          <h3 className="my-2 text-xl font-bold text-white">
+            Add a Recruiter:
+          </h3>
+          <Formik
+            initialValues={{
+              recruiter:
+                (allRecruiters?.length &&
+                  allRecruiters?.length > 0 &&
+                  allRecruiters[0]?.id) ||
+                "",
+            }}
+            onSubmit={(values) => {
+              const idRecruiter = values.recruiter;
+              const recruiter = allRecruiters?.find(
+                (rec) => rec.id === idRecruiter
+              );
+              setData([
+                ...data,
+                {
+                  reclutador: {
+                    id: recruiter?.id as string,
+                    adminId: recruiter?.adminId as string,
+                    country: recruiter?.country as string,
+                    departamentoId: recruiter?.departamentoId as string,
+                    tecPrincipal: recruiter?.tecPrincipal as string,
+                    tecSecundaria: recruiter?.tecSecundaria as string,
+                    user: {
+                      name: String(recruiter?.user.name),
+                    },
+                  },
+                },
+              ]);
+            }}
+          >
+            {({ values, handleChange, handleSubmit }) => (
+              <Form>
+                <div className="flex flex-row">
+                  <Field
+                    as="select"
+                    name="recruiter"
+                    id="recruiter"
+                    className="rounded-md p-2"
+                    placeholder="Add a Recruiter"
+                    required
+                  >
+                    {allRecruiters?.map((rec) => (
+                      <option value={rec.id} key={rec.id}>
+                        {rec.user.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <button
+                    className="rounded-md bg-emerald-400 p-2"
+                    type="submit"
+                  >
+                    Add
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      )}
+    </div>
+  );
+};

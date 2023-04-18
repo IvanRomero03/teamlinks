@@ -29,11 +29,19 @@ interface Project {
   description: string;
 }
 
+<<<<<<< HEAD
 const projectData: any[] = [
   { id: "001", name: "Diego Guerra", description: "mock perfil 1" },
   { id: "002", name: "Diana Cruz", description: "mock perfil 2" },
   { id: "003", name: "Margarita Parra", description: "mock perfil 3" },
   { id: "004", name: "Andrés ", description: "mock perfil 4" },
+=======
+const projectData = [
+  { id: "001", name: "perfil 1", description: "mock perfil 1" },
+  { id: "002", name: "perfil 2", description: "mock perfil 2" },
+  { id: "003", name: "perfil 3", description: "mock perfil 3" },
+  { id: "004", name: "perfil 4", description: "mock perfil 4" },
+>>>>>>> e01a560db055c6c7939e5fa2037ae372d8bda461
 ];
 
 const Applications: NextPage = () => {

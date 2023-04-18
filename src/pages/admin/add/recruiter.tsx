@@ -63,10 +63,6 @@ const FormikForm = () => {
   return (
     <Formik
       initialValues={{ email: "" }}
-      validate={(values) => {
-        const errors = {};
-        return errors;
-      }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           if (session.status === "authenticated") {

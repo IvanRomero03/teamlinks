@@ -82,6 +82,9 @@ export const getServerIsAdmin = async (ctx: {
 }) => {
   const session = await getServerAuthSession(ctx);
   const user = session?.user.id;
+  if (!user) {
+    return null;
+  }
   const isAdmin = await prisma.admin.findUnique({
     where: {
       id: user,
@@ -124,21 +127,33 @@ export const getServerIsRole = async (ctx: {
 }) => {
   const session = await getServerAuthSession(ctx);
   const user = session?.user.id;
+  if (!user) {
+    return null;
+  }
   const isAdmin = await prisma.admin.findUnique({
     where: {
       id: user,
     },
   });
+  if (isAdmin) {
+    return "admin";
+  }
   const isRecruiter = await prisma.reclutador.findUnique({
     where: {
       id: user,
     },
   });
+  if (isRecruiter) {
+    return "recruiter";
+  }
   const isCandidate = await prisma.candidato.findUnique({
     where: {
       id: user,
     },
   });
+  if (isCandidate) {
+    return "candidate";
+  }
   const isRole = isAdmin || isRecruiter || isCandidate;
   return isRole;
 };

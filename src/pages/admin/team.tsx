@@ -3,6 +3,7 @@ import { getServerAuthSession } from "y/server/auth";
 import { NextPage, type GetServerSideProps } from "next";
 import MemberItem from "y/components/admin/MemberItem";
 import { useRouter } from "next/router";
+import { api } from "y/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -24,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
   const router = useRouter();
+  const { data, isError, isLoading } = api.admin.recruiters.getTeam.useQuery();
   const handleNewMember = () => {
     void router.push("/admin/add/recruiter");
   };
@@ -38,6 +40,9 @@ const Admin: NextPage = () => {
       {/** Team sercher and add new member on top, and members after */}
       <div className="mt-32 flex min-w-full justify-center">
         <div className=" flex w-3/4 flex-col justify-center">
+          <h1 className="mb-6 text-3xl font-bold text-white">
+            My Recruitment Team
+          </h1>
           <div className="flex flex-row justify-between">
             {/** Search bar */}
             <div className="flex flex-row space-x-8">
@@ -59,30 +64,23 @@ const Admin: NextPage = () => {
           {/** Members */}
           <div className="mt-10 flex w-3/4 flex-col justify-center">
             <div className="flex flex-col ">
-              <MemberItem
-                name="John Doe"
-                category="Techologies of Information"
-                progress={75}
-                proyects={["Proyect 1", "Proyect 2", "Proyect 3"]}
-              />
-              <MemberItem
-                name="Jose Perez"
-                category="Techologies of Information"
-                progress={68}
-                proyects={["Proyect 1", "Proyect 2", "Proyect 3"]}
-              />
-              <MemberItem
-                name="Juan Perez"
-                category="Engineering"
-                progress={49}
-                proyects={["Proyect 1", "Proyect 2", "Proyect 3"]}
-              />
-              <MemberItem
-                name="George Washington"
-                category="Human Resources"
-                progress={95}
-                proyects={["Proyect 1", "Proyect 2", "Proyect 3"]}
-              />
+              {isLoading ? (
+                <div>Loading...</div>
+              ) : isError ? (
+                <div>Error</div>
+              ) : (
+                data?.map((member) => (
+                  <MemberItem
+                    name={member.user.name ?? "No name"}
+                    category={member.tecPrincipal}
+                    progress={Math.floor(Math.random() * 100)}
+                    proyects={member.ReclutadorProyectos.map(
+                      (proyect) => proyect.proyecto.nombre
+                    )}
+                    key={member.id}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>
