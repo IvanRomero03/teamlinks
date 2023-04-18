@@ -14,7 +14,14 @@ import {
 } from "react-icons/ri";
 import { useState } from "react";
 
-//import Unity, { UnityContext } from "react-unity-webgl";
+import Unity, { UnityContext } from "react-unity-webgl";
+
+const unityContext = new UnityContext({
+  loaderUrl: "build/build.loader.js",
+  dataUrl: "build/build.data",
+  frameworkUrl: "build/build.framework.js",
+  codeUrl: "build/build.wasm",
+});
 
 interface Project {
   id: string;
@@ -23,10 +30,10 @@ interface Project {
 }
 
 const projectData: any[] = [
-  { id: "001", name: "perfil 1", description: "mock perfil 1" },
-  { id: "002", name: "perfil 2", description: "mock perfil 2" },
-  { id: "003", name: "perfil 3", description: "mock perfil 3" },
-  { id: "004", name: "perfil 4", description: "mock perfil 4" },
+  { id: "001", name: "Diego Guerra", description: "mock perfil 1" },
+  { id: "002", name: "Diana Cruz", description: "mock perfil 2" },
+  { id: "003", name: "Margarita Parra", description: "mock perfil 3" },
+  { id: "004", name: "Andrés ", description: "mock perfil 4" },
 ];
 
 const Applications: NextPage = () => {
@@ -70,6 +77,17 @@ const Applications: NextPage = () => {
         { title: "Applications", section: "recruiter/applications" },
       ]}
     >
+      <div className="Carousel">
+        <Unity
+          style={{
+            width: "60%",
+            height: "80%",
+            justifySelf: "center",
+            alignSelf: "center",
+          }}
+          unityContext={unityContext}
+        />
+      </div>
       <div className="mt-32 flex min-w-full flex-row justify-center gap-1">
         <div
           className={
@@ -107,7 +125,7 @@ const Applications: NextPage = () => {
           </div>
           <div className="flex h-[32rem] flex-col gap-2 overflow-hidden overflow-y-scroll p-5">
             <h1>Perfil</h1>
-            <p>perfil data</p>
+            <p>Description</p>
           </div>
         </div>
       </div>
