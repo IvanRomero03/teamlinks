@@ -149,7 +149,7 @@ export const addToContextRouter = createTRPCRouter({
         id: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       return null;
     }),
   addRecruiter: protectedProcedure
@@ -166,8 +166,12 @@ export const addToContextRouter = createTRPCRouter({
         },
         select: {
           Departamento: true,
-          tecPrincipal: true,
-          tecSecundaria: true,
+          description: true,
+          RecruiterTechStack: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
       // check if recruiter is already in context
@@ -184,9 +188,9 @@ export const addToContextRouter = createTRPCRouter({
       const contexto =
         (recruiter?.Departamento?.nombre ?? "") +
         " " +
-        recruiter.tecPrincipal +
+        recruiter.description +
         " " +
-        recruiter.tecSecundaria;
+        recruiter.RecruiterTechStack.map((req) => req.name).join(" ");
 
       const embedding = await openai.createEmbedding({
         model: "text-embedding-ada-002",

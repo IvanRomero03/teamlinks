@@ -13,6 +13,11 @@ export const recruitersRouter = createTRPCRouter({
             name: true,
           },
         },
+        Departamento: {
+          select: {
+            nombre: true,
+          },
+        },
         ReclutadorProyectos: {
           select: {
             proyecto: {

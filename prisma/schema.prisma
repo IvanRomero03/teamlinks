@@ -110,18 +110,27 @@ model Candidato {
     @@index([id])
 }
 
+model RecruiterTechStack {
+    id           String     @id @default(cuid())
+    name         String
+    Reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
+    reclutadorId String
+
+    @@index([reclutadorId])
+}
+
 model Reclutador {
     id                  String                @id
     user                User                  @relation(fields: [id], references: [id])
     country             String
-    tecPrincipal        String
-    tecSecundaria       String
+    description         String                @db.Text
     aplicacion          Aplicacion[]
     Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
     departamentoId      String?
     ReclutadorProyectos ReclutadorProyectos[]
     Admin               Admin                 @relation(fields: [adminId], references: [id])
     adminId             String
+    RecruiterTechStack  RecruiterTechStack[]
 
     @@index([id])
     @@index([adminId])

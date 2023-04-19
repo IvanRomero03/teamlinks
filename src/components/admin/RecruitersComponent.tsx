@@ -112,8 +112,7 @@ const ReacruitersComponent = ({
                     adminId: recruiter?.adminId as string,
                     country: recruiter?.country as string,
                     departamentoId: recruiter?.departamentoId as string,
-                    tecPrincipal: recruiter?.tecPrincipal as string,
-                    tecSecundaria: recruiter?.tecSecundaria as string,
+                    description: recruiter?.description as string,
                     user: {
                       name: String(recruiter?.user.name),
                     },

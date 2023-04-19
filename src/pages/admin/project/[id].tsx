@@ -54,8 +54,6 @@ const ProjectPage: NextPage = () => {
       id: id as string,
     });
 
-  useEffect(() => {});
-
   const mutation = api.admin.positions.createPosition.useMutation();
 
   const [puestoTypeTemp, setPuestoTypeTemp] = useState<Puestos>();
