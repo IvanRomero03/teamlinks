@@ -17,7 +17,7 @@ const Candidate: NextPage = () => {
         ]}
       >
         {data.map((user) => (
-          <div className="pt-20" key={user.id}>
+          <div className="pt-20">
             <div className="flex-col px-4 pt-4 text-3xl font-bold text-white">
               <h1 className="pb-2">My Dashboard</h1>
               <h1>Welcome, {user.firstName}</h1>

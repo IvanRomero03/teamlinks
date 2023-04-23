@@ -42,7 +42,7 @@ const orders = () => {
                   </div>
                   <p className='hidden md:flex'>Under Construction</p>
                   <p className='hidden md:flex'>{application.date}</p>
-                  <p className='text-gray-600 sm:text-left text-right'>
+                  <p className='text-black sm:text-left text-right'>
                     <span
                       className={(application.status === 'Not Selected' ? 'p-1 rounded-lg bg-red-400 w-fit' : 
                       application.status === 'Selected' ? 'p-1 rounded-lg bg-green-400 w-fit' :
