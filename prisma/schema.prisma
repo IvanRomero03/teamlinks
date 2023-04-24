@@ -1,15 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider     = "mysql"
+  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+  // Further reading:
+  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
+model Example {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Necessary for Next auth
 model Account {
-  id                String  @id
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -22,184 +36,33 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
   ext_expires_in    Int?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
 }
 
-model Admin {
-  id             String  @id
-  departamentoId String?
-
-  @@index([departamentoId])
-  @@index([id])
-}
-
-model Aplicacion {
-  id            String   @id
-  nombre        String
-  fechaCreacion DateTime @default(now())
-  candidatoId   String
-  reclutadorId  String?
-  estatus       String
-  fechaEstatus  DateTime
-  puestosId     String?
-
-  @@index([candidatoId])
-  @@index([puestosId])
-  @@index([reclutadorId])
-}
-
-model CandiadateTechStack {
-  id          String  @id
-  name        String
-  candidatoId String?
-
-  @@index([candidatoId])
-}
-
-model CandidateExpirience {
-  id          String   @id
-  name        String
-  date        DateTime
-  description String
-  position    String
-  employer    String
-  candidatoId String?
-
-  @@index([candidatoId])
-}
-
-model Candidato {
-  id            String @id
-  tecPrincipal  String
-  tecSecundaria String
-  pais          String
-  experiencia   Int
-  Ranking       Int
-
-  @@index([id])
-}
-
-model Departamento {
-  id     String @id
-  nombre String
-}
-
-model Example {
-  id        String   @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-}
-
-model Invitation {
-  id        String   @id
-  email     String
-  createdAt DateTime @default(now())
-  adminId   String
-
-  @@index([adminId])
-}
-
-model MustHaves {
-  id        String  @id
-  name      String
-  puestosId String?
-
-  @@index([puestosId])
-}
-
-model Proyecto {
-  id                 String   @id
-  nombre             String
-  descripcion        String   @db.Text
-  pais               String
-  type               String
-  estatus            String?
-  fechaCreacion      DateTime @default(now())
-  fechaEstatusChange DateTime
-  adminId            String
-  numPosicionesTot   Int
-  numPosicionesDis   Int
-  departamentoId     String?
-
-  @@index([adminId])
-  @@index([departamentoId])
-}
-
-model Puestos {
-  id                       String   @id
-  jobTitle                 String
-  descripcion              String   @db.Text
-  tipo                     String
-  employee                 Boolean
-  contractor               Boolean
-  Genus                    String
-  hireCategory             String
-  estatus                  String?
-  fechaCreacion            DateTime @default(now())
-  fechaEstatusChange       DateTime
-  numPosiciones            Int
-  numPosicionesDisponibles Int
-  proyectoId               String
-  departamentoId           String?
-
-  @@index([departamentoId])
-  @@index([proyectoId])
-}
-
-model Reclutador {
-  id             String  @id
-  country        String
-  departamentoId String?
-  adminId        String
-  description    String  @db.Text
-
-  @@index([adminId])
-  @@index([departamentoId])
-  @@index([id])
-}
-
-model ReclutadorProyectos {
-  id           String @id
-  reclutadorId String
-  proyectoId   String
-
-  @@index([proyectoId])
-  @@index([reclutadorId])
-}
-
-model RecruiterTechStack {
-  id           String @id
-  name         String
-  reclutadorId String
-
-  @@index([reclutadorId])
-}
-
-model Requirement {
-  id         String  @id
-  name       String
-  proyectoId String?
-
-  @@index([proyectoId])
-}
-
 model Session {
-  id           String   @id
+  id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model User {
-  id            String    @id
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
+  accounts      Account[]
+  sessions      Session[]
+  candidato     Candidato?
+  reclutador    Reclutador?
+  admin         Admin?
 }
 
 model VerificationToken {
@@ -208,4 +71,196 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model CandiadateTechStack {
+  id          String     @id @default(cuid())
+  name        String
+  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+  candidatoId String?
+
+  @@index([candidatoId])
+}
+
+model CandidateExpirience {
+  id          String     @id @default(cuid())
+  name        String
+  date        DateTime
+  description String
+  position    String
+  employer    String
+  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+  candidatoId String?
+
+  @@index([candidatoId])
+}
+
+model Candidato {
+  id                  String                @id
+  user                User                  @relation(fields: [id], references: [id])
+  pais                String
+  title               String
+  phone               String
+  description         String                @db.Text
+  experiencia         Int?
+  Ranking             Int?
+  aplicacion          Aplicacion[]
+  CandiadateTechStack CandiadateTechStack[]
+  CandidateExpirience CandidateExpirience[]
+
+  @@index([id])
+}
+
+model RecruiterTechStack {
+  id           String     @id @default(cuid())
+  name         String
+  Reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
+  reclutadorId String
+
+  @@index([reclutadorId])
+}
+
+model Reclutador {
+  id                  String                @id
+  user                User                  @relation(fields: [id], references: [id])
+  country             String
+  description         String                @db.Text
+  aplicacion          Aplicacion[]
+  Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
+  departamentoId      String?
+  ReclutadorProyectos ReclutadorProyectos[]
+  Admin               Admin                 @relation(fields: [adminId], references: [id])
+  adminId             String
+  RecruiterTechStack  RecruiterTechStack[]
+
+  @@index([id])
+  @@index([adminId])
+  @@index([departamentoId])
+}
+
+model Departamento {
+  id         String       @id @default(cuid())
+  nombre     String
+  proyecto   Proyecto[]
+  Admin      Admin[]
+  Reclutador Reclutador[]
+  Puestos    Puestos[]
+}
+
+model Admin {
+  id             String        @id
+  user           User          @relation(fields: [id], references: [id])
+  proyecto       Proyecto[]
+  Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
+  departamentoId String?
+  Reclutador     Reclutador[]
+  Invitation     Invitation[]
+
+  @@index([id])
+  @@index([departamentoId])
+}
+
+model Aplicacion {
+  id            String      @id @default(cuid())
+  nombre        String
+  fechaCreacion DateTime    @default(now())
+  candidatoId   String
+  candidato     Candidato   @relation(fields: [candidatoId], references: [id])
+  reclutadorId  String?
+  reclutador    Reclutador? @relation(fields: [reclutadorId], references: [id])
+  estatus       String
+  fechaEstatus  DateTime    @updatedAt
+  Puestos       Puestos?    @relation(fields: [puestosId], references: [id])
+  puestosId     String?
+
+  @@index([candidatoId])
+  @@index([reclutadorId])
+  @@index([puestosId])
+}
+
+model MustHaves {
+  id        String   @id @default(cuid())
+  name      String
+  Puestos   Puestos? @relation(fields: [puestosId], references: [id])
+  puestosId String?
+
+  @@index([puestosId])
+}
+
+model Puestos {
+  id                       String        @id @default(cuid())
+  jobTitle                 String
+  descripcion              String        @db.Text
+  tipo                     String
+  employee                 Boolean
+  contractor               Boolean
+  Genus                    String
+  hireCategory             String
+  mustHaves                MustHaves[]
+  estatus                  String?
+  fechaCreacion            DateTime      @default(now())
+  fechaEstatusChange       DateTime      @updatedAt
+  numPosiciones            Int
+  numPosicionesDisponibles Int
+  proyectoId               String
+  proyecto                 Proyecto      @relation(fields: [proyectoId], references: [id])
+  Aplicacion               Aplicacion[]
+  Departamento             Departamento? @relation(fields: [departamentoId], references: [id])
+  departamentoId           String?
+
+  @@index([proyectoId])
+  @@index([departamentoId])
+}
+
+model ReclutadorProyectos {
+  id           String     @id @default(cuid())
+  reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
+  proyecto     Proyecto   @relation(fields: [proyectoId], references: [id])
+  reclutadorId String
+  proyectoId   String
+
+  @@index([reclutadorId])
+  @@index([proyectoId])
+}
+
+model Proyecto {
+  id                  String                @id @default(cuid())
+  nombre              String
+  descripcion         String                @db.Text
+  pais                String
+  type                String
+  estatus             String?
+  fechaCreacion       DateTime              @default(now())
+  fechaEstatusChange  DateTime              @updatedAt
+  adminId             String
+  admin               Admin                 @relation(fields: [adminId], references: [id])
+  numPosicionesTot    Int
+  numPosicionesDis    Int
+  puesto              Puestos[]
+  Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
+  departamentoId      String?
+  Requirement         Requirement[]
+  ReclutadorProyectos ReclutadorProyectos[]
+
+  @@index([adminId])
+  @@index([departamentoId])
+}
+
+model Requirement {
+  id         String    @id @default(cuid())
+  name       String
+  Proyecto   Proyecto? @relation(fields: [proyectoId], references: [id])
+  proyectoId String?
+
+  @@index([proyectoId])
+}
+
+model Invitation {
+  id        String   @id @default(cuid())
+  Admin     Admin    @relation(fields: [adminId], references: [id])
+  email     String
+  createdAt DateTime @default(now())
+  adminId   String
+
+  @@index([adminId])
 }
