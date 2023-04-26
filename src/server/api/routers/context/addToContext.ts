@@ -303,7 +303,7 @@ export const addToContextRouter = createTRPCRouter({
     }
     if (recruiter[0]?.vector) {
       const res = await supabase.rpc("recruiter_applicants_matches", {
-        vector: recruiter,
+        vector: recruiter[0].vector,
         match_count: 10,
       });
       return res;
