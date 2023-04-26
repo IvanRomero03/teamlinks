@@ -55,6 +55,7 @@ const ProjectPage: NextPage = () => {
     });
 
   const mutation = api.admin.positions.createPosition.useMutation();
+  const contextMutation = api.context.addPosition.useMutation();
 
   const [puestoTypeTemp, setPuestoTypeTemp] = useState<Puestos>();
 
@@ -198,6 +199,9 @@ const ProjectPage: NextPage = () => {
               if (res) {
                 resetForm();
                 setShowModal(false);
+                contextMutation.mutate({
+                  id: res.id,
+                });
               } else {
                 console.log("Error");
                 alert("Error");

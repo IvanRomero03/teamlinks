@@ -13,7 +13,22 @@ const Apply: NextPage = () => {
 
   const mutation = api.candidateRouter.createApply.useMutation();
 
+  const mutationContext = api.context.addApplication.useMutation();
+
   console.log(data);
+
+  const handleSubmit = async () => {
+    const res = await mutation.mutateAsync({
+      idPosition: String(id),
+    });
+    if (res.id) {
+      mutationContext.mutate({
+        id: res.id,
+      });
+    } else {
+      console.log(res);
+    }
+  };
 
   return (
     <>
@@ -38,9 +53,7 @@ const Apply: NextPage = () => {
                 <button
                   className="rounded-md bg-emerald-400 p-2"
                   onClick={() => {
-                    mutation.mutate({
-                      idPosition: id as string,
-                    });
+                    void handleSubmit();
                   }}
                 >
                   Apply

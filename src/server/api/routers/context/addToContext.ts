@@ -220,4 +220,75 @@ export const addToContextRouter = createTRPCRouter({
         context: contexto,
       };
     }),
+  addApplication: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      const application = await ctx.prisma.aplicacion.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        include: {
+          candidato: {
+            include: {
+              CandiadateTechStack: true,
+              CandidateExpirience: true,
+            },
+          },
+        },
+      });
+      // check if recruiter is already in context
+      const { data: applicationInContext, error: errorInContext } =
+        await supabase.from("applications").select("id").eq("id", id);
+
+      if (errorInContext) {
+        return null;
+      }
+      if (applicationInContext.length > 0) {
+        return applicationInContext;
+      }
+      const contexto =
+        application.candidato.description +
+        " " +
+        application.candidato.CandiadateTechStack.map((tech) => tech.name).join(
+          " "
+        ) +
+        " " +
+        application.candidato.CandidateExpirience.map(
+          (exp) => exp.description
+        ).join(" ");
+
+      const embedding = await openai.createEmbedding({
+        model: "text-embedding-ada-002",
+        input: contexto,
+      });
+
+      const embeddingValue = embedding?.data?.data[0]?.embedding;
+
+      if (!embeddingValue) {
+        return null;
+      }
+
+      const { error: errorNewRecruiter, data: dataNewRecruiter } =
+        await supabase.from("applications").insert([
+          {
+            id: id,
+            vector: embeddingValue,
+            context: contexto,
+          },
+        ]);
+
+      if (errorNewRecruiter) {
+        return null;
+      }
+      return {
+        id: id,
+        vector: embeddingValue,
+        context: contexto,
+      };
+    }),
 });

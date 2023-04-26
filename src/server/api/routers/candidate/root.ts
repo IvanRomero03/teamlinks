@@ -72,5 +72,6 @@ export const candidateRouter = createTRPCRouter({
           estatus: "Applied",
         },
       });
+      return apply;
     }),
 });
