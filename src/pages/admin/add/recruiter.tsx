@@ -5,6 +5,7 @@ import MemberItem from "y/components/admin/MemberItem";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { api } from "y/utils/api";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isAdmin = await getServerIsAdmin(ctx);
@@ -75,7 +76,12 @@ const FormikForm = () => {
             console.log(mutateInfo);
             console.log("mutate");
           }
-          alert(JSON.stringify(values, null, 2));
+          toast.success("Invitation sent!", {
+            position: "top-center",
+            autoClose: 5000,
+            pauseOnHover: true,
+            draggable: true,
+          });
           setSubmitting(false);
         }, 400);
       }}

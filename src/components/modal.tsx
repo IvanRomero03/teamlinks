@@ -43,7 +43,7 @@ function Modal({
               </svg>
             </button>
           </div>
-          <div className=" p-6">{children}</div>
+          <div className="p-6">{children}</div>
         </div>
       </div>
     </div>

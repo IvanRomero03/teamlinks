@@ -130,7 +130,7 @@ export const getServerIsRole = async (ctx: {
   if (!user) {
     return null;
   }
-  const isAdmin = await prisma.admin.findUnique({
+  const isAdmin = await prisma.admin.findMany({
     where: {
       id: user,
     },
@@ -138,7 +138,7 @@ export const getServerIsRole = async (ctx: {
   if (isAdmin) {
     return "admin";
   }
-  const isRecruiter = await prisma.reclutador.findUnique({
+  const isRecruiter = await prisma.reclutador.findMany({
     where: {
       id: user,
     },
@@ -146,7 +146,7 @@ export const getServerIsRole = async (ctx: {
   if (isRecruiter) {
     return "recruiter";
   }
-  const isCandidate = await prisma.candidato.findUnique({
+  const isCandidate = await prisma.candidato.findMany({
     where: {
       id: user,
     },

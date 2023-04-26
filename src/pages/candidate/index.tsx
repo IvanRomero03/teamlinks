@@ -11,13 +11,13 @@ const Candidate: NextPage = () => {
       <Layout
         Items={[
           { title: "Home", section: "candidate" },
-          { title: "My User", section: "candidate/user" },
+          { title: "My Profile", section: "candidate/profile" },
           { title: "Applications", section: "candidate/applications" },
           { title: "Opportunities", section: "jobs" },
         ]}
       >
         {data.map((user) => (
-          <div className="pt-20">
+          <div className="pt-20" key={user.id}>
             <div className="flex-col px-4 pt-4 text-3xl font-bold text-white">
               <h1 className="pb-2">My Dashboard</h1>
               <h1>Welcome, {user.firstName}</h1>

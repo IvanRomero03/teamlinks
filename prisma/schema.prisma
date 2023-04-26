@@ -76,25 +76,25 @@ model CandiadateTechStack {
 
 model CandidateExpirience {
   id          String     @id @default(cuid())
-  name        String
-  date        DateTime
-  description String
+  date        DateTime   @default(now())
+  description String     @db.Text
   position    String
   employer    String
   candidatoId String?
   Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
+  startDate   String
+  endDate     String
 
   @@index([candidatoId])
 }
 
 model Candidato {
   id                  String                @id
-  tecPrincipal        String
-  tecSecundaria       String
-  pais                String
-  experiencia         Int
-  Ranking             Int
+  pais                String?
+  Ranking             Int?
   user                User                  @relation(fields: [id], references: [id])
+  phone               String?
+  description         String                @db.Text
   aplicacion          Aplicacion[]
   CandiadateTechStack CandiadateTechStack[]
   CandidateExpirience CandidateExpirience[]
@@ -153,7 +153,6 @@ model Admin {
 
 model Aplicacion {
   id            String      @id @default(cuid())
-  nombre        String
   fechaCreacion DateTime    @default(now())
   candidatoId   String
   reclutadorId  String?

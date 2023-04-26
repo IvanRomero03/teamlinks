@@ -12,13 +12,13 @@ export const createAccountRouter = createTRPCRouter({
         name: z.string().nonempty(),
         email: z.string().nonempty(),
         country: z.string().nonempty(),
-        mainTech: z.string().nonempty(),
-        secondaryTech: z.string().nonempty(),
+        description: z.string().nonempty(),
         invite: z.string().nonempty(),
+        technologies: z.array(z.string().nonempty()),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { email, country, mainTech, secondaryTech, name, invite } = input;
+      const { email, country, description, name, invite, technologies } = input;
       const user = ctx.session.user;
       const admin = await ctx.prisma.invitation.findUnique({
         where: {
@@ -39,9 +39,15 @@ export const createAccountRouter = createTRPCRouter({
         data: {
           id: user.id,
           country,
-          tecPrincipal: mainTech,
-          tecSecundaria: secondaryTech,
+          description: description,
           adminId: admin.Admin.id,
+          RecruiterTechStack: {
+            createMany: {
+              data: technologies.map((tech) => ({
+                name: tech,
+              })),
+            },
+          },
         },
       });
       await ctx.prisma.user.update({
