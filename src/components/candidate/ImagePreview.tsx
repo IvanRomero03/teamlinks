@@ -10,7 +10,7 @@ const ImagePreview = ({file}) => {
     };
 
 
-    return <div>
+    return <div className='bg'>
         {preview ? <embed src={preview} type="application/pdf" width="200px" height="200px"/> : "Loading..."}
     </div>;
 };
