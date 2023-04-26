@@ -108,7 +108,7 @@ const OpportunityItem: React.FC<Props> = ({id, name, amount, date, icon, descrip
                                 <p className="text-gray-800 pl-2">{description}</p>
                             </div>
                             <div className='p-2'>
-                                <p className="text-gray-800 font-bold">Skills:</p>
+                                <p className="text-gray-800 font-bold">Requirements:</p>
                                 <ul className='flex justify-start'>
                                     {/* {skills.map((skill) => (
                                         <p className='text-gray-800 bg-blue-400 rounded-lg p-0.5 mx-1 capitalize'>{skill}</p>

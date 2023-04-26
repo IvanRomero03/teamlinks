@@ -13,7 +13,7 @@ const Candidate: NextPage = () => {
           { title: "Home", section: "candidate" },
           { title: "My User", section: "candidate/user" },
           { title: "Applications", section: "candidate/applications" },
-          { title: "Opportunities", section: "candidate/opportunities" },
+          { title: "Opportunities", section: "jobs" },
         ]}
       >
         {data.map((user) => (
