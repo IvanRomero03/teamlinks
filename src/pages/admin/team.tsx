@@ -72,7 +72,7 @@ const Admin: NextPage = () => {
                 data?.map((member) => (
                   <MemberItem
                     name={member.user.name ?? "No name"}
-                    category={member.tecPrincipal}
+                    category={member?.Departamento?.nombre ?? "Engineering"}
                     progress={Math.floor(Math.random() * 100)}
                     proyects={member.ReclutadorProyectos.map(
                       (proyect) => proyect.proyecto.nombre

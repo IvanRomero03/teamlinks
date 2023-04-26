@@ -3,7 +3,7 @@ import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "y/utils/api";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { z } from "zod";
 import { useEffect } from "react";
 
@@ -85,8 +85,8 @@ const Login: NextPage = () => {
     name: string;
     email: string;
     country: string;
-    mainTech: string;
-    secondaryTech: string;
+    description: string;
+    technologies: string[];
   }) => {
     console.log("registering");
     if (invite.isError || invite.data == null || invite.data.id == null) {
@@ -97,8 +97,8 @@ const Login: NextPage = () => {
       name: values.name,
       email: values.email,
       country: values.country,
-      mainTech: values.mainTech,
-      secondaryTech: values.secondaryTech,
+      description: values.description,
+      technologies: values.technologies,
       invite: invite.data.id,
     });
     // if success redirect to home
@@ -129,68 +129,105 @@ const Login: NextPage = () => {
                   name: sessionData?.user?.name ?? "",
                   email: invite.data?.email ?? "",
                   country: "Mexico",
-                  mainTech: "",
-                  secondaryTech: "",
+                  description: "",
+                  technologies: [],
+                  _tech: "",
                 }}
                 onSubmit={handleRegister}
               >
-                <Form>
-                  <div className="flex flex-col items-center justify-center gap-4">
-                    <p>Name</p>
-                    <Field
-                      name="name"
-                      type="text"
-                      placeholder="Name"
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
-                      required
-                    />
-                    <ErrorMessage name="name" component="div" />
-                    <p>Email</p>
-                    <Field
-                      name="email"
-                      type="email"
-                      disabled
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition "
-                      required
-                    />
-                    <ErrorMessage name="email" component="div" />
-                    <p>Country</p>
-                    <Field
-                      name="country"
-                      as="select"
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
-                      required
-                    >
-                      <option value="Mexico">Mexico</option>
-                      <option value="USA">USA</option>
-                      <option value="Canada">Canada</option>
-                    </Field>
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="flex flex-col items-center justify-center gap-4">
+                      <p>Name</p>
+                      <Field
+                        name="name"
+                        type="text"
+                        placeholder="Name"
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                        required
+                      />
+                      <ErrorMessage name="name" component="div" />
+                      <p>Email</p>
+                      <Field
+                        name="email"
+                        type="email"
+                        disabled
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition "
+                        required
+                      />
+                      <ErrorMessage name="email" component="div" />
+                      <p>Country</p>
+                      <Field
+                        name="country"
+                        as="select"
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                        required
+                      >
+                        <option value="Mexico">Mexico</option>
+                        <option value="USA">USA</option>
+                        <option value="Canada">Canada</option>
+                      </Field>
 
-                    <ErrorMessage name="country" component="div" />
-                    <p>Main Tech</p>
-                    <Field
-                      name="mainTech"
-                      type="text"
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
-                      required
-                    />
-                    <ErrorMessage name="mainTech" component="div" />
-                    <p>Secondary Tech</p>
-                    <Field
-                      name="secondaryTech"
-                      type="text"
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
-                      required
-                    />
-                    <ErrorMessage name="secondaryTech" component="div" />
-                    <button
-                      type="submit"
-                      className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </Form>
+                      <ErrorMessage name="country" component="div" />
+
+                      <p>Techinal description</p>
+                      <Field
+                        name="description"
+                        as="textarea"
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                        required
+                      />
+                      <ErrorMessage name="description" component="div" />
+
+                      <p>Main technologies</p>
+                      <Field
+                        name="_tech"
+                        type="text"
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                      />
+                      <ErrorMessage name="_tech" component="div" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFieldValue("technologies", [
+                            ...values.technologies,
+                            values._tech,
+                          ]);
+                          setFieldValue("_tech", "");
+                        }}
+                      >
+                        Add
+                      </button>
+                      <div className="flex flex-wrap gap-2">
+                        {values.technologies.map((tech) => (
+                          <div
+                            key={tech}
+                            className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                          >
+                            {tech}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFieldValue(
+                                  "technologies",
+                                  values.technologies.filter((t) => t !== tech)
+                                );
+                              }}
+                            >
+                              X
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        type="submit"
+                        className="rounded-full bg-blue-400 px-10 py-3 font-semibold text-white no-underline transition hover:bg-blue-200"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </Form>
+                )}
               </Formik>
             </div>
           )
