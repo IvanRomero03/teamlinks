@@ -11,7 +11,7 @@ const Candidate: NextPage = () => {
       <Layout
         Items={[
           { title: "Home", section: "candidate" },
-          { title: "My User", section: "candidate/user" },
+          { title: "My Profile", section: "candidate/profile" },
           { title: "Applications", section: "candidate/applications" },
           { title: "Opportunities", section: "candidate/opportunities" },
         ]}
