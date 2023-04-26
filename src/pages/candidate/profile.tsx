@@ -68,7 +68,7 @@ const Profile: NextPage = () => {
                 country: PersonalInfo.pais,
                 description: PersonalInfo.description,
               }}
-              onSubmit={async (values) => {
+              onSubmit={(values) => {
                 PersonalInfoMutate({
                   description: values.description,
                   pais: values.country as string,
@@ -152,7 +152,7 @@ const Profile: NextPage = () => {
                 start: exp.startDate,
                 end: exp.endDate,
               }}
-              onSubmit={async (values) => {
+              onSubmit={(values) => {
                 //update
                 console.log(values);
                 ExperienceUpdateMutate({
@@ -240,7 +240,7 @@ const Profile: NextPage = () => {
               console.log(values);
               ExperienceCreateMutate(values);
               resetForm();
-              utils.candidateRouter.profile.getExpirience.invalidate();
+              await utils.candidateRouter.profile.getExpirience.invalidate();
             }}
           >
             <Form className="flex flex-col">
@@ -310,7 +310,7 @@ const Profile: NextPage = () => {
             onSubmit={async (values) => {
               console.log(values);
               TechnologiesCreateMutate(values);
-              utils.candidateRouter.profile.getTech.invalidate();
+              await utils.candidateRouter.profile.getTech.invalidate();
             }}
           >
             <Form className="flex flex-row">
@@ -344,7 +344,7 @@ const Profile: NextPage = () => {
           {id && (
             <button
               onClick={() => {
-                void router.push(`/candidate/apply/${id}`);
+                void router.push(`/candidate/apply/${String(id)}`);
               }}
               className="mt-4 w-full rounded-md bg-blue-500 p-2 text-white hover:bg-blue-300"
             >
