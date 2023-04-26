@@ -291,4 +291,23 @@ export const addToContextRouter = createTRPCRouter({
         context: contexto,
       };
     }),
+  getRecruiter_Applicants: protectedProcedure.query(async ({ ctx }) => {
+    const { id } = ctx.session.user;
+    // get Recruiter embedding from supabase
+    const { data: recruiter } = await supabase
+      .from("recruiters")
+      .select("vector")
+      .eq("id", id);
+    if (!recruiter) {
+      return [];
+    }
+    if (recruiter[0]?.vector) {
+      const res = await supabase.rpc("recruiter_applicants_matches", {
+        vector: recruiter,
+        match_count: 10,
+      });
+      return res;
+    }
+    return [];
+  }),
 });
