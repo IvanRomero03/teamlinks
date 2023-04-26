@@ -2,10 +2,11 @@ import Layout from "y/components/layout/layout";
 import { NextPage } from "next";
 import { Formik, Form, Field } from "formik";
 import { useSession } from "next-auth/react";
-import React from "react";
+import { useRef } from "react";
+
 
 const Profile: NextPage = () => {
-  const fileInput = React.createRef();
+  const fileRef = useRef<HTMLInputElement>(null);
   const { data } = useSession();
   console.log(data);
   return (
@@ -291,14 +292,14 @@ const Profile: NextPage = () => {
                   <option value="Intermediate">Intermediate</option>
                   <option value="Advanced">Advanced</option>
                 </Field>
-                <label htmlFor="certificate">Certificate</label>
+                {/* <label htmlFor="certificate">Certificate</label> !!!!UPDATE THIS!!!!
                 <Field
                   id="certificate"
                   name="certificate"
                   as="input"
                   type="file"
                   className="rounded-md p-2 text-black"
-                />
+                /> */}
               </div>
               <button
                 type="submit"
@@ -315,22 +316,33 @@ const Profile: NextPage = () => {
               console.log(values);
             }}
           >
-            <Form className="flex flex-col">
-              <div className="flex flex-col">
-                <label htmlFor="cv">CV</label>
-                <Field
-                  id="cv"
-                  name="cv"
-                  as="input"
-                  type="file"
-                  className="rounded-md p-2 text-black"
-                />
-              </div>
-              <button
-                type="submit"
-                className="p-2 mt-4 rounded-md bg-[#47d7ac] text-[#0f172a] hover:bg-[#0f172a] hover:text-white font-bold"
-              >Add</button>
-            </Form>
+            {({ values, setFieldValue }) => (
+              <Form className="flex flex-col">
+                <div className="flex flex-col">
+                  <input
+                    ref={fileRef}
+                    hidden
+                    type="file"
+                    onChange={(event) => {
+                      setFieldValue("cv", event.target.files[0]);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="rounded-md bg-gray-200 p-2.5 text-black hover:bg-gray-300 font-bold"
+                    onClick={() => {
+                      fileRef.current.click();
+                    }}
+                  >
+                    Upload your CV
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  className="p-2 mt-4 rounded-md bg-[#47d7ac] text-[#0f172a] hover:bg-[#0f172a] hover:text-white font-bold"
+                >Add</button>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>
