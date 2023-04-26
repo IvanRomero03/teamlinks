@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { Formik, Form, Field } from "formik";
 import { useSession } from "next-auth/react";
 import { useRef } from "react";
+import ImagePreview from "y/components/candidate/ImagePreview";
 
 
 const Profile: NextPage = () => {
@@ -310,7 +311,7 @@ const Profile: NextPage = () => {
           <h1 className="my-4 text-3xl font-bold text-black">CV</h1>
           <Formik
             initialValues={{
-              cv: "",
+              cv: null,
             }}
             onSubmit={async (values) => {
               console.log(values);
@@ -327,6 +328,7 @@ const Profile: NextPage = () => {
                       setFieldValue("cv", event.target.files[0]);
                     }}
                   />
+                  {values.cv && <ImagePreview file={values.cv} />}  
                   <button
                     type="button"
                     className="rounded-md bg-gray-200 p-2.5 text-black hover:bg-gray-300 font-bold"
