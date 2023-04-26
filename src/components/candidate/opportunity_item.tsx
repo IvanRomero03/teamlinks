@@ -39,12 +39,14 @@ const OpportunityItem: React.FC<Props> = ({id, name, amount, date, icon, descrip
                             </div>
                         </div>
                     </button> 
-                    <button
-                    className={(amount >= 15 ? 'p-3 rounded-lg hover:bg-green-400 bg-green-300 my-auto ml-3 text-sm font-bold' :
-                    amount > 0 ? 'p-3 rounded-lg hover:bg-yellow-400 bg-yellow-300 my-auto ml-3 text-sm font-bold' : 
-                    'invisible h-0 w-0')}>
-                        <Link href={"/candidate/apply/" + id}>Apply</Link>
-                    </button>
+                    <Link className='my-auto' href={"/candidate/apply/" + id}>
+                        <button
+                        className={(amount >= 15 ? 'p-3 rounded-lg hover:bg-green-400 bg-green-300 my-auto ml-3 text-sm font-bold' :
+                        amount > 0 ? 'p-3 rounded-lg hover:bg-yellow-400 bg-yellow-300 my-auto ml-3 text-sm font-bold' : 
+                        'invisible h-0 w-0')}>
+                            Apply
+                        </button>
+                    </Link>
                 </div>
             </li>
             {modalOpen && (
@@ -114,12 +116,13 @@ const OpportunityItem: React.FC<Props> = ({id, name, amount, date, icon, descrip
                                 </ul>
                             </div>
                             <div className='p-2 flex justify-center'>
-                                <button
-                                className={(amount >= 15 ? 'p-3 rounded-lg hover:bg-[#0f172a] bg-[#47d7ac] my-auto ml-3 hover:text-white text-sm font-bold w-full' :
-                                amount > 0 ? 'p-3 rounded-lg hover:bg-[#0f172a] bg-[#47d7ac] my-auto ml-2 hover:text-white text-sm font-bold w-full' : 
-                                'invisible h-0')}>
-                                    <Link href={"/candidate/apply/" + id}>Apply</Link>
-                                </button>
+                                <Link className='w-full' href={"/candidate/apply/" + id}>
+                                    <button 
+                                    className={(amount >= 15 ? 'p-3 rounded-lg hover:bg-[#0f172a] bg-[#47d7ac] my-auto ml-3 hover:text-white text-sm font-bold  w-full' : 
+                                    amount > 0 ? 'p-3 rounded-lg hover:bg-[#0f172a] bg-[#47d7ac] my-auto ml-2 hover:text-white text-sm font-bold  w-full' : 
+                                    'invisible h-0')}>Apply
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </>

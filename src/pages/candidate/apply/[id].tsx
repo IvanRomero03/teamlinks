@@ -36,9 +36,9 @@ const Apply : NextPage = () => {
                             </div>
                             <label className='font-bold'>Sex:</label>
                             <div>
-                                <input className='mx-1' type="radio" /> Male
-                                <input className='mx-1' type="radio" /> Female
-                                <input className='mx-1' type="radio" /> Other
+                                <input className='ml-1' type="radio" /> Male
+                                <input className='ml-1' type="radio" /> Female
+                                <input className='ml-1' type="radio" /> Other
                             </div>
                             <label className='font-bold'>Curriculum Vitae: </label>
                             <input type="file" />

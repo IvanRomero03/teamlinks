@@ -1,16 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider     = "mysql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -21,7 +14,6 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-// Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -76,8 +68,8 @@ model VerificationToken {
 model CandiadateTechStack {
   id          String     @id @default(cuid())
   name        String
-  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
   candidatoId String?
+  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
 
   @@index([candidatoId])
 }
@@ -89,21 +81,20 @@ model CandidateExpirience {
   description String
   position    String
   employer    String
-  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
   candidatoId String?
+  Candidato   Candidato? @relation(fields: [candidatoId], references: [id])
 
   @@index([candidatoId])
 }
 
 model Candidato {
   id                  String                @id
-  user                User                  @relation(fields: [id], references: [id])
+  tecPrincipal        String
+  tecSecundaria       String
   pais                String
-  title               String
-  phone               String
-  description         String                @db.Text
-  experiencia         Int?
-  Ranking             Int?
+  experiencia         Int
+  Ranking             Int
+  user                User                  @relation(fields: [id], references: [id])
   aplicacion          Aplicacion[]
   CandiadateTechStack CandiadateTechStack[]
   CandidateExpirience CandidateExpirience[]
@@ -114,23 +105,23 @@ model Candidato {
 model RecruiterTechStack {
   id           String     @id @default(cuid())
   name         String
-  Reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
   reclutadorId String
+  Reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
 
   @@index([reclutadorId])
 }
 
 model Reclutador {
   id                  String                @id
-  user                User                  @relation(fields: [id], references: [id])
   country             String
+  departamentoId      String?
+  adminId             String
   description         String                @db.Text
+  user                User                  @relation(fields: [id], references: [id])
   aplicacion          Aplicacion[]
   Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
-  departamentoId      String?
   ReclutadorProyectos ReclutadorProyectos[]
   Admin               Admin                 @relation(fields: [adminId], references: [id])
-  adminId             String
   RecruiterTechStack  RecruiterTechStack[]
 
   @@index([id])
@@ -149,10 +140,10 @@ model Departamento {
 
 model Admin {
   id             String        @id
+  departamentoId String?
   user           User          @relation(fields: [id], references: [id])
   proyecto       Proyecto[]
   Departamento   Departamento? @relation(fields: [departamentoId], references: [id])
-  departamentoId String?
   Reclutador     Reclutador[]
   Invitation     Invitation[]
 
@@ -165,13 +156,13 @@ model Aplicacion {
   nombre        String
   fechaCreacion DateTime    @default(now())
   candidatoId   String
-  candidato     Candidato   @relation(fields: [candidatoId], references: [id])
   reclutadorId  String?
-  reclutador    Reclutador? @relation(fields: [reclutadorId], references: [id])
   estatus       String
   fechaEstatus  DateTime    @updatedAt
-  Puestos       Puestos?    @relation(fields: [puestosId], references: [id])
   puestosId     String?
+  candidato     Candidato   @relation(fields: [candidatoId], references: [id])
+  reclutador    Reclutador? @relation(fields: [reclutadorId], references: [id])
+  Puestos       Puestos?    @relation(fields: [puestosId], references: [id])
 
   @@index([candidatoId])
   @@index([reclutadorId])
@@ -181,8 +172,8 @@ model Aplicacion {
 model MustHaves {
   id        String   @id @default(cuid())
   name      String
-  Puestos   Puestos? @relation(fields: [puestosId], references: [id])
   puestosId String?
+  Puestos   Puestos? @relation(fields: [puestosId], references: [id])
 
   @@index([puestosId])
 }
@@ -196,17 +187,17 @@ model Puestos {
   contractor               Boolean
   Genus                    String
   hireCategory             String
-  mustHaves                MustHaves[]
   estatus                  String?
   fechaCreacion            DateTime      @default(now())
   fechaEstatusChange       DateTime      @updatedAt
   numPosiciones            Int
   numPosicionesDisponibles Int
   proyectoId               String
+  departamentoId           String?
+  mustHaves                MustHaves[]
   proyecto                 Proyecto      @relation(fields: [proyectoId], references: [id])
   Aplicacion               Aplicacion[]
   Departamento             Departamento? @relation(fields: [departamentoId], references: [id])
-  departamentoId           String?
 
   @@index([proyectoId])
   @@index([departamentoId])
@@ -214,10 +205,10 @@ model Puestos {
 
 model ReclutadorProyectos {
   id           String     @id @default(cuid())
-  reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
-  proyecto     Proyecto   @relation(fields: [proyectoId], references: [id])
   reclutadorId String
   proyectoId   String
+  reclutador   Reclutador @relation(fields: [reclutadorId], references: [id])
+  proyecto     Proyecto   @relation(fields: [proyectoId], references: [id])
 
   @@index([reclutadorId])
   @@index([proyectoId])
@@ -233,12 +224,12 @@ model Proyecto {
   fechaCreacion       DateTime              @default(now())
   fechaEstatusChange  DateTime              @updatedAt
   adminId             String
-  admin               Admin                 @relation(fields: [adminId], references: [id])
   numPosicionesTot    Int
   numPosicionesDis    Int
+  departamentoId      String?
+  admin               Admin                 @relation(fields: [adminId], references: [id])
   puesto              Puestos[]
   Departamento        Departamento?         @relation(fields: [departamentoId], references: [id])
-  departamentoId      String?
   Requirement         Requirement[]
   ReclutadorProyectos ReclutadorProyectos[]
 
@@ -249,18 +240,18 @@ model Proyecto {
 model Requirement {
   id         String    @id @default(cuid())
   name       String
-  Proyecto   Proyecto? @relation(fields: [proyectoId], references: [id])
   proyectoId String?
+  Proyecto   Proyecto? @relation(fields: [proyectoId], references: [id])
 
   @@index([proyectoId])
 }
 
 model Invitation {
   id        String   @id @default(cuid())
-  Admin     Admin    @relation(fields: [adminId], references: [id])
   email     String
   createdAt DateTime @default(now())
   adminId   String
+  Admin     Admin    @relation(fields: [adminId], references: [id])
 
   @@index([adminId])
 }
