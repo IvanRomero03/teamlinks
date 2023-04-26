@@ -4,6 +4,7 @@ import { permisionRouter } from "y/server/api/routers/permisions";
 import { adminRouter } from "./routers/admin/root";
 import { getInviteRouter } from "./routers/recruiter/getInvite";
 import { createAccountRouter } from "./routers/recruiter/createAccount";
+import { candidateRouter } from "./routers/candidate/root";
 import { addToContextRouter } from "./routers/context/addToContext";
 
 /**
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   admin: adminRouter,
   getInvite: getInviteRouter,
   createRecruiter: createAccountRouter,
+  candidateRouter: candidateRouter,
   context: addToContextRouter,
 });
 
