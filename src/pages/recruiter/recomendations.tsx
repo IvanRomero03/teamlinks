@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const matches = api.context.getRecruiter_Applicants.useQuery();
-  console.log(matches);
+  console.log(matches.data);
   const { data } = useSession();
 
   const chartData: unknown[] = [
