@@ -7,6 +7,8 @@ import {
   getServerIsAdmin,
   getServerIsRole,
 } from "y/server/auth";
+import {api} from "y/utils/api"
+
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

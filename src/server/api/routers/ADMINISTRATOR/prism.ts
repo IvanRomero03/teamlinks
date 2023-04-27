@@ -1,17 +1,17 @@
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import { z } from "zod";
 
-export const recruiterInfo = createTRPCRouter({
+export const prism = createTRPCRouter({
   getInfo: protectedProcedure.query(async ({ ctx }) => {
     const user = ctx.session.user.id;
     const image = ctx.session.user.image;
 
-    const userInfo = await ctx.prisma.reclutador.findUnique({
+    const userInfo = await ctx.prisma.admin.findUnique({
       where: {
         id: user,
       },
       include: {
-        user: true,
+        admin: true,
         Departamento: true,
         RecruiterTechStack: true,
       },
