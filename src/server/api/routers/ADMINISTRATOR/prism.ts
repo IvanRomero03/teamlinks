@@ -6,12 +6,12 @@ export const prism = createTRPCRouter({
     const user = ctx.session.user.id;
     const image = ctx.session.user.image;
 
-    const userInfo = await ctx.prisma.admin.findUnique({
+    const userInfo = await ctx.prisma.reclutador.findUnique({
       where: {
         id: user,
       },
       include: {
-        admin: true,
+        user: true,
         Departamento: true,
         RecruiterTechStack: true,
       },

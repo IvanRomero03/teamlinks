@@ -8,7 +8,7 @@ import { useState } from "react";
 //import { Reclutador, ReclutadorProyectos } from "@prisma/client";
 import { Field, Form, Formik } from "formik";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+/*export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const isAdmin = await getServerIsAdmin(ctx);
     const session = await getServerAuthSession(ctx);
     if (!session) {
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   };
-
+*/
   const managerPage: NextPage = () => {
     const router = useRouter();
     const { id } = router.query;

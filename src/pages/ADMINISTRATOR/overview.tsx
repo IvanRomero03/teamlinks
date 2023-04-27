@@ -10,6 +10,7 @@ import {
 } from "y/server/auth";
 import { api } from "y/utils/api";
 
+/*
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const session = await getServerAuthSession(context);
   
@@ -35,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {},
     };
   };
-
+*/
   const overview: NextPage = () => {
     const router = useRouter();
   const handleNewMember = () => {
