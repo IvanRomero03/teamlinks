@@ -17,6 +17,11 @@ export const inviteRecruiterRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       console.log("Inviting recruiter");
       const { email } = input;
+      ctx.prisma.departamento.create({
+        data:{
+          nombre: "ola",
+        }
+      })
       const invitation = await ctx.prisma.invitation.create({
         data: {
           email,

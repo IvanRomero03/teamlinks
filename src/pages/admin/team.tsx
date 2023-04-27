@@ -4,7 +4,7 @@ import { NextPage, type GetServerSideProps } from "next";
 import MemberItem from "y/components/admin/MemberItem";
 import { useRouter } from "next/router";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+/*export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
   if (!session) {
     return {
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       session,
     },
   };
-};
+};*/
 
 // Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {

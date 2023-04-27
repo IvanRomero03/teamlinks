@@ -5,7 +5,7 @@ import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
 import ProyectSmall from "y/components/admin/ProyectSmall";
 import MemberSmall from "y/components/admin/MemberSmall";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+/*export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerAuthSession(context);
 
   if (!session) {
@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {},
   };
 };
-
+*/
 const AdminPage: NextPage = () => {
   return (
     <Layout

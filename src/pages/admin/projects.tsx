@@ -5,7 +5,7 @@ import { getServerAuthSession, getServerIsAdmin } from "y/server/auth";
 import ProjectItem from "y/components/admin/ProjectItem";
 import { useRouter } from "next/router";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+/*export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
   if (!session) {
     return {
@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       session,
     },
   };
-};
+}; */
 
 // Page for the admin to visualize all the projects
 const Projects: NextPage = () => {
