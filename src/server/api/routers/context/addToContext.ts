@@ -59,7 +59,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -130,7 +130,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -207,7 +207,7 @@ export const addToContextRouter = createTRPCRouter({
         await supabase.from("recruiters").insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -219,5 +219,199 @@ export const addToContextRouter = createTRPCRouter({
         vector: embeddingValue,
         context: contexto,
       };
+    }),
+  addApplication: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      const application = await ctx.prisma.aplicacion.findUniqueOrThrow({
+        where: {
+          id: id,
+        },
+        include: {
+          candidato: {
+            include: {
+              CandiadateTechStack: true,
+              CandidateExpirience: true,
+            },
+          },
+        },
+      });
+      // check if recruiter is already in context
+      const { data: applicationInContext, error: errorInContext } =
+        await supabase.from("applications").select("id").eq("id", id);
+
+      if (errorInContext) {
+        return null;
+      }
+      if (applicationInContext.length > 0) {
+        return applicationInContext;
+      }
+      const contexto =
+        application.candidato.description +
+        " " +
+        application.candidato.CandiadateTechStack.map((tech) => tech.name).join(
+          " "
+        ) +
+        " " +
+        application.candidato.CandidateExpirience.map(
+          (exp) => exp.description
+        ).join(" ");
+
+      const embedding = await openai.createEmbedding({
+        model: "text-embedding-ada-002",
+        input: contexto,
+      });
+
+      const embeddingValue = embedding?.data?.data[0]?.embedding;
+
+      if (!embeddingValue) {
+        return null;
+      }
+
+      const { error: errorNewRecruiter, data: dataNewRecruiter } =
+        await supabase.from("applications").insert([
+          {
+            id: id,
+            vector: String(embeddingValue),
+            context: contexto,
+          },
+        ]);
+
+      if (errorNewRecruiter) {
+        return null;
+      }
+      return {
+        id: id,
+        vector: embeddingValue,
+        context: contexto,
+      };
+    }),
+  getRecruiter_Applicants: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { id } = input;
+      // get Recruiter embedding from supabase
+      const { data: recruiter } = await supabase
+        .from("recruiters")
+        .select("vector")
+        .eq("id", id);
+      console.log(recruiter);
+      if (!recruiter) {
+        return [];
+      }
+      if (recruiter[0]?.vector) {
+        const res = await supabase.rpc("recruiter_applicants_matches2", {
+          embedding: recruiter[0].vector,
+          match_count: 10,
+        });
+        console.log(res);
+        const applicants = await ctx.prisma.aplicacion.findMany({
+          where: {
+            id: {
+              in: res?.data?.map(
+                (app: { id: string; similarity: number }) => app.id
+              ),
+            },
+          },
+          select: {
+            id: true,
+            candidato: {
+              select: {
+                user: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+        console.log(applicants);
+        // add similarity for each applicant where applicationId = id
+        const applicantsWithSimilarity = res?.data?.map((app) => {
+          const applicant = applicants.find(
+            (applicant) => applicant.id === app.id
+          );
+          return {
+            id: app.id,
+            name: applicant?.candidato?.user?.name ?? "",
+            similarity: app.similarity,
+          };
+        });
+        return applicantsWithSimilarity;
+      }
+      return [];
+    }),
+  getMatches: protectedProcedure
+    .input(
+      z.object({
+        proyectId: z.string(),
+        positionId: z.string(),
+        min_similarity: z.number().default(0.0),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const recruiterId = ctx.session.user.id;
+      const { proyectId, positionId, min_similarity } = input;
+      // get_matches(recruiterId text, proyectId text, positionId text, min_similarity float)
+      // returns table (id text, position_similarity float, proyect_similarity float, recruiter_similarity float, similarity float)
+      const { data } = await supabase.rpc("get_matches", {
+        recruiterid: recruiterId,
+        proyectid: proyectId,
+        positionid: positionId,
+        min_similarity: min_similarity,
+      });
+
+      const applicants = await ctx.prisma.aplicacion.findMany({
+        where: {
+          id: {
+            in: data?.map(
+              (app: {
+                id: string;
+                position_similarity: number;
+                proyect_similarity: number;
+                recruiter_similarity: number;
+                similarity: number;
+              }) => app.id
+            ),
+          },
+        },
+        include: {
+          candidato: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      });
+      console.log(applicants);
+
+      return data?.map(
+        (app: {
+          id: string;
+          position_similarity: number;
+          proyect_similarity: number;
+          recruiter_similarity: number;
+          similarity: number;
+        }) => {
+          const applicant = applicants.find(
+            (applicant) => applicant.id === app.id
+          );
+          return {
+            ...app,
+            name: applicant?.candidato?.user?.name ?? "",
+            similarity: app.similarity,
+          };
+        }
+      );
     }),
 });

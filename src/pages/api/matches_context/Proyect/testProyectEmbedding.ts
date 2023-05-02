@@ -2,7 +2,7 @@ import { prisma } from "y/server/db";
 import { supabase } from "y/server/supabase";
 import { openai } from "y/server/openai";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Database } from "../../../../../types/supabase";
+import { Database } from "../../../../types/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
 const testProyectEmbedding = async (
@@ -41,14 +41,14 @@ const testProyectEmbedding = async (
     data: Database["public"]["Tables"]["test_embeddings"]["Row"][] | null;
   }
   const Res = await supabase.rpc("test_match_vector", {
-    embedding: embeddingValue,
+    embedding: String(embeddingValue),
     match_count: 5,
     val: contexto,
   });
   if (Res.error) {
     return res.status(500).json({ error: Res.error });
   }
-  return res.status(200).json({ data: Res?.data as res["data"] });
+  return res.status(200).json({ data: Res?.data });
 };
 
 export default testProyectEmbedding;

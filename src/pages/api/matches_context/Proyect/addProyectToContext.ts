@@ -2,7 +2,7 @@ import { prisma } from "y/server/db";
 import { supabase } from "y/server/supabase";
 import { openai } from "y/server/openai";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Database } from "../../../../../types/supabase";
+import { Database } from "../../../../types/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
 const addProyectToContext = async (
@@ -56,7 +56,7 @@ const addProyectToContext = async (
     .insert([
       {
         id: id,
-        vector: embeddingValue,
+        vector: String(embeddingValue),
         context: contexto,
       },
     ]);

@@ -1,8 +1,21 @@
 import { type NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { VictoryPie } from "victory";
+import { api } from "y/utils/api";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
+  const addToContext = api.context.addRecruiter.useMutation();
+  const { data } = useSession();
+  useEffect(() => {
+    if (data?.user.id) {
+      addToContext.mutate({
+        id: data.user.id,
+      });
+    }
+  }, [data]);
+
   const chartData: unknown[] = [
     { x: "Approved", y: 5 },
     { x: "Rejected", y: 5 },

@@ -80,6 +80,7 @@ const Login: NextPage = () => {
   }, [invite]);
 
   const mutation = api.createRecruiter.createAccount.useMutation();
+  const contextMutation = api.context.addRecruiter.useMutation();
 
   const handleRegister = async (values: {
     name: string;
@@ -101,6 +102,11 @@ const Login: NextPage = () => {
       technologies: values.technologies,
       invite: invite.data.id,
     });
+    if (result.id) {
+      contextMutation.mutate({
+        id: result.id,
+      });
+    }
     // if success redirect to home
     console.log("registering success");
     await router.push("/");
