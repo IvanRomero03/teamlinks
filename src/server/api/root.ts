@@ -5,6 +5,7 @@ import { adminRouter } from "./routers/admin/root";
 import { getInviteRouter } from "./routers/recruiter/getInvite";
 import { createAccountRouter } from "./routers/recruiter/createAccount";
 import { addToContextRouter } from "./routers/context/addToContext";
+import { recruiterInfo } from "./routers/recruiter/recruiterInfo";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   getInvite: getInviteRouter,
   createRecruiter: createAccountRouter,
   context: addToContextRouter,
+  recruiterInfo: recruiterInfo,
 });
 
 // export type definition of API
