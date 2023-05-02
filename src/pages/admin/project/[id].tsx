@@ -54,6 +54,14 @@ const ProjectPage: NextPage = () => {
       id: id as string,
     });
 
+  const add_to_context = api.context.addProject.useMutation();
+
+  useEffect(() => {
+    if (data && id) {
+      add_to_context.mutate({ id: id as string });
+    }
+  }, [data]);
+
   const mutation = api.admin.positions.createPosition.useMutation();
   const contextMutation = api.context.addPosition.useMutation();
 
