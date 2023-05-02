@@ -59,7 +59,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -130,7 +130,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -207,7 +207,7 @@ export const addToContextRouter = createTRPCRouter({
         await supabase.from("recruiters").insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -277,7 +277,7 @@ export const addToContextRouter = createTRPCRouter({
         await supabase.from("applications").insert([
           {
             id: id,
-            vector: embeddingValue,
+            vector: String(embeddingValue),
             context: contexto,
           },
         ]);
@@ -317,7 +317,7 @@ export const addToContextRouter = createTRPCRouter({
         const applicants = await ctx.prisma.aplicacion.findMany({
           where: {
             id: {
-              in: res.data.map(
+              in: res?.data?.map(
                 (app: { id: string; similarity: number }) => app.id
               ),
             },
@@ -337,18 +337,17 @@ export const addToContextRouter = createTRPCRouter({
         });
         console.log(applicants);
         // add similarity for each applicant where applicationId = id
-        return res.data.map((app: { id: string; similarity: number }) => {
+        const applicantsWithSimilarity = res?.data?.map((app) => {
           const applicant = applicants.find(
             (applicant) => applicant.id === app.id
           );
           return {
-            ...app,
+            id: app.id,
             name: applicant?.candidato?.user?.name ?? "",
             similarity: app.similarity,
           };
         });
-
-        return res.data;
+        return applicantsWithSimilarity;
       }
       return [];
     }),
@@ -366,16 +365,16 @@ export const addToContextRouter = createTRPCRouter({
       // get_matches(recruiterId text, proyectId text, positionId text, min_similarity float)
       // returns table (id text, position_similarity float, proyect_similarity float, recruiter_similarity float, similarity float)
       const { data } = await supabase.rpc("get_matches", {
-        recruiterId: recruiterId,
-        proyectId: proyectId,
-        positionId: positionId,
+        recruiterid: recruiterId,
+        proyectid: proyectId,
+        positionid: positionId,
         min_similarity: min_similarity,
       });
 
       const applicants = await ctx.prisma.aplicacion.findMany({
         where: {
           id: {
-            in: data.map(
+            in: data?.map(
               (app: {
                 id: string;
                 position_similarity: number;
@@ -396,7 +395,7 @@ export const addToContextRouter = createTRPCRouter({
       });
       console.log(applicants);
 
-      return data.map(
+      return data?.map(
         (app: {
           id: string;
           position_similarity: number;
