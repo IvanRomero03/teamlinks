@@ -17,12 +17,12 @@ export const candidateRouter = createTRPCRouter({
         tipo: true,
         id: true,
         numPosicionesDisponibles: true,
-        // mustHaves: true,
-        // proyecto: {
-        //     select: {
-        //         pais: true,
-        //     }
-        // }
+        mustHaves: true,
+        proyecto: {
+            select: {
+                pais: true,
+            }
+        }
       },
     });
     return opportunities;
@@ -46,12 +46,12 @@ export const candidateRouter = createTRPCRouter({
           tipo: true,
           id: true,
           numPosicionesDisponibles: true,
-          // mustHaves: true,
-          // proyecto: {
-          //     select: {
-          //         pais: true,
-          //     }
-          // }
+          mustHaves: true,
+          proyecto: {
+              select: {
+                  pais: true,
+              }
+          }
         },
       });
       return position;

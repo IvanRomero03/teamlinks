@@ -39,16 +39,16 @@ const Opportunidades = () => {
               id={opportunity.id}
               icon={"images/icons/css.png"}
               name={opportunity.jobTitle}
-              // primTech={opportunity.mustHaves[0]?.name || ""}
-              // secTech={opportunity.mustHaves[1]?.name || ""}
+              primTech={opportunity.mustHaves[0]?.name || ""}
+              secTech={opportunity.mustHaves[1]?.name || ""}
               amount={opportunity.numPosicionesDisponibles}
               description={opportunity.descripcion}
-              // location={opportunity.proyecto.pais}
+              location={opportunity.proyecto.pais}
               modality={opportunity.tipo}
               position={opportunity.estatus === "Open" ? "Open" : "Closed"}
               key={id}
               workTime={20}
-              // skills={opportunity.mustHaves.map((skill) => skill.name)}
+              skills={opportunity.mustHaves.map((skill) => skill.name)}
             />
           ))}
         </ul>

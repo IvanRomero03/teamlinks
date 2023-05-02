@@ -2,6 +2,9 @@ import { NextPage } from "next";
 import Layout from "y/components/layout/layout";
 import { useRouter } from "next/router";
 import { api } from "y/utils/api";
+import { Formik, Form, Field } from "formik";
+import { useRef } from "react";
+import ImagePreview from "y/components/candidate/ImagePreview";
 
 const Apply: NextPage = () => {
   const router = useRouter();
@@ -14,6 +17,8 @@ const Apply: NextPage = () => {
   const mutation = api.candidateRouter.createApply.useMutation();
 
   console.log(data);
+
+  const fileRef = useRef(null);
 
   return (
     <>
@@ -32,11 +37,43 @@ const Apply: NextPage = () => {
             </div>
             <div className="flex justify-center">
               <div className="mt-5 flex grid w-3/5 rounded-lg bg-gray-200 p-2">
-                <h1>Apply Now!</h1>
-                <label className="font-bold">Curriculum Vitae: </label>
+                <h1 className="font-bold text-2xl">Upload your CV:</h1>
+                <p className="text-gray-500 text-xs ml-2">* Files Admitted: PDF</p>
+                <Formik
+                  initialValues={{
+                    file: "",
+                  }}
+                  onSubmit={async (values) => {
+                    console.log(values);
+                  }}
+                >
+                  {({ values, setFieldValue }) => (
+                    <Form>
+                      <input
+                        ref={fileRef}
+                        hidden
+                        type="file"
+                        onChange={(event) => {
+                          setFieldValue("file", event.target.files[0]);
+                        }}
+                      />
+                      {values.file && <ImagePreview file={values.file} />}
+                      <button
+                        className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
+                        onClick={() => {
+                          fileRef.current.click();
+                        }}
+                      >
+                        Select File
+                      </button>
+                    </Form>
+                  )}
+                </Formik>
+                {/* <h1 className="font-bold text-2xl mb-3">Upload your CV: </h1>
                 <input type="file" />
+                <p className="text-gray-500 text-xs ml-2">* Files Admitted: PDF</p> */}
                 <button
-                  className="rounded-md bg-emerald-400 p-2"
+                  className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
                   onClick={() => {
                     mutation.mutate({
                       idPosition: id as string,

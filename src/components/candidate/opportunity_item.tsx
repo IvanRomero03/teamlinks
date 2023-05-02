@@ -8,15 +8,15 @@ interface Props {
   name: string;
   amount: number;
   date: string;
-  // primTech: string;
-  // secTech: string;
+  primTech: string;
+  secTech: string;
   icon: string;
-  // location: string;
+  location: string;
   description: string;
   modality: string;
   position: string;
   workTime: number;
-  // skills: string[];
+  skills: string[];
 }
 
 const OpportunityItem: React.FC<Props> = ({
@@ -24,11 +24,15 @@ const OpportunityItem: React.FC<Props> = ({
   name,
   amount,
   date,
+  primTech,
+  secTech,
   icon,
+  location,
   description,
   modality,
   position,
   workTime,
+  skills,
 }) => {
   //Faltan primTech, secTech, location, skills
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -122,7 +126,7 @@ const OpportunityItem: React.FC<Props> = ({
               <div className="flex justify-between p-2">
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Location:</p>
-                  <p className="text-gray-800">{}</p>
+                  <p className="text-gray-800">{location}</p>
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Hours per Week:</p>
@@ -138,7 +142,7 @@ const OpportunityItem: React.FC<Props> = ({
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Main Technology:</p>
-                  <p className="text-gray-800">{}</p>
+                  <p className="text-gray-800">{primTech}</p>
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Published:</p>
@@ -152,9 +156,9 @@ const OpportunityItem: React.FC<Props> = ({
               <div className="p-2">
                 <p className="font-bold text-gray-800">Skills:</p>
                 <ul className="flex justify-start">
-                  {/* {skills.map((skill) => (
-                                        <p className='text-gray-800 bg-blue-400 rounded-lg p-0.5 mx-1 capitalize'>{skill}</p>
-                                    ))} */}
+                  {skills.map((skill) => (
+                                        <p className='text-gray-800 bg-gray-400 rounded-md p-1 mx-1 capitalize'>{skill}</p>
+                                    ))}
                 </ul>
               </div>
               <div className="flex justify-center p-2">

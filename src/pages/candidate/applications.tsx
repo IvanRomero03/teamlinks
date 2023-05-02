@@ -13,10 +13,6 @@ const orders = () => {
           { title: "Opportunities", section: "candidate/opportunities" },
         ]}
       >
-        <div className="flex justify-between px-4 pt-4">
-          <h2>Applications</h2>
-          <h2>Welcome Back, Clint</h2>
-        </div>
         <div className="mt-20 p-10">
           <div className="m-auto w-full overflow-y-auto rounded-lg border bg-white p-4">
             <div className="my-3 grid cursor-pointer grid-cols-2 items-center justify-between p-2 sm:grid-cols-3 md:grid-cols-4">
