@@ -36,7 +36,10 @@ const User: NextPage = () => {
               <h1 className="text-xl font-bold">Skills</h1>
               <div className="flex flex-wrap gap-2">
                 {data?.data?.RecruiterTechStack.map((skill) => (
-                  <div className="rounded-lg bg-gray-500 p-2 text-white">
+                  <div
+                    className="rounded-lg bg-gray-500 p-2 text-white"
+                    key={skill.id}
+                  >
                     {skill.name}
                   </div>
                 ))}
