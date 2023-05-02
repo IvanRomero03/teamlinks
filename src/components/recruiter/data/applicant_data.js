@@ -1,0 +1,42 @@
+export const applicant_data = [
+  {
+    id: 1,
+    title: "Web developer",
+    name: "Jacob Robert",
+    date: "12 Minutes ago",
+    status: "Under Consideration",
+    reviewer: "Under construction",
+  },
+  {
+    id: 2,
+    title: "Web developer",
+    name: "Bob Simons",
+    date: "4 Hours ago ago",
+    status: "Under Consideration",
+    reviewer: "Under construction",
+  },
+  {
+    id: 3,
+    title: "Web developer",
+    name: "Lara croft",
+    date: "15/04/2023",
+    status: "Under Consideration",
+    reviewer: "Under construction",
+  },
+  {
+    id: 4,
+    title: "Web developer",
+    name: "Mathew Johson",
+    date: "13/04/2023",
+    status: "Under Consideration",
+    reviewer: "Under construction",
+  },
+  {
+    id: 5,
+    title: "Web developer",
+    name: "Kurt White",
+    date: "12/04/2023",
+    status: "Under Consideration",
+    reviewer: "Under construction",
+  },
+];
