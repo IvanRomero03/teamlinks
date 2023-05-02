@@ -28,12 +28,12 @@ function Modal({
           <div className="absolute top-0 right-0 pt-2 pr-2">
             <button
               onClick={handleClose}
-              className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              className="text-gray-500 hover:text-gray-700 focus:outline-none rounded-xl bg-red-400 hover:bg-red-500"
             >
               <svg
-                className="h-6 w-6 fill-current"
+                className="h-5 w-5 fill-current"
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
+                viewBox="-6 -4 25 25"
               >
                 <path
                   fillRule="evenodd"
@@ -43,7 +43,7 @@ function Modal({
               </svg>
             </button>
           </div>
-          <div className=" p-6">{children}</div>
+          <div className="p-6">{children}</div>
         </div>
       </div>
     </div>

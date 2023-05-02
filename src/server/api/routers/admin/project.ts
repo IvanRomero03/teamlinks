@@ -72,7 +72,7 @@ export const projectRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const { id } = input;
-      const project = await ctx.prisma.proyecto.findUnique({
+      const project = await ctx.prisma.proyecto.findUniqueOrThrow({
         where: {
           id,
         },
@@ -92,6 +92,7 @@ export const projectRouter = createTRPCRouter({
             },
           },
           Requirement: true,
+          puesto: true,
         },
       });
       return project;

@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Database } from "../../../../types/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
-const testProyectEmbedding = async (
+const addProyectToContext = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -22,6 +22,19 @@ const testProyectEmbedding = async (
       },
     },
   });
+
+  // Check if proyect is already in context
+  const { data: proyectInContext, error: errorInContext } = await supabase
+    .from("proyectos")
+    .select("id")
+    .eq("id", id);
+  if (errorInContext) {
+    return res.status(500).json({ error: errorInContext });
+  }
+  if (proyectInContext.length > 0) {
+    return res.status(200).json({ data: proyectInContext });
+  }
+
   const contexto =
     proyect.nombre +
     " " +
@@ -33,22 +46,24 @@ const testProyectEmbedding = async (
     input: contexto,
   });
   const embeddingValue = embedding?.data?.data[0]?.embedding;
+
   if (!embeddingValue) {
     return res.status(500).json({ error: "No se pudo crear el embedding" });
   }
-  interface res {
-    error: PostgrestError | null;
-    data: Database["public"]["Tables"]["test_embeddings"]["Row"][] | null;
+
+  const { error: errorNewProyect, data: dataNewProyect } = await supabase
+    .from("proyectos")
+    .insert([
+      {
+        id: id,
+        vector: String(embeddingValue),
+        context: contexto,
+      },
+    ]);
+  if (errorNewProyect) {
+    return res.status(500).json({ error: errorNewProyect });
   }
-  const Res = await supabase.rpc("test_match_vector", {
-    embedding: String(embeddingValue),
-    match_count: 5,
-    val: contexto,
-  });
-  if (Res.error) {
-    return res.status(500).json({ error: Res.error });
-  }
-  return res.status(200).json({ data: Res?.data });
+  return res.status(200).json({ data: dataNewProyect });
 };
 
-export default testProyectEmbedding;
+export default addProyectToContext;
