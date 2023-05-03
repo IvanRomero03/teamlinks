@@ -27,7 +27,7 @@ const Login: NextPage = () => {
         } else {
           if (
             invite.isSuccess &&
-            invite.data?.email !== sessionData.user?.email
+            invite.data?.email != sessionData.user?.email
           ) {
             console.log("redirecting to home not same email");
             void router.push("/");
@@ -47,7 +47,7 @@ const Login: NextPage = () => {
     // Lo sig se puede hacer ssr
     if (sessionData) {
       const emailToCheck = invite.data?.email;
-      if (invite.data && sessionData.user?.email !== emailToCheck) {
+      if (invite.data && sessionData.user?.email != emailToCheck) {
         console.log("redirecting to home not same email");
         void router.push("/");
       }
