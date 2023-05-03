@@ -32,9 +32,9 @@ const Admin: NextPage = () => {
   return (
     <Layout
       Items={[
-        { title: "Home", section: "admin" },
-        { title: "Projects", section: "admin/projects" },
-        { title: "My Team", section: "admin/team" },
+        { title: "Home", section: "manager" },
+        { title: "Projects", section: "manager/projects" },
+        { title: "My Team", section: "manager/team" },
       ]}
     >
       {/** Team sercher and add new member on top, and members after */}
