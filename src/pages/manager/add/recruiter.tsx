@@ -5,7 +5,7 @@ import MemberItem from "y/components/admin/MemberItem";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { api } from "y/utils/api";
 import { useSession } from "next-auth/react";
-
+/*
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isAdmin = await getServerIsAdmin(ctx);
   const session = await getServerAuthSession(ctx);
@@ -32,15 +32,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   };
 };
-
+*/
 // Page for the admin to add new Recruiters
 const RecruiterForm: NextPage = () => {
   return (
     <Layout
       Items={[
-        { title: "Home", section: "admin" },
-        { title: "Projects", section: "admin/projects" },
-        { title: "My Team", section: "admin/team" },
+        { title: "Home", section: "manager" },
+        { title: "Projects", section: "manager/projects" },
+        { title: "My Team", section: "manager/team" },
       ]}
     >
       {/** Add new Recruiter form */}

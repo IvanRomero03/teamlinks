@@ -6,7 +6,7 @@ import { api } from "y/utils/api";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+/*export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isAdmin = await getServerIsAdmin(ctx);
   const session = await getServerAuthSession(ctx);
   if (!session) {
@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   };
 };
-
+*/
 // Page for the admin to view the specific project, edit it, and assign recruiters to it
 const ProjectPage: NextPage = () => {
   const dataPlaceholder = {
@@ -68,9 +68,9 @@ const ProjectPage: NextPage = () => {
   return (
     <Layout
       Items={[
-        { title: "Home", section: "admin" },
-        { title: "Projects", section: "admin/projects" },
-        { title: "My Team", section: "admin/team" },
+        { title: "Home", section: "manager" },
+        { title: "Projects", section: "manager/projects" },
+        { title: "My Team", section: "manager/team" },
       ]}
     >
       <div className="mt-32 flex min-w-full justify-center">
@@ -85,7 +85,7 @@ const ProjectPage: NextPage = () => {
             <button
               className="rounded-md bg-emerald-400 p-2"
               onClick={() => {
-                void router.push("/admin/edit/project", "/edit/project");
+                void router.push("/manager/edit/project", "/edit/project");
               }}
             >
               Edit

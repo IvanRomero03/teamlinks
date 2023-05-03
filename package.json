@@ -18,6 +18,7 @@
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "@types/nodemailer": "^6.4.7",
+    "csv-parser": "^3.0.0",
     "formik": "^2.2.9",
     "next": "^13.2.1",
     "next-auth": "^4.19.0",

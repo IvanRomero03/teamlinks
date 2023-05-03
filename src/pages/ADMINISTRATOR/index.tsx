@@ -53,7 +53,8 @@ import {api} from "y/utils/api"
             <div className="flex max-w-3xl flex-row space-x-8 overflow-auto scroll-auto rounded-md border-2 border-gray-300 bg-gray-400 p-8 "></div>
         <Manager nameM="Ernesto" project="PYTHON" progress={95} id="1" recruiters="Marco,polo"/>
         <Manager nameM="ALEX" project="BASE DE DATOS" progress={49} id="2" recruiters="DEFALCO"/>  
-
+        <Manager nameM="JUAN" project="REACT" progress={100} id="3" recruiters="JUANITO"/>
+        
         </div>
 
 

@@ -1,18 +1,8 @@
 
 
 import csv
-import asyncio
-from prisma import Prisma
-
-
-
-
-
-
-
-
-
-
+#import asyncio
+#from prisma import Prisma
 
 class Proyecto():
     def __init__(self,id):
@@ -53,15 +43,8 @@ with open('formas_normal.csv', 'r') as file:
         
         proyectos_lista.append(Proyecto(line[10]))
         
-async def main() -> None:
-        db = Prisma()
-        await db.connect()
-        #queries
-        
 
-        await db.disconnect()
-        if __name__ == '__main__':
-            asyncio.run(main())
+        
 
 
         

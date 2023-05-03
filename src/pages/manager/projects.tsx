@@ -36,14 +36,14 @@ import { useRouter } from "next/router";
 const Projects: NextPage = () => {
   const router = useRouter();
   const handleNewMember = () => {
-    void router.push("/admin/add/project", "/add/project");
+    void router.push("/manager/add/project", "/add/project");
   };
   return (
     <Layout
       Items={[
-        { title: "Home", section: "admin" },
-        { title: "Projects", section: "admin/projects" },
-        { title: "My Team", section: "admin/team" },
+        { title: "Home", section: "manager" },
+        { title: "Projects", section: "manager/projects" },
+        { title: "My Team", section: "manager/team" },
       ]}
     >
       <div className="mt-32 flex min-w-full justify-center">

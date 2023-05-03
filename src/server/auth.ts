@@ -97,6 +97,7 @@ export const getServerIsRecruiter = async (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];
 }) => {
+  
   const session = await getServerAuthSession(ctx);
   const user = session?.user.id;
   const isRecruiter = await prisma.reclutador.findUnique({

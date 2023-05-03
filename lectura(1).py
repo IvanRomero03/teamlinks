@@ -280,4 +280,4 @@ with open('formas_normal_2.csv', 'r') as file:
 for obj in puestos_lista:
      print(obj.jobTitle)
 
-admin = [Prisma.admin.create(id=obj["id"], user=obj["user"], Departamentoid=obj["departamentoId"], Proyectoid=obj["proyectoId"],) for obj in admin_lista]
+#admin = [Prisma.admin.create(id=obj["id"], user=obj["user"], Departamentoid=obj["departamentoId"], Proyectoid=obj["proyectoId"],) for obj in admin_lista]
