@@ -5,9 +5,11 @@ import { api } from "y/utils/api";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { z } from "zod";
 import { useEffect } from "react";
-import { type GetStaticProps } from "next";
+import { type GetServerSideProps } from "next";
+import { getServerAuthSession } from "y/server/auth";
 
-export const getStaticProps: GetStaticProps = (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerAuthSession(ctx);
   const registerId = ctx.params?.registerId;
   if (!registerId) {
     return {
