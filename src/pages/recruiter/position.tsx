@@ -70,16 +70,6 @@ const Projects = ({
   });
 
   const sendJSONstring = () => {
-    // const jsonString = JSON.stringify(
-    //   matches?.map((match) => ({
-    //     id: match.id,
-    //     name: match.name,
-    //     position_similarity: String(match.position_similarity),
-    //     proyect_similarity: String(match.proyect_similarity),
-    //     recruiter_similarity: String(match.recruiter_similarity),
-    //     similarity: String(match.similarity),
-    //   }))
-    // );
     const jsonString = JSON.stringify(matches);
     console.log(jsonString);
     sendMessage("GameManager", "ReceiveJsonString", jsonString);
