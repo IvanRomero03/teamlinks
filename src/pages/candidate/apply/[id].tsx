@@ -5,6 +5,7 @@ import { api } from "y/utils/api";
 import { Formik, Form, Field } from "formik";
 import { useRef } from "react";
 import ImagePreview from "y/components/candidate/ImagePreview";
+import { toast } from "react-toastify";
 
 const Apply: NextPage = () => {
   const router = useRouter();
@@ -24,7 +25,18 @@ const Apply: NextPage = () => {
     const res = await mutation.mutateAsync({
       idPosition: String(id),
     });
+
     if (res.id) {
+      toast.success("Applied Succesfully!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       mutationContext.mutate({
         id: res.id,
       });

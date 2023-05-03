@@ -7,6 +7,7 @@ import { z } from "zod";
 import { useEffect } from "react";
 import { type GetServerSideProps } from "next";
 import { getServerAuthSession } from "y/server/auth";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerAuthSession(ctx);
@@ -85,6 +86,16 @@ const Login = ({ registerId }: { registerId: string }) => {
       });
     }
     // if success redirect to home
+    toast.success("Registering Success!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
     console.log("registering success");
     await router.push("/");
     console.log(result);

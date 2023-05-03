@@ -16,6 +16,7 @@ import Modal from "y/components/modal";
 import PositionItem from "y/components/admin/PositionItem";
 import RequirementsComponent from "y/components/admin/RequirementsComponent";
 import ReacruitersComponent from "y/components/admin/RecruitersComponent";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const isAdmin = await getServerIsAdmin(ctx);
@@ -212,6 +213,16 @@ const ProjectPage: NextPage = () => {
               if (res) {
                 resetForm();
                 setShowModal(false);
+                toast.success("Added!", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
                 contextMutation.mutate({
                   id: res.id,
                 });

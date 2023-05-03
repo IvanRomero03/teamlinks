@@ -95,6 +95,16 @@ const FormikForm = () => {
           });
           if (res) {
             console.log("success");
+            toast.success("Project Added!", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
             //alert("Project created successfully");
           }
           resetForm();
