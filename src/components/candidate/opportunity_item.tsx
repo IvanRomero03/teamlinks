@@ -8,15 +8,15 @@ interface Props {
   name: string;
   amount: number;
   date: string;
-  // primTech: string;
-  // secTech: string;
+  primTech: string;
+  secTech: string;
   icon: string;
-  // location: string;
+  location: string;
   description: string;
   modality: string;
   position: string;
   workTime: number;
-  // skills: string[];
+  skills: string[];
 }
 
 const OpportunityItem: React.FC<Props> = ({
@@ -24,13 +24,16 @@ const OpportunityItem: React.FC<Props> = ({
   name,
   amount,
   date,
+  primTech,
+  secTech,
   icon,
+  location,
   description,
   modality,
   position,
   workTime,
+  skills,
 }) => {
-  //Faltan primTech, secTech, location, skills
   const [modalOpen, setModalOpen] = React.useState(false);
 
   return (
@@ -44,7 +47,7 @@ const OpportunityItem: React.FC<Props> = ({
             </div>
             {/* Widget*/}
             <div className="flex justify-between">
-              <div className="grid w-52 justify-items-start px-4">
+              <div className="grid w-52 justify-items-center px-4">
                 <p className="font-bold text-gray-800">{name}</p>
                 <p className="my-auto text-sm sm:hidden md:hidden lg:flex">
                   Published: {date}
@@ -122,7 +125,7 @@ const OpportunityItem: React.FC<Props> = ({
               <div className="flex justify-between p-2">
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Location:</p>
-                  <p className="text-gray-800">{}</p>
+                  <p className="text-gray-800">{location}</p>
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Hours per Week:</p>
@@ -138,7 +141,7 @@ const OpportunityItem: React.FC<Props> = ({
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Main Technology:</p>
-                  <p className="text-gray-800">{}</p>
+                  <p className="text-gray-800">{primTech}</p>
                 </div>
                 <div className="px-1">
                   <p className="font-bold text-gray-800">Published:</p>
@@ -152,9 +155,14 @@ const OpportunityItem: React.FC<Props> = ({
               <div className="p-2">
                 <p className="font-bold text-gray-800">Skills:</p>
                 <ul className="flex justify-start">
-                  {/* {skills.map((skill) => (
-                                        <p className='text-gray-800 bg-blue-400 rounded-lg p-0.5 mx-1 capitalize'>{skill}</p>
-                                    ))} */}
+                  {skills.map((skill, indx) => (
+                    <p
+                      key={indx}
+                      className="mx-1 rounded-md bg-gray-400 p-1 capitalize text-gray-800"
+                    >
+                      {skill}
+                    </p>
+                  ))}
                 </ul>
               </div>
               <div className="flex justify-center p-2">

@@ -5,6 +5,7 @@ import {
 } from "../../trpc";
 import { z } from "zod";
 import { profileRouter } from "./profile";
+import { applicationRouter } from "./application";
 
 export const candidateRouter = createTRPCRouter({
   getOpportuninties: publicProcedure.query(async ({ ctx }) => {
@@ -17,12 +18,12 @@ export const candidateRouter = createTRPCRouter({
         tipo: true,
         id: true,
         numPosicionesDisponibles: true,
-        // mustHaves: true,
-        // proyecto: {
-        //     select: {
-        //         pais: true,
-        //     }
-        // }
+        mustHaves: true,
+        proyecto: {
+          select: {
+            pais: true,
+          },
+        },
       },
     });
     return opportunities;
@@ -46,12 +47,12 @@ export const candidateRouter = createTRPCRouter({
           tipo: true,
           id: true,
           numPosicionesDisponibles: true,
-          // mustHaves: true,
-          // proyecto: {
-          //     select: {
-          //         pais: true,
-          //     }
-          // }
+          mustHaves: true,
+          proyecto: {
+            select: {
+              pais: true,
+            },
+          },
         },
       });
       return position;
@@ -74,4 +75,5 @@ export const candidateRouter = createTRPCRouter({
       });
       return apply;
     }),
+  application: applicationRouter,
 });

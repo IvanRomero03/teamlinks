@@ -1,4 +1,3 @@
-import { type NextPage } from "next";
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -6,17 +5,37 @@ import { api } from "y/utils/api";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { z } from "zod";
 import { useEffect } from "react";
+import { type GetServerSideProps } from "next";
+import { getServerAuthSession } from "y/server/auth";
 
-const Login: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getServerAuthSession(ctx);
+  const registerId = ctx.params?.registerId;
+  if (!registerId) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      registerId,
+    },
+  };
+};
+
+const Login = ({ registerId }: { registerId: string }) => {
   const router = useRouter();
   const { data: sessionData } = useSession();
   const query = router.query;
   const invite = api.getInvite.getInvite.useQuery({
-    id: query.registerId as string,
+    id: registerId,
   });
 
   useEffect(() => {
-    if (!query.registerId) {
+    if (!registerId) {
       console.log("redirecting to home not registerId");
       void router.push("/");
     } else {
@@ -27,7 +46,7 @@ const Login: NextPage = () => {
         } else {
           if (
             invite.isSuccess &&
-            invite.data?.email !== sessionData.user?.email
+            invite.data?.email != sessionData.user?.email
           ) {
             console.log("redirecting to home not same email");
             void router.push("/");
@@ -36,48 +55,6 @@ const Login: NextPage = () => {
       }
     }
   }, [sessionData, query, invite]);
-
-  const checkPermitions = () => {
-    if (!query.registerId) {
-      // redirect to home page
-
-      void router.push("/");
-      console.log("redirecting to home not registerId");
-    }
-    // Lo sig se puede hacer ssr
-    if (sessionData) {
-      const emailToCheck = invite.data?.email;
-      if (invite.data && sessionData.user?.email !== emailToCheck) {
-        console.log("redirecting to home not same email");
-        void router.push("/");
-      }
-      // if (sessionData.user?.email !== query.registerId) {
-      //   // redirect to home page
-      //   console.log("redirecting to home not same email");
-      //   void router.push("/");
-      // }
-      // redirect to home page
-      console.log("redirecting to home from session");
-      //router.push("/");
-    }
-  };
-
-  useEffect(() => {
-    checkPermitions();
-  }, [sessionData, query.registerId]);
-
-  console.log(invite);
-  useEffect(() => {
-    () => {
-      console.log("useEffect");
-      if (invite.isSuccess && invite.data == null) {
-        void router.push("/");
-        console.log("redirecting to home from invite");
-        // not valid invite
-      }
-      console.log("useEffect2");
-    };
-  }, [invite]);
 
   const mutation = api.createRecruiter.createAccount.useMutation();
   const contextMutation = api.context.addRecruiter.useMutation();

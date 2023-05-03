@@ -14,7 +14,7 @@ const ProjectItem = ({ id, name, department, progress }: Props) => {
         <div className="flex flex-col">
           <Link
             className="text-xl font-bold hover:underline"
-            href={`/admin/project/${id}`}
+            href={`/manager/project/${id}`}
           >
             {name}
           </Link>

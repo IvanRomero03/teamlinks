@@ -7,6 +7,8 @@ import { createAccountRouter } from "./routers/recruiter/createAccount";
 import { candidateRouter } from "./routers/candidate/root";
 import { addToContextRouter } from "./routers/context/addToContext";
 import { recruiterInfo } from "./routers/recruiter/recruiterInfo";
+import { positionRouter } from "./routers/recruiter/position";
+import { superadmin } from "./routers/superadmin/root";
 
 /**
  * This is the primary router for your server.
@@ -22,6 +24,8 @@ export const appRouter = createTRPCRouter({
   candidateRouter: candidateRouter,
   context: addToContextRouter,
   recruiterInfo: recruiterInfo,
+  position: positionRouter,
+  superadmin: superadmin,
 });
 
 // export type definition of API

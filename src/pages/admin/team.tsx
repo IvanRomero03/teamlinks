@@ -1,48 +1,26 @@
-import Layout from "y/components/layout/layout";
-import { getServerAuthSession } from "y/server/auth";
-import { NextPage, type GetServerSideProps } from "next";
-import MemberItem from "y/components/admin/MemberItem";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
+import MemberItem from "y/components/admin/MemberItem";
+import Layout from "y/components/layout/layout";
 import { api } from "y/utils/api";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerAuthSession(ctx);
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {
-      session,
-    },
-  };
-};
-
-// Page for the admin to check on the team and add new members
 const Admin: NextPage = () => {
   const router = useRouter();
-  const { data, isError, isLoading } = api.admin.recruiters.getTeam.useQuery();
+  const { data, isError, isLoading } = api.superadmin.getAdminFull.useQuery();
   const handleNewMember = () => {
-    void router.push("/admin/add/recruiter");
+    void router.push("/manager/add/recruiter");
   };
   return (
     <Layout
       Items={[
         { title: "Home", section: "admin" },
-        { title: "Projects", section: "admin/projects" },
         { title: "My Team", section: "admin/team" },
       ]}
     >
       {/** Team sercher and add new member on top, and members after */}
       <div className="mt-32 flex min-w-full justify-center">
         <div className=" flex w-3/4 flex-col justify-center">
-          <h1 className="mb-6 text-3xl font-bold text-white">
-            My Recruitment Team
-          </h1>
+          <h1 className="mb-6 text-3xl font-bold text-white">My Team</h1>
           <div className="flex flex-row justify-between">
             {/** Search bar */}
             <div className="flex flex-row space-x-8">
@@ -74,9 +52,7 @@ const Admin: NextPage = () => {
                     name={member.user.name ?? "No name"}
                     category={member?.Departamento?.nombre ?? "Engineering"}
                     progress={Math.floor(Math.random() * 100)}
-                    proyects={member.ReclutadorProyectos.map(
-                      (proyect) => proyect.proyecto.nombre
-                    )}
+                    proyects={member.proyecto.map((proyect) => proyect.nombre)}
                     key={member.id}
                   />
                 ))

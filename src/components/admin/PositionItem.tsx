@@ -6,7 +6,7 @@ const PositionItem = ({ position }: { position: Puestos }) => {
     <div className="m-2 flex flex-col space-y-4 rounded-md border-white bg-white p-4 text-center shadow-md">
       <div className="flex flex-col justify-between space-y-4">
         <Link
-          href={`/admin/position/${position.id}`}
+          href={`/manager/position/${position.id}`}
           className="text-xl font-bold hover:underline"
         >
           {position.jobTitle}
@@ -18,19 +18,25 @@ const PositionItem = ({ position }: { position: Puestos }) => {
               className="h-full rounded-full"
               style={{
                 width: `${
-                  (position.numPosicionesDisponibles / position.numPosiciones) *
-                  100
+                  ((position.numPosiciones -
+                    position.numPosicionesDisponibles) *
+                    100) /
+                  position.numPosiciones
                 }%`,
                 backgroundColor:
-                  position.numPosicionesDisponibles / position.numPosiciones <
+                  (position.numPosiciones - position.numPosicionesDisponibles) /
+                    position.numPosiciones <
                   0.5
                     ? "#F56565"
                     : "#68D391",
               }}
             />
             <p className="text-sm">
-              {(position.numPosicionesDisponibles / position.numPosiciones) *
-                100}
+              {(
+                ((position.numPosiciones - position.numPosicionesDisponibles) *
+                  100) /
+                position.numPosiciones
+              ).toFixed(2)}
               %
             </p>
           </div>
