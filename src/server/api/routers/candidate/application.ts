@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../../trpc";
+import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import { z } from "zod";
 
 export const applicationRouter = createTRPCRouter({
@@ -17,6 +17,13 @@ export const applicationRouter = createTRPCRouter({
                             select: {
                                 id: true,
                                 jobTitle: true,
+                                mustHaves: true,
+                                tipo: true,
+                                proyecto: {
+                                    select: {
+                                        pais: true,
+                                    }
+                                },
                             }
                         }
                     },

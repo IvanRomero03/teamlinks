@@ -5,6 +5,7 @@ import {
 } from "../../trpc";
 import { z } from "zod";
 import { profileRouter } from "./profile";
+import { applicationRouter } from "./application";
 
 export const candidateRouter = createTRPCRouter({
   getOpportuninties: publicProcedure.query(async ({ ctx }) => {
@@ -73,4 +74,5 @@ export const candidateRouter = createTRPCRouter({
         },
       });
     }),
+  application: applicationRouter,
 });

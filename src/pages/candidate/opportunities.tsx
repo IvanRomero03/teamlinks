@@ -4,7 +4,7 @@ import { api } from "y/utils/api";
 
 
 
-const orders = () => {
+const Opportunities = () => {
   const { data, error } = api.candidateRouter.getOpportuninties.useQuery();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const month = [
@@ -33,8 +33,8 @@ const orders = () => {
         ]}
       >
         <div className="mt-20 p-10">
-          <div className="m-auto w-full overflow-y-auto rounded-lg border bg-white p-4">
-            <table className="table-auto w-full">
+          <div className="m-auto w-3/4 overflow-y-auto rounded-lg border bg-white p-4">
+            <table className="table-auto w-full border-separate border-spacing-y-2 p-2">
               <thead>
                 <tr>
                     <th className="py-2">Job Title:</th>
@@ -48,12 +48,12 @@ const orders = () => {
               {data?.map((opportunity, id) => (
                 <tbody>
                     <tr key={id} className="rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
-                        <td className="px-4 py-2">{opportunity.jobTitle}</td>
-                        <td className="px-4 py-2">{opportunity.mustHaves[0]?.name}</td>
+                        <td className="px-4 py-2 rounded-l-lg">{opportunity.jobTitle}</td>
+                        <td className="px-4 py-2 capitalize">{opportunity.mustHaves[0]?.name}</td>
                         <td className="px-4 py-2">{opportunity.proyecto.pais}</td>
                         <td className="px-4 py-2">{opportunity.tipo}</td>
                         <td className="px-4 py-2">{opportunity.fechaCreacion.getDate()+ "/" + month[opportunity.fechaCreacion.getMonth()] + "/" + opportunity.fechaCreacion.getFullYear()}</td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 rounded-r-lg">
                             <div
                                 className={
                                     opportunity.numPosicionesDisponibles === 0
@@ -105,4 +105,4 @@ const orders = () => {
   );
 };
 
-export default orders;
+export default Opportunities;

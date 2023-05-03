@@ -34,7 +34,6 @@ const OpportunityItem: React.FC<Props> = ({
   workTime,
   skills,
 }) => {
-  //Faltan primTech, secTech, location, skills
   const [modalOpen, setModalOpen] = React.useState(false);
 
   return (
@@ -48,7 +47,7 @@ const OpportunityItem: React.FC<Props> = ({
             </div>
             {/* Widget*/}
             <div className="flex justify-between">
-              <div className="grid w-52 justify-items-start px-4">
+              <div className="grid w-52 justify-items-center px-4">
                 <p className="font-bold text-gray-800">{name}</p>
                 <p className="my-auto text-sm sm:hidden md:hidden lg:flex">
                   Published: {date}

@@ -63,7 +63,7 @@ const Usuario = () => {
           {data?.user && PersonalInfo && (
           <div className="grid justify-items-center">
             {/* Profile Pic */}
-            <div className="mt-4 grid justify-items-center rounded-full border-4 border-[#47d7ac] w-fit">
+            <div className="mt-4 grid justify-items-center rounded-full border-4 border-gray-400 hover:border-[#47d7ac] w-fit">
               <Image
                 src={data.user.image || "/images/user.png"}
                 alt="Profile Pic"

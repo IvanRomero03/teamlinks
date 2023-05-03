@@ -1,36 +1,63 @@
+import { getRandomValues } from "crypto";
 import React from "react";
 import { api } from "y/utils/api";
 
 
 const Aplicaciones = () => {
-    const { data, error } = api.applicationRouter.getApplication.useQuery();
+    const { data, error } = api.candidateRouter.application.getApplication.useQuery();
+    function getRandomInt(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+    const icon = [
+        "images/icons/cpp.png",
+        "images/icons/css.png",
+        "images/icons/js.png",
+        "images/icons/mop.png",
+        "images/icons/pc.png",
+        ];
+    const month = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "July",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
     return(
         <>
             <div className="w-auto col-span-1 relative lg:h-[70vh] h-[50vh] m-auto p-4 
             border rounded-lg bg-white overflow-auto">
                 <h1 className="font-bold">Applications</h1>
                 <ul>
-                    {data?.map((application, id) => (
-                        <li key={id}
-                        className="bg-gray-100 hover:bg-gray-200 rounded-lg my-3 p-2 cursor-pointer flex"
-                        >
-                            {/* Insertar Iconos */}
-                            {/* <div className='bg-[#47d7ac] rounded-lg p-3'>
-                                <img src={(application.icon)} alt="icon" className="h-6 w-6" />
-                            </div> */}
-                            {/* Widget*/}
-                            <div className="flex justify-between">
-                                <div className="pl-4 w-52">
-                                    <p className="text-gray-800 font-bold">{application.puestos.JobTitle}</p>
-                                    <div className={(application.status === 'Not Selected' ? 'p-1 rounded-lg bg-red-300 w-fit' : 
-                                    application.status === 'Selected' ? 'p-1 rounded-lg bg-green-300 w-fit' :
-                                    application.status === 'Under Consideration' ? 'p-1 rounded-lg bg-yellow-300 w-fit' : 'invisible h-0')}>
-                                        <p className="text-gray-800 text-sm">Status: {application.status}</p>
+                    {data?.aplicacion.map((application, id) => (
+                        <li key={id}>
+                            <div className="mt-5 flex cursor-pointer rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
+                                <button className="flex">
+                                    {/* Insertar Iconos */}
+                                    <div className='my-auto rounded-lg bg-[#47d7ac] p-3'>
+                                        <img src={icon[getRandomInt(0, 4)]} alt="icon" className="h-6 w-6" />
                                     </div>
-                                </div>
-                                <p className="pr-2 lg:flex md:hidden sm:hidden pl-4 text-gray-800 text-sm my-auto w-36">Main Technology: {application.primTech}</p>
-                                <p className="pl-2 lg:flex md:hidden sm:hidden text-sm my-auto w-20">{application.date}</p>
-                            </div>
+                                    {/* Widget*/}
+                                    <div className="flex justify-between">
+                                        <div className="grid w-52 justify-items-center px-4">
+                                            <p className="text-gray-800 font-bold ">{application.Puestos?.jobTitle}</p>
+                                            <p className="my-auto text-sm sm:hidden md:hidden lg:flex">Published: {application.fechaCreacion.getDate()+ "/" + month[application.fechaCreacion.getMonth()] + "/" + application.fechaCreacion.getFullYear()}</p>
+                                        </div>
+                                        <div className={(application.estatus === 'Not Selected' ? 'p-1 rounded-md bg-red-300 w-fit my-auto' : 
+                                        application.estatus === 'Selected' ? 'p-1 rounded-md bg-green-300 w-fit my-auto' :
+                                        application.estatus === 'Under Consideration' ? 'p-1 rounded-md bg-yellow-300 w-fit my-auto' :
+                                        application.estatus === 'Applied' ? 'p-1 rounded-md bg-blue-300 w-fit my-auto' : 'hidden h-0')}>
+                                            <p className="text-gray-800 text-sm ">Status: {application.estatus}</p>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>    
                         </li>
                     ))}
                 </ul>
