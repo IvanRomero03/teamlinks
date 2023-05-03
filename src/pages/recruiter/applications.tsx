@@ -15,8 +15,7 @@ import {
 import { useState } from "react";
 import { applicant_data } from "y/components/recruiter/data/applicant_data.js";
 import { application_individual } from "y/components/applicant.js";
-
-//import Unity, { UnityContext } from "react-unity-webgl";
+import { Unity, useUnityContext } from "react-unity-webgl";
 
 const Applications: NextPage = () => {
   const [toggleState, setToggleState] = useState(0);
@@ -27,6 +26,31 @@ const Applications: NextPage = () => {
     setToggleState(index);
     setToggleState2(targetUser);
   };
+
+  const { unityProvider, sendMessage } = useUnityContext({
+    //This build is for the final version
+    loaderUrl: "/build/build.loader.js",
+    dataUrl: "/build/build.data",
+    frameworkUrl: "/build/build.framework.js",
+    codeUrl: "/build/build.wasm",
+  });
+
+  console.log("Declaring JSON string...");
+  //Contains sample test string
+  const jsonString = JSON.stringify([{id: "clgy49yb60001c6kkgrk9ixda",position_similarity: "0.77805828797743",proyect_similarity: "0.771634949928021",recruiter_similarity: "0.806145025758184",similarity: "0.785279421221212",name: "Ivan Romero" }, {id: "clgy8a8dl000kml09htwfuy1g",position_similarity: "0.672263908238413",proyect_similarity: "0.696172513813664",recruiter_similarity: "0.712509417473871",similarity: "0.693648613175316",name: "Santiago Gamez"}]);
+  console.log("JSON string declared!");
+  console.log("JSON string (React): " + jsonString);
+
+
+    function sendJSONstring() {
+    sendMessage("GameManager", "ReceiveJsonString", jsonString);
+    console.log("JSON string sent!")
+  }
+
+  console.log("Sending JSON string...");
+  sendJSONstring();
+
+  console.log("Loading Unity Build...");
 
   return (
     <Layout
@@ -49,6 +73,15 @@ const Applications: NextPage = () => {
             <span className="hidden md:grid">Applied</span>
             <span className="hidden sm:grid">Status</span>
           </div>
+          <div style={{
+                display: "flex",
+                justifyContent: "center",}}>
+              <Unity style={{
+                width: "100%",
+                height: "100%", 
+                justifyContent: "center",}}
+              unityProvider={unityProvider}/>
+            </div>
           <ul>
             {applicant_data.map((application, id) => (
               <li
