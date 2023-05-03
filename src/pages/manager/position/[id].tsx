@@ -78,7 +78,7 @@ const ProjectPage: NextPage = () => {
                     className="rounded-md bg-emerald-400 p-2"
                     onClick={() => {
                       void router.push(
-                        `/admin/edit/position/${String(data.id)}`
+                        `/manager/edit/position/${String(data.id)}`
                       );
                     }}
                   >

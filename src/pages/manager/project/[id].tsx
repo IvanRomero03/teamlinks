@@ -95,7 +95,7 @@ const ProjectPage: NextPage = () => {
                   <button
                     className="rounded-md bg-emerald-400 p-2"
                     onClick={() => {
-                      void router.push(`/admin/edit/project/${String(id)}`);
+                      void router.push(`/manager/edit/project/${String(id)}`);
                     }}
                   >
                     Edit

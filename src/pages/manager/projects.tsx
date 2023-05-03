@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Projects: NextPage = () => {
   const router = useRouter();
   const handleNewMember = () => {
-    void router.push("/admin/add/project", "/add/project");
+    void router.push("/manager/add/project", "/add/project");
   };
 
   const { data, isError, isLoading, isFetched } =
