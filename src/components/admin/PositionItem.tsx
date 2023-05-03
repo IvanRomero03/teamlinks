@@ -6,7 +6,7 @@ const PositionItem = ({ position }: { position: Puestos }) => {
     <div className="m-2 flex flex-col space-y-4 rounded-md border-white bg-white p-4 text-center shadow-md">
       <div className="flex flex-col justify-between space-y-4">
         <Link
-          href={`/admin/position/${position.id}`}
+          href={`/manager/position/${position.id}`}
           className="text-xl font-bold hover:underline"
         >
           {position.jobTitle}
