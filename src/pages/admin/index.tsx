@@ -8,6 +8,7 @@ import {
 } from "y/server/auth";
 import ProyectSmall from "y/components/admin/ProyectSmall";
 import MemberSmall from "y/components/admin/MemberSmall";
+import { api } from "y/utils/api";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerAuthSession(context);
@@ -37,6 +38,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const AdminPage: NextPage = () => {
+  const { data: Projects, isLoading: ProjectsLoading } =
+    api.admin.home.getProyects.useQuery();
+  const { data: Members, isLoading: MembersLoading } =
+    api.admin.home.getTeam.useQuery();
+
   return (
     <Layout
       Items={[
@@ -55,22 +61,36 @@ const AdminPage: NextPage = () => {
             <h2 className="text-2xl font-bold text-white">Projects</h2>
             {/** Projects overview */}
             <div className="flex max-w-3xl flex-row space-x-8 overflow-auto scroll-auto rounded-md border-2 border-gray-300 bg-gray-400 p-8 ">
-              <ProyectSmall name="Proyecto 1" progress={75} id="1" />
-              <ProyectSmall name="Proyecto 2" progress={25} id="2" />
-              <ProyectSmall name="Proyecto 3" progress={50} id="3" />
-              <ProyectSmall name="Proyecto 4" progress={90} id="4" />
-              <ProyectSmall name="Proyecto 5" progress={75} id="5" />
-              <ProyectSmall name="Proyecto 6" progress={25} id="6" />
+              {ProjectsLoading ? (
+                <p className="text-2xl font-bold text-white">Loading</p>
+              ) : (
+                Projects?.map((proyect) => (
+                  <ProyectSmall
+                    name={proyect.nombre}
+                    progress={Math.floor(
+                      (proyect.numPosicionesDis * 100) /
+                        proyect.numPosicionesTot
+                    )}
+                    id={proyect.id}
+                    key={proyect.id}
+                  />
+                ))
+              )}
             </div>
             {/** Members overview */}
             <h2 className="text-2xl font-bold text-white">Team</h2>
             <div className="flex max-w-3xl flex-row space-x-8 overflow-auto scroll-auto rounded-md border-2 border-gray-300 bg-gray-400 p-8 ">
-              <MemberSmall name="Member 1" progress={75} />
-              <MemberSmall name="Member 2" progress={25} />
-              <MemberSmall name="Member 3" progress={50} />
-              <MemberSmall name="Member 4" progress={90} />
-              <MemberSmall name="Member 5" progress={75} />
-              <MemberSmall name="Member 6" progress={25} />
+              {MembersLoading ? (
+                <p className="text-2xl font-bold text-white">Loading</p>
+              ) : (
+                Members?.map((member) => (
+                  <MemberSmall
+                    name={String(member.user.name)}
+                    progress={Math.floor(Math.random() * 100)}
+                    key={member.id}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>

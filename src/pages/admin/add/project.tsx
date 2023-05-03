@@ -59,6 +59,7 @@ export default RecruiterForm;
 const FormikForm = () => {
   const session = useSession();
   const mutation = api.admin.projectRouter.createProject.useMutation();
+  const departments = api.admin.projectRouter.getDepartments.useQuery();
   //const mutate = api.admin.inviteRecruiter.inviteRecruiter.useMutation();
   return (
     <Formik
@@ -72,6 +73,7 @@ const FormikForm = () => {
         pos_dis: 0,
         pos_tot: 0,
         _req: "",
+        department: "clh76hibj0000c68k38efcvkq",
       }}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
@@ -88,6 +90,7 @@ const FormikForm = () => {
             type: values.type,
             status: values.status,
             requirements: values.requirements,
+            department: values.department,
           });
           if (res) {
             console.log("success");
@@ -164,12 +167,30 @@ const FormikForm = () => {
               <option value="Closed">Closed</option>
             </Field>
           </div>
+          <p className="text-lg font-bold">Department</p>
+          <div className="flex flex-col">
+            <Field
+              as="select"
+              name="deparment"
+              required
+              className="min-w-full rounded-lg border-2 border-blue-300"
+            >
+              {departments.data?.map((department) => {
+                return (
+                  <option value={department.id} key={department.id}>
+                    {department.nombre}
+                  </option>
+                );
+              })}
+            </Field>
+          </div>
           {/** Positions available and total positions with ints */}
           <p className="text-lg font-bold">Positions</p>
           <div className="flex flex-row justify-between">
             <p className="text-lg font-bold">Available</p>
             <p className="text-lg font-bold">Total</p>
           </div>
+
           <div className="flex flex-row space-x-2">
             <Field
               type="number"

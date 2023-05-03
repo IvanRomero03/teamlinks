@@ -115,8 +115,13 @@ const ProjectPage: NextPage = () => {
                     <h3 className="my-2 truncate text-xl font-bold text-white">
                       Description:
                     </h3>
-                    <p className="text-md max-h-48 overflow-y-auto font-bold text-white">
-                      {data.descripcion}
+                    <p className="text-md max-h-48 overflow-y-auto rounded-lg bg-slate-600 font-bold text-white">
+                      {data.descripcion.split("\n").map((str) => (
+                        <>
+                          <p>{str}</p>
+                          <br />
+                        </>
+                      ))}
                     </p>
                   </div>
                   <div className="my-4">

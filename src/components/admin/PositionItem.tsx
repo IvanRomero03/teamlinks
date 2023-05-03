@@ -18,19 +18,25 @@ const PositionItem = ({ position }: { position: Puestos }) => {
               className="h-full rounded-full"
               style={{
                 width: `${
-                  (position.numPosicionesDisponibles / position.numPosiciones) *
-                  100
+                  ((position.numPosiciones -
+                    position.numPosicionesDisponibles) *
+                    100) /
+                  position.numPosiciones
                 }%`,
                 backgroundColor:
-                  position.numPosicionesDisponibles / position.numPosiciones <
+                  (position.numPosiciones - position.numPosicionesDisponibles) /
+                    position.numPosiciones <
                   0.5
                     ? "#F56565"
                     : "#68D391",
               }}
             />
             <p className="text-sm">
-              {(position.numPosicionesDisponibles / position.numPosiciones) *
-                100}
+              {(
+                ((position.numPosiciones - position.numPosicionesDisponibles) *
+                  100) /
+                position.numPosiciones
+              ).toFixed(2)}
               %
             </p>
           </div>
