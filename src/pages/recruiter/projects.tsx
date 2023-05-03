@@ -5,12 +5,14 @@ import { applicant_data } from "y/components/recruiter/data/applicant_data.js";
 import { application_individual } from "y/components/applicant.js";
 import { proyects_data } from "y/components/proyects.js";
 import { positions } from "y/components/position_jobs.js";
+import { useRouter } from "next/router";
 
 import { RiUser3Fill, RiArrowLeftCircleFill } from "react-icons/ri";
 
 import { api } from "y/utils/api";
 
 const Projects: NextPage = () => {
+  const router = useRouter();
   const [toggleState, setToggleState] = useState(0);
   const [idProyecto, setidProyecto] = useState("");
 
@@ -140,7 +142,15 @@ const Projects: NextPage = () => {
           <ul>
             {puestos?.puesto.map((position, id) => (
               <li
-                onClick={() => toggleTab(2, id)}
+                onClick={() =>
+                  void router.push(
+                    {
+                      pathname: "/recruiter/position/",
+                      query: { idPosition: position.id, idProyect: idProyecto },
+                    },
+                    "/recruiter/position/"
+                  )
+                }
                 key={id}
                 className="my-3 grid h-[5rem] cursor-pointer grid-cols-2 items-center justify-between rounded-lg bg-gray-100 p-2 hover:bg-gray-200 sm:grid-cols-3 md:grid-cols-4"
               >

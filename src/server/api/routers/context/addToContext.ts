@@ -59,7 +59,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: String(embeddingValue),
+            vector: "[" + String(embeddingValue) + "]",
             context: contexto,
           },
         ]);
@@ -130,7 +130,7 @@ export const addToContextRouter = createTRPCRouter({
         .insert([
           {
             id: id,
-            vector: String(embeddingValue),
+            vector: "[" + String(embeddingValue) + "]",
             context: contexto,
           },
         ]);
@@ -179,6 +179,7 @@ export const addToContextRouter = createTRPCRouter({
         .from("recruiters")
         .select("id")
         .eq("id", id);
+      console.log("errorInContext", errorInContext);
       if (errorInContext) {
         return null;
       }
@@ -198,7 +199,7 @@ export const addToContextRouter = createTRPCRouter({
       });
 
       const embeddingValue = embedding?.data?.data[0]?.embedding;
-
+      console.log("embedding", embeddingValue);
       if (!embeddingValue) {
         return null;
       }
@@ -207,10 +208,11 @@ export const addToContextRouter = createTRPCRouter({
         await supabase.from("recruiters").insert([
           {
             id: id,
-            vector: String(embeddingValue),
+            vector: "[" + String(embeddingValue) + "]",
             context: contexto,
           },
         ]);
+      console.log(errorNewRecruiter);
       if (errorNewRecruiter) {
         return null;
       }
@@ -277,7 +279,7 @@ export const addToContextRouter = createTRPCRouter({
         await supabase.from("applications").insert([
           {
             id: id,
-            vector: String(embeddingValue),
+            vector: "[" + String(embeddingValue) + "]",
             context: contexto,
           },
         ]);
@@ -362,6 +364,7 @@ export const addToContextRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const recruiterId = ctx.session.user.id;
       const { proyectId, positionId, min_similarity } = input;
+      console.log(proyectId, positionId, min_similarity);
       // get_matches(recruiterId text, proyectId text, positionId text, min_similarity float)
       // returns table (id text, position_similarity float, proyect_similarity float, recruiter_similarity float, similarity float)
       const { data } = await supabase.rpc("get_matches", {
