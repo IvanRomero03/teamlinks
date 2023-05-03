@@ -1,5 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "../../trpc";
 import { z } from "zod";
+import { applicationRouter } from "./application";
+import { notificationsRouter } from "./notifications";
 
 export const recruiterInfo = createTRPCRouter({
   getInfo: protectedProcedure.query(async ({ ctx }) => {
@@ -55,4 +57,6 @@ export const recruiterInfo = createTRPCRouter({
       });
       return proyect;
     }),
+  application: applicationRouter,
+  notifications: notificationsRouter,
 });

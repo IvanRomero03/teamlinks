@@ -21,11 +21,18 @@ const Home: NextPage = () => {
     { x: "Rejected", y: 5 },
     { x: "Pending", y: 5 },
   ];
-  const notifications: { title: string; date: string }[] = [
-    { title: "New application received", date: "2022-05-01 10:30:00" },
-    { title: "Interview scheduled", date: "2022-04-30 15:20:00" },
-    { title: "Application rejected", date: "2022-04-28 08:45:00" },
-  ];
+
+  const { data: notificationsData, error: notificationsError } =
+    api.recruiterInfo.notifications.getNotifications.useQuery();
+
+  if (notificationsError) {
+    return (
+      <div>
+        <p>Error loading notifications: {notificationsError.message}</p>
+      </div>
+    );
+  }
+
   return (
     <Layout
       Items={[
@@ -54,14 +61,25 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="m-10 h-[32rem] w-80 rounded-lg bg-gray-100 shadow-lg">
+        <div className="m-10 h-[32rem] w-96 rounded-lg bg-gray-100 shadow-lg">
           <h1 className="m-2 justify-center text-lg">Notifications</h1>
-          {notifications.map((notification, index) => (
-            <div key={index} className="border-b px-4 py-2">
-              <h2 className="font-bold">{notification.title}</h2>
-              <p className="text-sm text-gray-500">{notification.date}</p>
-            </div>
-          ))}
+          <ul className="divide-y divide-gray-300">
+            {notificationsData?.map((notification, index) => (
+              <li key={index} className="p-2">
+                <div className="mb-2 rounded-lg border-l-4 border-teal-600 bg-white p-3 shadow-md">
+                  <p className="font-semibold text-teal-600">
+                    New Application!
+                  </p>
+                  <p>{notification.candidato?.user.name}</p>
+                  <p>{notification.Puestos?.jobTitle}</p>
+                  <p>
+                    Date:{" "}
+                    {notification.fechaCreacion.toLocaleDateString("en-US")}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </Layout>

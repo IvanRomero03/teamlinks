@@ -44,7 +44,7 @@ const Projects: NextPage = () => {
       >
         <div className="m-auto w-full overflow-y-auto rounded-lg border bg-white p-4">
           <div className="my-3 grid cursor-pointer grid-cols-2 items-center justify-between p-2 sm:grid-cols-3 md:grid-cols-4">
-            <span>Role</span>
+            <span>Project</span>
             <span className="text-right sm:text-left">Status</span>
             <span className="hidden sm:grid">Description</span>
           </div>

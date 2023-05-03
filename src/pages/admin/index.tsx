@@ -1,6 +1,13 @@
 import { NextPage } from "next";
-import MemberSmall from "y/components/admin/MemberSmall";
 import Layout from "y/components/layout/layout";
+import { GetServerSideProps } from "next";
+import {
+  getServerAuthSession,
+  getServerIsAdmin,
+  getServerIsRole,
+} from "y/server/auth";
+import ProyectSmall from "y/components/admin/ProyectSmall";
+import MemberSmall from "y/components/admin/MemberSmall";
 import { api } from "y/utils/api";
 
 const AdminPage: NextPage = () => {
@@ -14,11 +21,9 @@ const AdminPage: NextPage = () => {
         { title: "My Team", section: "admin/team" },
       ]}
     >
-      <div className="mt-32 flex min-w-full  justify-center">
-        <div className="">
-          <h1 className="-my-8 mb-8 text-3xl font-bold text-white">
-            My DashBoard
-          </h1>
+      <div className="mt-32 flex min-w-full justify-center">
+        <div className="w-full max-w-6xl">
+          <h1 className="mb-12 text-4xl font-bold text-white">My Dashboard</h1>
 
           <div className="flex flex-col space-y-8">
             {/** Members overview */}

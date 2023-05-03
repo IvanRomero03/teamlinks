@@ -13,9 +13,9 @@ import {
   RiArrowLeftCircleFill,
 } from "react-icons/ri";
 import { useState } from "react";
-import { applicant_data } from "y/components/recruiter/data/applicant_data.js";
-import { application_individual } from "y/components/applicant.js";
-import { Unity, useUnityContext } from "react-unity-webgl";
+import { api } from "y/utils/api";
+
+//import Unity, { UnityContext } from "react-unity-webgl";
 
 const Applications: NextPage = () => {
   const [toggleState, setToggleState] = useState(0);
@@ -27,30 +27,23 @@ const Applications: NextPage = () => {
     setToggleState2(targetUser);
   };
 
-  const { unityProvider, sendMessage } = useUnityContext({
-    //This build is for the final version
-    loaderUrl: "/build/build.loader.js",
-    dataUrl: "/build/build.data",
-    frameworkUrl: "/build/build.framework.js",
-    codeUrl: "/build/build.wasm",
-  });
+  const { data, error } =
+    api.recruiterInfo.application.getApplication.useQuery();
 
-  console.log("Declaring JSON string...");
-  //Contains sample test string
-  const jsonString = JSON.stringify([{id: "clgy49yb60001c6kkgrk9ixda",position_similarity: "0.77805828797743",proyect_similarity: "0.771634949928021",recruiter_similarity: "0.806145025758184",similarity: "0.785279421221212",name: "Ivan Romero" }, {id: "clgy8a8dl000kml09htwfuy1g",position_similarity: "0.672263908238413",proyect_similarity: "0.696172513813664",recruiter_similarity: "0.712509417473871",similarity: "0.693648613175316",name: "Santiago Gamez"}]);
-  console.log("JSON string declared!");
-  console.log("JSON string (React): " + jsonString);
-
-
-    function sendJSONstring() {
-    sendMessage("GameManager", "ReceiveJsonString", jsonString);
-    console.log("JSON string sent!")
-  }
-
-  console.log("Sending JSON string...");
-  sendJSONstring();
-
-  console.log("Loading Unity Build...");
+  const month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
   return (
     <Layout
@@ -73,17 +66,8 @@ const Applications: NextPage = () => {
             <span className="hidden md:grid">Applied</span>
             <span className="hidden sm:grid">Status</span>
           </div>
-          <div style={{
-                display: "flex",
-                justifyContent: "center",}}>
-              <Unity style={{
-                width: "100%",
-                height: "100%", 
-                justifyContent: "center",}}
-              unityProvider={unityProvider}/>
-            </div>
           <ul>
-            {applicant_data.map((application, id) => (
+            {data?.map((application, id) => (
               <li
                 onClick={() => toggleTab(1, id)}
                 key={id}
@@ -91,24 +75,34 @@ const Applications: NextPage = () => {
               >
                 <div className="flex">
                   <div className="pl-4">
-                    <p className="text-sm text-gray-800">{application.title}</p>
+                    <p className="text-sm text-gray-800">
+                      {application.Puestos?.jobTitle}
+                    </p>
                   </div>
                 </div>
                 <p className="hidden md:flex">Under Construction</p>
-                <p className="hidden md:flex">{application.date}</p>
+                <p className="hidden md:flex">
+                  {String(application.fechaCreacion.getDate()) +
+                    "/" +
+                    String(month[application.fechaCreacion.getMonth()]) +
+                    "/" +
+                    String(application.fechaCreacion.getFullYear())}
+                </p>
                 <p className="text-right text-gray-600 sm:text-left">
                   <span
                     className={
-                      application.status === "Not Selected"
+                      application.estatus === "Not Selected"
                         ? "w-fit rounded-lg bg-red-400 p-1"
-                        : application.status === "Selected"
+                        : application.estatus === "Selected"
                         ? "w-fit rounded-lg bg-green-400 p-1"
-                        : application.status === "Under Consideration"
+                        : application.estatus === "Under Consideration"
                         ? "w-fit rounded-lg bg-yellow-400 p-1"
+                        : application.estatus === "Applied"
+                        ? "w-fit rounded-lg bg-blue-400 p-1"
                         : "invisible h-0"
                     }
                   >
-                    {application.status}
+                    {application.estatus}
                   </span>
                 </p>
               </li>
@@ -121,30 +115,54 @@ const Applications: NextPage = () => {
           toggleState === 1 ? "m-auto mt-20 w-[75rem] p-10" : "tab-content"
         }
       >
-        <div className="m-auto my-3 w-full rounded-lg border bg-white p-4">
-          <button className="scale-[2]">
-            <RiArrowLeftCircleFill onClick={() => toggleTab(0, 0)} />
-          </button>
-          <div className="align-center m-3 flex h-[10rem] w-[10rem] items-center justify-center rounded-md bg-gray-200">
-            <RiUser3Fill className="scale-[3]" />
-          </div>
-          <h1 className="m-3 text-2xl">Information</h1>
-          <div className="m-3 flex flex-col gap-2 rounded-md bg-gray-200 p-2 shadow-md">
-            <h1>name: {application_individual[toggleState2]?.name}</h1>
-            <p>position: {application_individual[toggleState2]?.title}</p>
-            <p>
-              description: {application_individual[toggleState2]?.description}
-            </p>
-          </div>
+        {data?.map((application, id) => (
+          <div
+            key={id}
+            className="m-auto my-3 w-full rounded-lg border bg-white p-4"
+          >
+            <button className="scale-[2]">
+              <RiArrowLeftCircleFill onClick={() => toggleTab(0, 0)} />
+            </button>
+            <div className="align-center m-3 flex h-[10rem] w-[10rem] items-center justify-center rounded-md bg-gray-200">
+              <RiUser3Fill className="scale-[3]" />
+            </div>
+            <h1 className="m-3 text-2xl">Information</h1>
+            <div className="m-3 flex flex-col gap-2 rounded-md bg-gray-200 p-2 shadow-md">
+              <h1>Name: {application.candidato.user.name}</h1>
+              <p>Position: {application.candidato.description}</p>
+              <p>Skills: </p>
+              <div className="flex">
+                {application.candidato.CandiadateTechStack.map((skill) => (
+                  <div
+                    key={skill.id}
+                    className="sh mx-1 w-fit rounded-lg bg-gray-400 p-2"
+                  >
+                    <p>{skill.name}</p>
+                  </div>
+                ))}
+              </div>
+              <p>Experience:</p>
+              {application.candidato.CandidateExpirience.map((experience) => (
+                <div
+                  key={experience.id}
+                  className="flex w-fit flex-col gap-2 rounded-md bg-gray-400 p-2 shadow-md"
+                >
+                  <h1 className="font-bold">{experience.description}</h1>
+                  <p className="text-sm">Company: {experience.employer}</p>
+                  <p className="text-sm">Since: {experience.startDate}</p>
+                </div>
+              ))}
+            </div>
 
-          <h1 className="m-3 text-2xl">Status</h1>
-          <div className="m-3 w-[12rem] rounded-lg bg-yellow-400 p-3 shadow-md">
-            {" "}
-            Under Construction
-          </div>
+            <h1 className="m-3 text-2xl">Status</h1>
+            <div className="m-3 w-[12rem] rounded-lg bg-yellow-400 p-3 shadow-md">
+              {" "}
+              Under Construction
+            </div>
 
-          <div className="h-[5rem]"></div>
-        </div>
+            <div className="h-[5rem]"></div>
+          </div>
+        ))}
       </div>
     </Layout>
   );
