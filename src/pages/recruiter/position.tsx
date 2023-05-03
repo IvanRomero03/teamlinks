@@ -64,10 +64,10 @@ const Projects = ({
 
   const { unityProvider, sendMessage, isLoaded } = useUnityContext({
     //This build is for the final version
-    loaderUrl: "public/build/build.loader.js",
-    dataUrl: "public/build/build.data",
-    frameworkUrl: "public/build/build.framework.js",
-    codeUrl: "public/build/build.wasm",
+    loaderUrl: "/build/build.loader.js",
+    dataUrl: "/build/build.data",
+    frameworkUrl: "/build/build.framework.js",
+    codeUrl: "/build/build.wasm",
   });
 
   const sendJSONstring = () => {
