@@ -32,9 +32,10 @@
     "react-icons": "^4.8.0",
     "react-modal": "^3.16.1",
     "react-toastify": "^9.1.2",
-    "react-unity-webgl": "^8.8.0",
+    "react-unity-webgl": "9.4",
     "reactstrap": "^9.1.9",
     "recharts": "^2.5.0",
+    "supabase": "^1.52.3",
     "superjson": "1.9.1",
     "victory": "^36.6.8",
     "zod": "^3.20.6"

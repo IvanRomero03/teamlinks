@@ -13,6 +13,7 @@ export const projectRouter = createTRPCRouter({
         requirements: z.array(z.string()),
         pos_dis: z.number(),
         pos_tot: z.number(),
+        department: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -44,6 +45,11 @@ export const projectRouter = createTRPCRouter({
             create: requirements.map((req) => ({
               name: req,
             })),
+          },
+          Departamento: {
+            connect: {
+              id: input.department,
+            },
           },
         },
       });
@@ -97,4 +103,13 @@ export const projectRouter = createTRPCRouter({
       });
       return project;
     }),
+  getDepartments: protectedProcedure.query(async ({ ctx }) => {
+    const departments = await ctx.prisma.departamento.findMany({
+      select: {
+        id: true,
+        nombre: true,
+      },
+    });
+    return departments;
+  }),
 });

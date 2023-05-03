@@ -16,7 +16,22 @@ const Apply: NextPage = () => {
 
   const mutation = api.candidateRouter.createApply.useMutation();
 
+  const mutationContext = api.context.addApplication.useMutation();
+
   console.log(data);
+
+  const handleSubmit = async () => {
+    const res = await mutation.mutateAsync({
+      idPosition: String(id),
+    });
+    if (res.id) {
+      mutationContext.mutate({
+        id: res.id,
+      });
+    } else {
+      console.log(res);
+    }
+  };
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -82,9 +97,7 @@ const Apply: NextPage = () => {
                 <button
                   className="my-2 w-full rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
                   onClick={() => {
-                    mutation.mutate({
-                      idPosition: id as string,
-                    });
+                    void handleSubmit();
                   }}
                 >
                   Apply
