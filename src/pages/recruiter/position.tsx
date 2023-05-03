@@ -61,7 +61,7 @@ const Projects = ({
     proyectId: idProyect,
   });
 
-  const { unityProvider, sendMessage } = useUnityContext({
+  const { unityProvider, sendMessage, isLoaded } = useUnityContext({
     //This build is for the final version
     loaderUrl: "/build/build.loader.js",
     dataUrl: "/build/build.data",
@@ -85,11 +85,11 @@ const Projects = ({
   };
 
   useEffect(() => {
-    if (isFetched && matches) {
+    if (isFetched && matches && isLoaded) {
       console.log("sending matches");
       sendJSONstring();
     }
-  }, [isFetched, matches]);
+  }, [isFetched, matches, isLoaded]);
 
   return (
     <Layout
