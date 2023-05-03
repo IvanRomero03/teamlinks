@@ -70,18 +70,19 @@ const Projects = ({
   });
 
   const sendJSONstring = () => {
-    const jsonString = JSON.stringify(
-      matches?.map((match) => ({
-        id: match.id,
-        name: match.name,
-        position_similarity: String(match.position_similarity),
-        proyect_similarity: String(match.proyect_similarity),
-        recruiter_similarity: String(match.recruiter_similarity),
-        similarity: String(match.similarity),
-      }))
-    );
+    // const jsonString = JSON.stringify(
+    //   matches?.map((match) => ({
+    //     id: match.id,
+    //     name: match.name,
+    //     position_similarity: String(match.position_similarity),
+    //     proyect_similarity: String(match.proyect_similarity),
+    //     recruiter_similarity: String(match.recruiter_similarity),
+    //     similarity: String(match.similarity),
+    //   }))
+    // );
+    const jsonString = JSON.stringify(matches);
     console.log(jsonString);
-    sendMessage("Match", "GetMatches", jsonString);
+    sendMessage("GameManager", "ReceiveJsonString", jsonString);
   };
 
   useEffect(() => {
@@ -127,27 +128,27 @@ const Projects = ({
             ) : (
               <>
                 <h1 className="text-2xl font-bold text-white">Matches</h1>
-                <div className="flex flex-col justify-center border-2 border-gray-300 bg-white p-4 shadow-lg">
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Unity
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        justifyContent: "center",
-                      }}
-                      unityProvider={unityProvider}
-                    />
-                  </div>
-                </div>
               </>
             )}
           </>
         )}
+        <div className="flex flex-col justify-center border-2 border-gray-300 bg-white p-4 shadow-lg">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Unity
+              style={{
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+              }}
+              unityProvider={unityProvider}
+            />
+          </div>
+        </div>
       </div>
     </Layout>
   );
