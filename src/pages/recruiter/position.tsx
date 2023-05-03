@@ -10,24 +10,8 @@ import { api } from "y/utils/api";
 export const getStaticProps: GetStaticProps = (ctx) => {
   console.log(ctx.params);
   // params: { idPosition: position.id, idProyect: idProyecto },
-  if (!ctx.params) {
-    return {
-      redirect: {
-        destination: "/recruiter/projects",
-        permanent: false,
-      },
-    };
-  }
   const { idPosition, idProyect } = ctx.params;
 
-  if (!idPosition || !idProyect) {
-    return {
-      redirect: {
-        destination: "/recruiter/projects",
-        permanent: false,
-      },
-    };
-  }
   return {
     props: {
       idPosition: idPosition as string,
