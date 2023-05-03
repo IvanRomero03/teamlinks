@@ -102,14 +102,10 @@ const Apply: NextPage = () => {
                 <button
                   className="my-2 w-full rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
                   onClick={() => {
-<<<<<<< HEAD
                     setModalOpen(true);
                     mutation.mutate({
                       idPosition: id as string,
                     });
-=======
-                    void handleSubmit();
->>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
                   }}
                 >
                   Apply

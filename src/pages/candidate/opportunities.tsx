@@ -1,13 +1,10 @@
 import React from "react";
 import Layout from "y/components/layout/layout";
 import { api } from "y/utils/api";
-<<<<<<< HEAD
 import { useState } from "react";
 import Modal from "y/components/modal";
 import Link from "next/link";
 
-=======
->>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
 
 const Opportunities = () => {
   const { data, error } = api.candidateRouter.getOpportuninties.useQuery();
@@ -111,7 +108,6 @@ const Opportunities = () => {
                   <th className="py-2">Country:</th>
                   <th className="py-2">Modality:</th>
                   <th className="py-2">Published:</th>
-<<<<<<< HEAD
                 </tr>
               </thead>
               {data?.map((opportunity, id) => (
@@ -246,71 +242,6 @@ const Opportunities = () => {
                       </>
                     </Modal>
                   )}
-=======
-                  <th className="py-2">Status:</th>
-                </tr>
-              </thead>
-              {data?.map((opportunity, id) => (
-                <tbody key={id}>
-                  <tr className="rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
-                    <td className="rounded-l-lg px-4 py-2">
-                      {opportunity.jobTitle}
-                    </td>
-                    <td className="px-4 py-2 capitalize">
-                      {opportunity.mustHaves[0]?.name}
-                    </td>
-                    <td className="px-4 py-2">{opportunity.proyecto.pais}</td>
-                    <td className="px-4 py-2">{opportunity.tipo}</td>
-                    <td className="px-4 py-2">
-                      {String(opportunity.fechaCreacion.getDate()) +
-                        "/" +
-                        String(month[opportunity.fechaCreacion.getMonth()]) +
-                        "/" +
-                        String(opportunity.fechaCreacion.getFullYear())}
-                    </td>
-                    <td className="rounded-r-lg px-4 py-2">
-                      <div
-                        className={
-                          opportunity.numPosicionesDisponibles === 0
-                            ? "my-auto h-fit w-fit rounded-lg bg-red-400 p-1"
-                            : opportunity.numPosicionesDisponibles >= 15
-                            ? "invisible h-0"
-                            : opportunity.numPosicionesDisponibles < 15
-                            ? "invisible h-0"
-                            : "invisible h-0 w-0"
-                        }
-                      >
-                        <p className="text-sm text-gray-800">Closed</p>
-                      </div>
-                      <div
-                        className={
-                          opportunity.numPosicionesDisponibles === 0
-                            ? "invisible h-0"
-                            : opportunity.numPosicionesDisponibles >= 15
-                            ? "my-auto h-fit w-fit rounded-lg bg-green-400 p-1"
-                            : opportunity.numPosicionesDisponibles < 15
-                            ? "invisible h-0"
-                            : "invisible h-0 w-0"
-                        }
-                      >
-                        <p className="text-sm text-gray-800">Open</p>
-                      </div>
-                      <div
-                        className={
-                          opportunity.numPosicionesDisponibles === 0
-                            ? "invisible h-0"
-                            : opportunity.numPosicionesDisponibles >= 15
-                            ? "invisible h-0"
-                            : opportunity.numPosicionesDisponibles < 15
-                            ? "my-auto h-fit w-fit rounded-lg bg-yellow-400 p-1"
-                            : "invisible h-0 w-0"
-                        }
-                      >
-                        <p className="text-sm text-gray-800">Restricted</p>
-                      </div>
-                    </td>
-                  </tr>
->>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
                 </tbody>
               ))}
             </table>

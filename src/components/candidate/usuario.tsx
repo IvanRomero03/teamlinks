@@ -87,13 +87,7 @@ const Usuario = () => {
           <p className="font-bold text-gray-800">Technologies:</p>
           <ol className="list-disc">
             {Technologies?.map((tech) => (
-<<<<<<< HEAD
               <li className="text-sm text-gray-800">{tech.name}</li>
-=======
-              <li key={tech.id} className="text-sm text-gray-800">
-                {tech.name}
-              </li>
->>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
             ))}
           </ol>
         </div>
