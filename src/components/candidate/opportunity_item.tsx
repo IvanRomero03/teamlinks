@@ -155,9 +155,14 @@ const OpportunityItem: React.FC<Props> = ({
               <div className="p-2">
                 <p className="font-bold text-gray-800">Skills:</p>
                 <ul className="flex justify-start">
-                  {skills.map((skill) => (
-                                        <p className='text-gray-800 bg-gray-400 rounded-md p-1 mx-1 capitalize'>{skill}</p>
-                                    ))}
+                  {skills.map((skill, indx) => (
+                    <p
+                      key={indx}
+                      className="mx-1 rounded-md bg-gray-400 p-1 capitalize text-gray-800"
+                    >
+                      {skill}
+                    </p>
+                  ))}
                 </ul>
               </div>
               <div className="flex justify-center p-2">

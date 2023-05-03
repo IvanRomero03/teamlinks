@@ -45,7 +45,7 @@ const Apply: NextPage = () => {
                   initialValues={{
                     file: new Blob(),
                   }}
-                  onSubmit={async (values) => {
+                  onSubmit={(values) => {
                     console.log(values);
                   }}
                 >

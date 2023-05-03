@@ -32,7 +32,7 @@ const Usuario = () => {
     isLoading: PersonalInfoLoading,
     isError: PersonalInfoError,
   } = api.candidateRouter.profile.getInfo.useQuery();
-  const { mutate: PersonalInfoMutate } = 
+  const { mutate: PersonalInfoMutate } =
     api.candidateRouter.profile.updateInfo.useMutation();
   const {
     data: Experience,
@@ -54,16 +54,16 @@ const Usuario = () => {
     api.candidateRouter.profile.createTech.useMutation();
   return (
     <div
-    className="relative col-span-1 m-auto h-[50vh] w-auto overflow-auto rounded-lg 
+      className="relative col-span-1 m-auto h-[50vh] w-auto overflow-auto rounded-lg 
     border bg-white p-4 lg:h-[70vh] lg:w-[40vh]"
     >
       <h1 className="font-bold">My Profile</h1>
-        <div className="grid justify-items-center">
-          {/* User Info */}
-          {data?.user && PersonalInfo && (
+      <div className="grid justify-items-center">
+        {/* User Info */}
+        {data?.user && PersonalInfo && (
           <div className="grid justify-items-center">
             {/* Profile Pic */}
-            <div className="mt-4 grid justify-items-center rounded-full border-4 border-gray-400 hover:border-[#47d7ac] w-fit">
+            <div className="mt-4 grid w-fit justify-items-center rounded-full border-4 border-gray-400 hover:border-[#47d7ac]">
               <Image
                 src={data.user.image || "/images/user.png"}
                 alt="Profile Pic"
@@ -74,26 +74,26 @@ const Usuario = () => {
             </div>
             <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
               <p className="font-bold text-gray-800">Name:</p>
-              <p className="text-sm text-gray-800">
-                {data.user.name}
-              </p>
+              <p className="text-sm text-gray-800">{data.user.name}</p>
             </div>
             <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
               <p className="font-bold text-gray-800">Email:</p>
               <p className="text-sm text-gray-800">{data.user.email}</p>
             </div>
           </div>
-          )}
-          {/* Skills */}
-          <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
-            <p className="font-bold text-gray-800">Technologies:</p>
-            <ol className="list-disc">
-              {Technologies?.map((tech) => (
-                <li className="text-sm text-gray-800">{tech.name}</li>
-              ))}
-            </ol>
-          </div>
-          {/* <div
+        )}
+        {/* Skills */}
+        <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
+          <p className="font-bold text-gray-800">Technologies:</p>
+          <ol className="list-disc">
+            {Technologies?.map((tech) => (
+              <li key={tech.id} className="text-sm text-gray-800">
+                {tech.name}
+              </li>
+            ))}
+          </ol>
+        </div>
+        {/* <div
             className={
               user.status === "Unemployed"
                 ? "my-3 grid cursor-pointer justify-items-center rounded-lg bg-red-200 p-2 hover:bg-red-400"
@@ -113,7 +113,7 @@ const Usuario = () => {
               <p className="text-sm text-gray-800">{user.position}</p>
             </div>
           </div> */}
-        </div>
+      </div>
     </div>
   );
 };
