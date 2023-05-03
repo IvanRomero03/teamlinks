@@ -281,6 +281,7 @@ export const addToContextRouter = createTRPCRouter({
             id: id,
             vector: "[" + String(embeddingValue) + "]",
             context: contexto,
+            positionId: application.id,
           },
         ]);
 
