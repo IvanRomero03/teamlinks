@@ -8,7 +8,6 @@ import { api } from "y/utils/api";
 import { useRouter } from "next/router";
 
 const Profile: NextPage = () => {
-  const fileInput = React.createRef();
   const { data } = useSession();
   const utils = api.useContext();
   const router = useRouter();
@@ -87,7 +86,7 @@ const Profile: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email" className="mt-1">Email</label>
                   <Field
                     id="email"
                     name="email"
@@ -97,7 +96,7 @@ const Profile: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="phone">Phone</label>
+                  <label htmlFor="phone" className="mt-1">Phone</label>
                   <Field
                     id="phone"
                     name="phone"
@@ -108,7 +107,7 @@ const Profile: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="country">Country</label>
+                  <label htmlFor="country" className="mt-1">Country</label>
                   <Field
                     id="country"
                     name="country"
@@ -122,7 +121,7 @@ const Profile: NextPage = () => {
                   </Field>
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description" className="mt-1">Description</label>
                   <Field
                     id="description"
                     name="description"
@@ -139,7 +138,7 @@ const Profile: NextPage = () => {
               </Form>
             </Formik>
           )}
-          <h1 className="my-4 text-center text-3xl font-bold text-black">
+          <h1 className="my-4 text-3xl font-bold text-black">
             Experience
           </h1>
           {Experience?.map((exp) => (
@@ -176,7 +175,7 @@ const Profile: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="position">Position</label>
+                  <label htmlFor="position" className="mt-1">Position</label>
                   <Field
                     id="position"
                     name="position"
@@ -186,7 +185,7 @@ const Profile: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label htmlFor="description">Description</label>
+                  <label htmlFor="description" className="mt-1">Description</label>
                   <Field
                     id="description"
                     name="description"
@@ -194,9 +193,9 @@ const Profile: NextPage = () => {
                     className="rounded-md border-2 border-black p-2"
                   />
                 </div>
-                <div className="flex flex-row">
-                  <div className="flex w-1/2 flex-col">
-                    <label htmlFor="start">Start</label>
+                <div className="flex flex-row mt-1">
+                  <div className="mr-2 flex w-1/2 flex-col">
+                    <label htmlFor="start" >Start</label>
                     <Field
                       id="start"
                       name="start"
@@ -205,7 +204,7 @@ const Profile: NextPage = () => {
                       className="rounded-md border-2 border-black p-2"
                     />
                   </div>
-                  <div className="flex w-1/2 flex-col">
+                  <div className="ml-2 flex w-1/2 flex-col">
                     <label htmlFor="end">End</label>
                     <Field
                       id="end"
@@ -216,16 +215,24 @@ const Profile: NextPage = () => {
                     />
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="mt-4 rounded-md bg-blue-500 p-2 text-white hover:bg-blue-300"
-                >
-                  Save
-                </button>
+                <div className="flex flex-row mb-2">
+                  <button
+                    type="submit"
+                    className="mt-4 mr-2 w-1/2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="submit"
+                    className="mt-4 mr-2 w-1/2 rounded-md bg-red-500 p-2 font-bold text-white hover:bg-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
               </Form>
             </Formik>
           ))}
-          <h3 className="text-md my-2 text-center text-black">
+          <h3 className="text-lg my-2 text-black font-bold">
             Add new experience
           </h3>
           <Formik
@@ -296,57 +303,63 @@ const Profile: NextPage = () => {
               </div>
               <button
                 type="submit"
-                className="mt-4 rounded-md bg-blue-500 p-2 text-white hover:bg-blue-300"
+                className="mt-4 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
               >
                 Add
               </button>
             </Form>
           </Formik>
-          <h1 className="my-4 text-center text-3xl font-bold text-black">
+          <h1 className="my-4 text-3xl font-bold text-black">
             Technologies
           </h1>
           <Formik
-            initialValues={{ name: "" }}
+            initialValues={{ 
+              name: "", }}
             onSubmit={async (values) => {
               console.log(values);
               TechnologiesCreateMutate(values);
               await utils.candidateRouter.profile.getTech.invalidate();
             }}
           >
-            <Form className="flex flex-row">
+            <Form className="flex flex-row mb-2">
               <Field
                 id="name"
                 name="name"
-                placeholder="Technology name"
-                className="w-3/4 rounded-md border-2 border-black p-2"
+                placeholder="Name"
+                className="w-3/4 rounded-md border-2 border-black h-10 p-1"
                 required
               />
               <button
                 type="submit"
-                className="mt-4 w-1/4 rounded-md bg-blue-500 p-2 text-white hover:bg-blue-300"
+                className="mx-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
               >
                 Add
               </button>
             </Form>
           </Formik>
-          {TechnologiesFetched &&
-            Technologies?.map((tech) => (
-              <div
-                className="flex justify-between rounded-md border-2 border-black bg-gray-400 p-2 align-middle"
-                key={tech.name}
-              >
-                <h1 className="text-xl font-bold text-black">{tech.name}</h1>
-                <button className="rounded-md bg-red-500 p-2 text-white hover:bg-red-300">
-                  Delete
-                </button>
-              </div>
-            ))}
+          <div className="flex flex-row">
+            {TechnologiesFetched &&
+              Technologies?.map((tech) => (
+                <div
+                  className="flex justify-between rounded-md border-2 border-black bg-gray-200 my-2 w-1/3 mr-2"
+                  key={tech.name}
+                >
+                  <h1 className="font-bold text-black my-auto ml-2">{tech.name}</h1>
+                  <button
+                  className="rounded-md bg-red-500 p-2 text-white hover:bg-red-300 m-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+          </div>
           {id && (
             <button
               onClick={() => {
                 void router.push(`/candidate/apply/${String(id)}`);
               }}
-              className="mt-4 w-full rounded-md bg-blue-500 p-2 text-white hover:bg-blue-300"
+              className="mt-4 w-full rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
             >
               Continue
             </button>

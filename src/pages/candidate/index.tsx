@@ -3,9 +3,21 @@ import Layout from "y/components/layout/layout";
 import Aplicaciones from "y/components/candidate/aplicaciones";
 import Usuario from "y/components/candidate/usuario";
 import Opportunidades from "y/components/candidate/opportunities";
-import { data } from "y/components/candidate/data/user_data.js";
-
+import { api } from "y/utils/api";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 const Candidate: NextPage = () => {
+  const { data } = useSession();
+  const utils = api.useContext();
+  const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
+  console.log(data);
+  const {
+    data: PersonalInfo,
+    isLoading: PersonalInfoLoading,
+    isError: PersonalInfoError,
+  } = api.candidateRouter.profile.getInfo.useQuery();
   return (
     <>
       <Layout
@@ -16,11 +28,11 @@ const Candidate: NextPage = () => {
           { title: "Opportunities", section: "candidate/opportunities" },
         ]}
       >
-        {data.map((user) => (
-          <div className="pt-20" key={user.id}>
+        {data?.user && PersonalInfo && (
+          <div className="pt-20">
             <div className="flex-col px-4 pt-4 text-3xl font-bold text-white">
               <h1 className="pb-2">My Dashboard</h1>
-              <h1>Welcome, {user.firstName}</h1>
+              <h1>Welcome, {data.user.name}</h1>
             </div>
             <div className="grid-col-1 gap-4 p-4 md:flex md:justify-center">
               <Usuario />
@@ -28,7 +40,7 @@ const Candidate: NextPage = () => {
               <Opportunidades />
             </div>
           </div>
-        ))}
+        )}
       </Layout>
     </>
   );
