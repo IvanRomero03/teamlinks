@@ -4,6 +4,13 @@ import { api } from "y/utils/api";
 
 const Opportunidades = () => {
   const { data, error } = api.candidateRouter.getOpportuninties.useQuery();
+  const icon = [
+      "images/icons/cpp.png",
+      "images/icons/css.png",
+      "images/icons/js.png",
+      "images/icons/mop.png",
+      "images/icons/pc.png",
+      ];
   const month = [
     "Jan",
     "Feb",
@@ -37,7 +44,7 @@ const Opportunidades = () => {
                 String(opportunity.fechaCreacion.getFullYear())
               }
               id={opportunity.id}
-              icon={"images/icons/css.png"}
+              icon={icon}
               name={opportunity.jobTitle}
               primTech={opportunity.mustHaves[0]?.name || ""}
               secTech={opportunity.mustHaves[1]?.name || ""}
