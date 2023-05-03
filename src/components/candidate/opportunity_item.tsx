@@ -65,8 +65,8 @@ const OpportunityItem: React.FC<Props> = ({
                 amount >= 15
                   ? "my-auto ml-3 rounded-lg bg-green-300 p-3 text-sm font-bold hover:bg-green-400"
                   : amount > 0
-                  ? "my-auto ml-3 rounded-lg bg-yellow-300 p-3 text-sm font-bold hover:bg-yellow-400"
-                  : "invisible h-0 w-0"
+                    ? "my-auto ml-3 rounded-lg bg-yellow-300 p-3 text-sm font-bold hover:bg-yellow-400"
+                    : "invisible h-0 w-0"
               }
             >
               Apply
@@ -90,10 +90,10 @@ const OpportunityItem: React.FC<Props> = ({
                       amount === 0
                         ? "my-auto h-fit w-fit rounded-lg bg-red-400 p-1"
                         : amount >= 15
-                        ? "invisible h-0"
-                        : amount < 15
-                        ? "invisible h-0"
-                        : "invisible h-0 w-0"
+                          ? "invisible h-0"
+                          : amount < 15
+                            ? "invisible h-0"
+                            : "invisible h-0 w-0"
                     }
                   >
                     <p className="text-sm text-gray-800">Closed</p>
@@ -103,10 +103,10 @@ const OpportunityItem: React.FC<Props> = ({
                       amount === 0
                         ? "invisible h-0"
                         : amount >= 15
-                        ? "my-auto h-fit w-fit rounded-lg bg-green-400 p-1"
-                        : amount < 15
-                        ? "invisible h-0"
-                        : "invisible h-0 w-0"
+                          ? "my-auto h-fit w-fit rounded-lg bg-green-400 p-1"
+                          : amount < 15
+                            ? "invisible h-0"
+                            : "invisible h-0 w-0"
                     }
                   >
                     <p className="text-sm text-gray-800">Open</p>
@@ -116,10 +116,10 @@ const OpportunityItem: React.FC<Props> = ({
                       amount === 0
                         ? "invisible h-0"
                         : amount >= 15
-                        ? "invisible h-0"
-                        : amount < 15
-                        ? "my-auto h-fit w-fit rounded-lg bg-yellow-400 p-1"
-                        : "invisible h-0 w-0"
+                          ? "invisible h-0"
+                          : amount < 15
+                            ? "my-auto h-fit w-fit rounded-lg bg-yellow-400 p-1"
+                            : "invisible h-0 w-0"
                     }
                   >
                     <p className="text-sm text-gray-800">Restricted</p>
@@ -160,8 +160,8 @@ const OpportunityItem: React.FC<Props> = ({
                 <p className="font-bold text-gray-800">Skills:</p>
                 <ul className="flex justify-start">
                   {skills.map((skill) => (
-                                        <p className='text-gray-800 bg-gray-400 rounded-md p-1 mx-1 capitalize'>{skill}</p>
-                                    ))}
+                    <p className='text-gray-800 bg-gray-400 rounded-md p-1 mx-1 capitalize'>{skill}</p>
+                  ))}
                 </ul>
               </div>
               <div className="flex justify-center p-2">
@@ -171,8 +171,8 @@ const OpportunityItem: React.FC<Props> = ({
                       amount >= 15
                         ? "my-auto ml-3 w-full rounded-lg bg-[#47d7ac] p-3 text-sm font-bold hover:bg-[#0f172a]  hover:text-white"
                         : amount > 0
-                        ? "my-auto ml-2 w-full rounded-lg bg-[#47d7ac] p-3 text-sm font-bold hover:bg-[#0f172a]  hover:text-white"
-                        : "invisible h-0"
+                          ? "my-auto ml-2 w-full rounded-lg bg-[#47d7ac] p-3 text-sm font-bold hover:bg-[#0f172a]  hover:text-white"
+                          : "invisible h-0"
                     }
                   >
                     Apply

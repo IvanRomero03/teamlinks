@@ -90,21 +90,21 @@ const Apply: NextPage = () => {
                 </button>
               </div>
             </div>
-          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-            <div className="flex flex-col items-center justify-center">
-              <h1 className="text-2xl font-bold">Application Sent!</h1>
-              <p className="text-gray-500 text-xs">You will be contacted soon</p>
-              <button
-                className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
-                onClick={() => {
-                  setModalOpen(false);
-                  router.push("/candidate");
-                }}
-              >
-                Return to Home
-              </button>
-            </div>
-          </Modal>
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+              <div className="flex flex-col items-center justify-center">
+                <h1 className="text-2xl font-bold">Application Sent!</h1>
+                <p className="text-gray-500 text-xs">You will be contacted soon</p>
+                <button
+                  className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
+                  onClick={() => {
+                    setModalOpen(false);
+                    router.push("/candidate");
+                  }}
+                >
+                  Return to Home
+                </button>
+              </div>
+            </Modal>
           </div>
         )}
       </Layout>

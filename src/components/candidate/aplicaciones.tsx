@@ -14,7 +14,7 @@ const Aplicaciones = () => {
         "images/icons/js.png",
         "images/icons/mop.png",
         "images/icons/pc.png",
-        ];
+    ];
     const month = [
         "Jan",
         "Feb",
@@ -28,8 +28,8 @@ const Aplicaciones = () => {
         "Oct",
         "Nov",
         "Dec",
-      ];
-    return(
+    ];
+    return (
         <>
             <div className="w-auto col-span-1 relative lg:h-[70vh] h-[50vh] m-auto p-4 
             border rounded-lg bg-white overflow-auto">
@@ -47,17 +47,17 @@ const Aplicaciones = () => {
                                     <div className="flex justify-between">
                                         <div className="grid w-52 justify-items-center px-4">
                                             <p className="text-gray-800 font-bold ">{application.Puestos?.jobTitle}</p>
-                                            <p className="my-auto text-sm sm:hidden md:hidden lg:flex">Published: {application.fechaCreacion.getDate()+ "/" + month[application.fechaCreacion.getMonth()] + "/" + application.fechaCreacion.getFullYear()}</p>
+                                            <p className="my-auto text-sm sm:hidden md:hidden lg:flex">Published: {application.fechaCreacion.getDate() + "/" + month[application.fechaCreacion.getMonth()] + "/" + application.fechaCreacion.getFullYear()}</p>
                                         </div>
-                                        <div className={(application.estatus === 'Not Selected' ? 'p-1 rounded-md bg-red-300 w-fit my-auto p-1' : 
-                                        application.estatus === 'Selected' ? 'p-1 rounded-md bg-green-300 w-fit my-auto p-1' :
-                                        application.estatus === 'Under Consideration' ? 'p-1 rounded-md bg-yellow-300 w-fit my-auto p-1' :
-                                        application.estatus === 'Applied' ? 'p-1 rounded-md bg-gray-300 w-fit my-auto p-1' : 'hidden h-0')}>
+                                        <div className={(application.estatus === 'Not Selected' ? 'p-1 rounded-md bg-red-300 w-24 my-auto p-1' :
+                                            application.estatus === 'Selected' ? 'p-1 rounded-md bg-green-300 w-24 my-auto p-1' :
+                                                application.estatus === 'Under Consideration' ? 'p-1 rounded-md bg-yellow-300 w-24 my-auto p-1' :
+                                                    application.estatus === 'Applied' ? 'p-1 rounded-md bg-gray-300 w-24 my-auto p-1' : 'hidden h-0')}>
                                             <p className="text-gray-800 text-sm ">Status: {application.estatus}</p>
                                         </div>
                                     </div>
                                 </button>
-                            </div>    
+                            </div>
                         </li>
                     ))}
                 </ul>

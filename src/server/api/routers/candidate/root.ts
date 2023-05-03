@@ -20,9 +20,9 @@ export const candidateRouter = createTRPCRouter({
         numPosicionesDisponibles: true,
         mustHaves: true,
         proyecto: {
-            select: {
-                pais: true,
-            }
+          select: {
+            pais: true,
+          }
         }
       },
     });
@@ -49,9 +49,9 @@ export const candidateRouter = createTRPCRouter({
           numPosicionesDisponibles: true,
           mustHaves: true,
           proyecto: {
-              select: {
-                  pais: true,
-              }
+            select: {
+              pais: true,
+            }
           }
         },
       });

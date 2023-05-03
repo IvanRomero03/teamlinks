@@ -5,12 +5,12 @@ import { api } from "y/utils/api";
 const Opportunidades = () => {
   const { data, error } = api.candidateRouter.getOpportuninties.useQuery();
   const icon = [
-      "images/icons/cpp.png",
-      "images/icons/css.png",
-      "images/icons/js.png",
-      "images/icons/mop.png",
-      "images/icons/pc.png",
-      ];
+    "images/icons/cpp.png",
+    "images/icons/css.png",
+    "images/icons/js.png",
+    "images/icons/mop.png",
+    "images/icons/pc.png",
+  ];
   const month = [
     "Jan",
     "Feb",
