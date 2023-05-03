@@ -5,6 +5,9 @@ import { api } from "y/utils/api";
 import { Formik, Form, Field } from "formik";
 import { useRef } from "react";
 import ImagePreview from "y/components/candidate/ImagePreview";
+import { set } from "zod";
+import { useState } from "react";
+import Modal from "y/components/modal";
 
 const Apply: NextPage = () => {
   const router = useRouter();
@@ -19,6 +22,8 @@ const Apply: NextPage = () => {
   console.log(data);
 
   const fileRef = useRef(null);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
@@ -75,6 +80,7 @@ const Apply: NextPage = () => {
                 <button
                   className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
                   onClick={() => {
+                    setModalOpen(true);
                     mutation.mutate({
                       idPosition: id as string,
                     });
@@ -84,6 +90,21 @@ const Apply: NextPage = () => {
                 </button>
               </div>
             </div>
+          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-2xl font-bold">Application Sent!</h1>
+              <p className="text-gray-500 text-xs">You will be contacted soon</p>
+              <button
+                className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
+                onClick={() => {
+                  setModalOpen(false);
+                  router.push("/candidate");
+                }}
+              >
+                Return to Home
+              </button>
+            </div>
+          </Modal>
           </div>
         )}
       </Layout>

@@ -10,7 +10,7 @@ interface Props {
   date: string;
   primTech: string;
   secTech: string;
-  icon: string;
+  icon: string[];
   location: string;
   description: string;
   modality: string;
@@ -36,6 +36,10 @@ const OpportunityItem: React.FC<Props> = ({
 }) => {
   const [modalOpen, setModalOpen] = React.useState(false);
 
+  function getRandomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
   return (
     <>
       <li key={id}>
@@ -43,7 +47,7 @@ const OpportunityItem: React.FC<Props> = ({
           <button className="flex" onClick={() => setModalOpen(true)}>
             {/* Insertar Iconos */}
             <div className="my-auto rounded-lg bg-[#47d7ac] p-3">
-              <img src={icon} alt="icon" className="h-6 w-6" />
+              <img src={icon[getRandomInt(0, 4)]} alt="icon" className="h-6 w-6" />
             </div>
             {/* Widget*/}
             <div className="flex justify-between">
@@ -75,7 +79,7 @@ const OpportunityItem: React.FC<Props> = ({
           <>
             <div className="w-auto rounded-lg bg-gray-300 p-2">
               <div className="flex justify-start p-2">
-                <img src={icon} alt="icon" className="my-auto h-10 w-10" />
+                <img src={icon[getRandomInt(0, 4)]} alt="icon" className="my-auto h-10 w-10" />
                 <p className="p-2 text-2xl font-bold text-gray-800">{name}</p>
               </div>
               <div className="flex justify-start p-2">

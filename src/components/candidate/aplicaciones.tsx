@@ -49,10 +49,10 @@ const Aplicaciones = () => {
                                             <p className="text-gray-800 font-bold ">{application.Puestos?.jobTitle}</p>
                                             <p className="my-auto text-sm sm:hidden md:hidden lg:flex">Published: {application.fechaCreacion.getDate()+ "/" + month[application.fechaCreacion.getMonth()] + "/" + application.fechaCreacion.getFullYear()}</p>
                                         </div>
-                                        <div className={(application.estatus === 'Not Selected' ? 'p-1 rounded-md bg-red-300 w-fit my-auto' : 
-                                        application.estatus === 'Selected' ? 'p-1 rounded-md bg-green-300 w-fit my-auto' :
-                                        application.estatus === 'Under Consideration' ? 'p-1 rounded-md bg-yellow-300 w-fit my-auto' :
-                                        application.estatus === 'Applied' ? 'p-1 rounded-md bg-blue-300 w-fit my-auto' : 'hidden h-0')}>
+                                        <div className={(application.estatus === 'Not Selected' ? 'p-1 rounded-md bg-red-300 w-fit my-auto p-1' : 
+                                        application.estatus === 'Selected' ? 'p-1 rounded-md bg-green-300 w-fit my-auto p-1' :
+                                        application.estatus === 'Under Consideration' ? 'p-1 rounded-md bg-yellow-300 w-fit my-auto p-1' :
+                                        application.estatus === 'Applied' ? 'p-1 rounded-md bg-gray-300 w-fit my-auto p-1' : 'hidden h-0')}>
                                             <p className="text-gray-800 text-sm ">Status: {application.estatus}</p>
                                         </div>
                                     </div>
