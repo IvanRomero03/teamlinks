@@ -19,9 +19,24 @@ const Apply: NextPage = () => {
 
   const mutation = api.candidateRouter.createApply.useMutation();
 
+  const mutationContext = api.context.addApplication.useMutation();
+
   console.log(data);
 
-  const fileRef = useRef(null);
+  const handleSubmit = async () => {
+    const res = await mutation.mutateAsync({
+      idPosition: String(id),
+    });
+    if (res.id) {
+      mutationContext.mutate({
+        id: res.id,
+      });
+    } else {
+      console.log(res);
+    }
+  };
+
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -41,14 +56,16 @@ const Apply: NextPage = () => {
               <h1 className="pb-2">{data.jobTitle}</h1>
             </div>
             <div className="flex justify-center">
-              <div className="mt-5 flex grid w-3/5 rounded-lg bg-gray-200 p-2">
-                <h1 className="font-bold text-2xl">Upload your CV:</h1>
-                <p className="text-gray-500 text-xs ml-2">* Files Admitted: PDF</p>
+              <div className="mt-5 w-3/5 flex-col justify-center rounded-lg bg-gray-200 p-2">
+                <h1 className="text-2xl font-bold">Upload your CV:</h1>
+                <p className="ml-2 text-xs text-gray-500">
+                  * Files Admitted: PDF
+                </p>
                 <Formik
                   initialValues={{
-                    file: "",
+                    file: new Blob(),
                   }}
-                  onSubmit={async (values) => {
+                  onSubmit={(values) => {
                     console.log(values);
                   }}
                 >
@@ -58,15 +75,20 @@ const Apply: NextPage = () => {
                         ref={fileRef}
                         hidden
                         type="file"
-                        onChange={(event) => {
-                          setFieldValue("file", event.target.files[0]);
+                        onChange={(e) => {
+                          if (
+                            e?.currentTarget?.files &&
+                            e?.currentTarget?.files[0]
+                          ) {
+                            setFieldValue("file", e?.currentTarget?.files[0]);
+                          }
                         }}
                       />
                       {values.file && <ImagePreview file={values.file} />}
                       <button
-                        className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
+                        className="my-2 w-full rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
                         onClick={() => {
-                          fileRef.current.click();
+                          fileRef?.current && fileRef?.current?.click();
                         }}
                       >
                         Select File
@@ -78,12 +100,16 @@ const Apply: NextPage = () => {
                 <input type="file" />
                 <p className="text-gray-500 text-xs ml-2">* Files Admitted: PDF</p> */}
                 <button
-                  className="my-2 rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white w-full"
+                  className="my-2 w-full rounded-md bg-[#47d7ac] p-2 font-bold text-[#0f172a] hover:bg-[#0f172a] hover:text-white"
                   onClick={() => {
+<<<<<<< HEAD
                     setModalOpen(true);
                     mutation.mutate({
                       idPosition: id as string,
                     });
+=======
+                    void handleSubmit();
+>>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
                   }}
                 >
                   Apply

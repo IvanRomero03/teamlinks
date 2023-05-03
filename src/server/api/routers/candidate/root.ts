@@ -22,8 +22,13 @@ export const candidateRouter = createTRPCRouter({
         proyecto: {
           select: {
             pais: true,
+<<<<<<< HEAD
           }
         }
+=======
+          },
+        },
+>>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
       },
     });
     return opportunities;
@@ -51,8 +56,13 @@ export const candidateRouter = createTRPCRouter({
           proyecto: {
             select: {
               pais: true,
+<<<<<<< HEAD
             }
           }
+=======
+            },
+          },
+>>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
         },
       });
       return position;
@@ -73,6 +83,7 @@ export const candidateRouter = createTRPCRouter({
           estatus: "Applied",
         },
       });
+      return apply;
     }),
   application: applicationRouter,
 });

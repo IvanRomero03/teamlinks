@@ -63,7 +63,7 @@ const Usuario = () => {
         {data?.user && PersonalInfo && (
           <div className="grid justify-items-center">
             {/* Profile Pic */}
-            <div className="mt-4 grid justify-items-center rounded-full border-4 border-gray-400 hover:border-[#47d7ac] w-fit">
+            <div className="mt-4 grid w-fit justify-items-center rounded-full border-4 border-gray-400 hover:border-[#47d7ac]">
               <Image
                 src={data.user.image || "/images/user.png"}
                 alt="Profile Pic"
@@ -74,9 +74,7 @@ const Usuario = () => {
             </div>
             <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
               <p className="font-bold text-gray-800">Name:</p>
-              <p className="text-sm text-gray-800">
-                {data.user.name}
-              </p>
+              <p className="text-sm text-gray-800">{data.user.name}</p>
             </div>
             <div className="my-3 grid cursor-pointer justify-items-center rounded-lg bg-gray-100 p-2 hover:bg-gray-200">
               <p className="font-bold text-gray-800">Email:</p>
@@ -89,7 +87,13 @@ const Usuario = () => {
           <p className="font-bold text-gray-800">Technologies:</p>
           <ol className="list-disc">
             {Technologies?.map((tech) => (
+<<<<<<< HEAD
               <li className="text-sm text-gray-800">{tech.name}</li>
+=======
+              <li key={tech.id} className="text-sm text-gray-800">
+                {tech.name}
+              </li>
+>>>>>>> 0c87c48a7ce69d6311310b6b576b55dc9bf2ce4f
             ))}
           </ol>
         </div>

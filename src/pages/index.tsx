@@ -8,6 +8,7 @@ import { getServerAuthSession, getServerIsRole } from "y/server/auth";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   session: Session | null;
@@ -29,7 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (isRole == null) {
     // bad user type
     console.log("bad user type");
-    // TOAST
     const signOutF = true;
 
     return {
@@ -38,20 +38,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         signOutF,
       },
     };
-    // await signOut({
-    //   callbackUrl: "/login",
-    // });
-    // return {
-    //   redirect: {
-    //     destination: "/login",
-    //     permanent: false,
-    //   },
-    // };
   }
   if (isRole == "admin") {
     return {
       redirect: {
-        destination: "/admin",
+        destination: "/manager",
         permanent: false,
       },
     };
@@ -87,6 +78,16 @@ const Home: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useEffect(() => {
     if (signOutF == true) {
+      toast.error("You are not allowed to access this page", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       void signOut({
         callbackUrl: "/login",
       });
