@@ -7,6 +7,8 @@ import Layout from "y/components/layout/layout";
 
 import { api } from "y/utils/api";
 import { getServerAuthSession } from "y/server/auth";
+import { Unity, useUnityContext } from "react-unity-webgl";
+import { useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   console.log(ctx.query);
@@ -49,12 +51,36 @@ const Projects = ({
 }) => {
   const { data: positions, isLoading: positionsLoading } =
     api.position.getPosition.useQuery({ id: idPosition });
-  const { data: matches, isLoading: matchesLoading } =
-    api.context.getMatches.useQuery({
-      min_similarity: 0,
-      positionId: idPosition,
-      proyectId: idProyect,
-    });
+  const {
+    data: matches,
+    isLoading: matchesLoading,
+    isFetched,
+  } = api.context.getMatches.useQuery({
+    min_similarity: 0,
+    positionId: idPosition,
+    proyectId: idProyect,
+  });
+
+  const { unityProvider, sendMessage } = useUnityContext({
+    //This build is for the final version
+    loaderUrl: "/build/build.loader.js",
+    dataUrl: "/build/build.data",
+    frameworkUrl: "/build/build.framework.js",
+    codeUrl: "/build/build.wasm",
+  });
+
+  const sendJSONstring = () => {
+    const jsonString = JSON.stringify(matches);
+    console.log(jsonString);
+    sendMessage("Match", "GetMatches", jsonString);
+  };
+
+  useEffect(() => {
+    if (isFetched && matches) {
+      console.log("sending matches");
+      sendJSONstring();
+    }
+  }, [isFetched, matches]);
 
   return (
     <Layout
@@ -93,18 +119,21 @@ const Projects = ({
               <>
                 <h1 className="text-2xl font-bold text-white">Matches</h1>
                 <div className="flex flex-col justify-center border-2 border-gray-300 bg-white p-4 shadow-lg">
-                  {matches?.map((match) => (
-                    <div
-                      className="flex flex-row justify-between"
-                      key={match.id}
-                    >
-                      <p>{match.name}</p>
-                      <p>{match.position_similarity}</p>
-                      <p>{match.proyect_similarity}</p>
-                      <p>{match.recruiter_similarity}</p>
-                      <p>{match.similarity}</p>
-                    </div>
-                  ))}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Unity
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        justifyContent: "center",
+                      }}
+                      unityProvider={unityProvider}
+                    />
+                  </div>
                 </div>
               </>
             )}
