@@ -1,16 +1,24 @@
 import {
-  InferGetServerSidePropsType,
-  type GetServerSideProps,
+  InferGetStaticPropsType,
+  type GetStaticProps,
   type NextPage,
 } from "next";
 import Layout from "y/components/layout/layout";
 
 import { api } from "y/utils/api";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx.query);
-  // query: { idPosition: position.id, idProyect: idProyecto },
-  const { idPosition, idProyect } = ctx.query;
+export const getStaticProps: GetStaticProps = (ctx) => {
+  console.log(ctx.params);
+  // params: { idPosition: position.id, idProyect: idProyecto },
+  if (!ctx.params) {
+    return {
+      redirect: {
+        destination: "/recruiter/projects",
+        permanent: false,
+      },
+    };
+  }
+  const { idPosition, idProyect } = ctx.params;
 
   if (!idPosition || !idProyect) {
     return {
@@ -22,17 +30,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
   return {
     props: {
-      idPosition,
-      idProyect,
+      idPosition: idPosition as string,
+      idProyect: idProyect as string,
     },
   };
 };
 
-const Projects: NextPage = ({
+const Projects = ({
   idPosition,
   idProyect,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log(idPosition, idProyect);
+}: {
+  idPosition: string;
+  idProyect: string;
+}) => {
   const { data: positions, isLoading: positionsLoading } =
     api.position.getPosition.useQuery({ id: idPosition });
   const { data: matches, isLoading: matchesLoading } =
@@ -64,7 +74,10 @@ const Projects: NextPage = ({
             </p>
             <div className="flex flex-col justify-center border-2 border-gray-300 bg-white p-4 shadow-lg">
               {positions?.Aplicacion.map((aplicacion) => (
-                <div className="flex flex-row justify-between">
+                <div
+                  className="flex flex-row justify-between"
+                  key={aplicacion.id}
+                >
                   <p>{aplicacion.candidato.user.name}</p>
                   <p>{aplicacion.estatus}</p>
                 </div>

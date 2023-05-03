@@ -5,15 +5,10 @@ import { api } from "y/utils/api";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import { z } from "zod";
 import { useEffect } from "react";
-import {
-  InferGetServerSidePropsType,
-  type GetServerSideProps,
-  type NextPage,
-} from "next";
+import { type GetStaticProps } from "next";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx.query);
-  const registerId = ctx.query?.registerId;
+export const getStaticProps: GetStaticProps = (ctx) => {
+  const registerId = ctx.params?.registerId;
   if (!registerId) {
     return {
       redirect: {
@@ -34,7 +29,7 @@ const Login = ({ registerId }: { registerId: string }) => {
   const { data: sessionData } = useSession();
   const query = router.query;
   const invite = api.getInvite.getInvite.useQuery({
-    id: registerId as string,
+    id: registerId,
   });
 
   useEffect(() => {
@@ -58,48 +53,6 @@ const Login = ({ registerId }: { registerId: string }) => {
       }
     }
   }, [sessionData, query, invite]);
-
-  // const checkPermitions = () => {
-  //   if (!query.registerId) {
-  //     // redirect to home page
-
-  //     void router.push("/");
-  //     console.log("redirecting to home not registerId");
-  //   }
-  //   // Lo sig se puede hacer ssr
-  //   if (sessionData) {
-  //     const emailToCheck = invite.data?.email;
-  //     if (invite.data && sessionData.user?.email != emailToCheck) {
-  //       console.log("redirecting to home not same email");
-  //       void router.push("/");
-  //     }
-  //     // if (sessionData.user?.email !== query.registerId) {
-  //     //   // redirect to home page
-  //     //   console.log("redirecting to home not same email");
-  //     //   void router.push("/");
-  //     // }
-  //     // redirect to home page
-  //     console.log("redirecting to home from session");
-  //     //router.push("/");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   checkPermitions();
-  // }, [sessionData, query.registerId]);
-
-  // console.log(invite);
-  // useEffect(() => {
-  //   () => {
-  //     console.log("useEffect");
-  //     if (invite.isSuccess && invite.data == null) {
-  //       void router.push("/");
-  //       console.log("redirecting to home from invite");
-  //       // not valid invite
-  //     }
-  //     console.log("useEffect2");
-  //   };
-  // }, [invite]);
 
   const mutation = api.createRecruiter.createAccount.useMutation();
   const contextMutation = api.context.addRecruiter.useMutation();
