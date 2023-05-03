@@ -1,17 +1,37 @@
 import {
   InferGetStaticPropsType,
-  type GetStaticProps,
+  type GetServerSideProps,
   type NextPage,
 } from "next";
 import Layout from "y/components/layout/layout";
 
 import { api } from "y/utils/api";
+import { getServerAuthSession } from "y/server/auth";
 
-export const getStaticProps: GetStaticProps = (ctx) => {
-  console.log(ctx.params);
-  // params: { idPosition: position.id, idProyect: idProyecto },
-  const { idPosition, idProyect } = ctx.params;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  console.log(ctx.query);
+  // query: { idPosition: position.id, idProyect: idProyecto },
+  const session = await getServerAuthSession(ctx);
+  if (!ctx.query) {
+    return {
+      redirect: {
+        destination: "/recruiter/projects",
+        permanent: false,
+      },
+    };
+  }
+  const idPosition = ctx.query.idPosition;
+  const idProyect = ctx.query.idProyect;
+  //const { idPosition, idProyect } = ctx.query;
 
+  if (!idPosition || !idProyect) {
+    return {
+      redirect: {
+        destination: "/recruiter/projects",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       idPosition: idPosition as string,
